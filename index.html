@@ -357,28 +357,26 @@
             animation: float 15s linear infinite;
         }
         
-		@keyframes rotate {
-			0% { transform: rotate(0deg); }
-			100% { transform: rotate(360deg); }
-		}
-
-		// Modify the existing float animation to be more natural
 		@keyframes float {
 			0% {
-				transform: translateY(100vh) translateX(0);
+				transform: translateY(100vh) rotate(0deg);
 				opacity: 0;
 			}
 			10% {
-				opacity: 0.7;
+				opacity: 0.8;
 			}
 			90% {
-				opacity: 0.7;
-				transform: translateY(-100px) translateX(calc(sin(var(--random)) * 100px));
+				opacity: 0.8;
 			}
 			100% {
-				transform: translateY(-200px) translateX(calc(sin(var(--random)) * 150px));
+				transform: translateY(-100px) rotate(360deg);
 				opacity: 0;
 			}
+		}
+
+		@keyframes rotate {
+			0% { transform: rotate(0deg); }
+			100% { transform: rotate(360deg); }
 		}
         
         @media (max-width: 768px) {
@@ -682,31 +680,34 @@
 				const leaf = document.createElement('div');
 				leaf.className = 'leaf';
 				leaf.style.left = Math.random() * 100 + 'vw';
-				leaf.style.animationDuration = Math.random() * 15 + 15 + 's';
 				
-				// Random leaf size (slightly larger than before)
+				// Random leaf size
 				const leafSize = Math.random() * 40 + 30;
 				leaf.style.width = leafSize + 'px';
 				leaf.style.height = leafSize + 'px';
 				
-				// Choose a random color for the leaf
-				const colors = ['#4CAF50', '#8BC34A', '#556B2F', '#7B1FA2', '#9C27B0', '#6a1b9a'];
-				const color = colors[Math.floor(Math.random() * colors.length)];
+				// Use the PNG image
+				leaf.style.backgroundImage = 'url("/img/cannabis-leaf.png")';
+				leaf.style.backgroundSize = 'contain';
+				leaf.style.backgroundRepeat = 'no-repeat';
 				
-				// SVG cannabis leaf (more detailed than current version)
-				const svgData = `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='${encodeURIComponent(color)}' d='M50,3c0,0-10,27-32,40c0,0,20,5,25-8c0,0,2,21,7,28c0,0,5-8,7-28c0,0,5,13,25,8C82,43,60,30,50,3z'/%3E%3Cpath fill='${encodeURIComponent(color)}' d='M50,50c0,0-10,27-32,40c0,0,20,5,25-8c0,0,2,21,7,28c0,0,5-8,7-28c0,0,5,13,25,8C82,90,60,77,50,50z'/%3E%3Cpath fill='${encodeURIComponent(color)}' d='M3,50c0,0,27,10,40,32c0,0,5-20-8-25c0,0,21-2,28-7c0,0-8-5-28-7c0,0,13-5,8-25C43,18,30,40,3,50z'/%3E%3Cpath fill='${encodeURIComponent(color)}' d='M50,50c0,0,27,10,40,32c0,0,5-20-8-25c0,0,21-2,28-7c0,0-8-5-28-7c0,0,13-5,8-25C90,18,77,40,50,50z'/%3E%3C/svg%3E`;
+				// Random starting rotation
+				const startRotation = Math.random() * 360;
+				leaf.style.transform = `rotate(${startRotation}deg)`;
 				
-				leaf.style.backgroundImage = `url("${svgData}")`;
+				// Animation duration
+				const floatDuration = Math.random() * 15 + 20;
+				const rotateDuration = Math.random() * 10 + 10;
 				
-				// Add some rotation animation
-				leaf.style.animation = `float ${Math.random() * 15 + 15}s linear infinite, rotate ${Math.random() * 10 + 10}s linear infinite`;
+				// Apply animations
+				leaf.style.animation = `float ${floatDuration}s linear infinite, rotate ${rotateDuration}s linear infinite`;
 				
 				leavesContainer.appendChild(leaf);
 				
 				// Remove leaf after animation completes
 				setTimeout(() => {
 					leaf.remove();
-				}, 30000);
+				}, 35000);
 			}
             
             // Create leaves every 2 seconds
