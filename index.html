@@ -316,6 +316,178 @@
             gap: 30px;
         }
         
+        /* Cart Styles */
+        #cart-link {
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+        
+        .cart-badge {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            background-color: var(--orange);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 0.8rem;
+            margin-left: 5px;
+        }
+        
+        .cart-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            overflow: auto;
+            padding: 50px 0;
+        }
+        
+        .cart-container {
+            background: #111;
+            margin: 0 auto;
+            width: 90%;
+            max-width: 800px;
+            border-radius: 15px;
+            position: relative;
+            padding: 30px;
+            border: 3px solid var(--cyan);
+            box-shadow: 0 0 30px rgba(0, 188, 212, 0.7);
+        }
+        
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--purple);
+            padding-bottom: 10px;
+        }
+        
+        .cart-title {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--yellow);
+            font-size: 2rem;
+            text-shadow: 2px 2px 0 var(--orange);
+        }
+        
+        .cart-items {
+            margin-bottom: 20px;
+        }
+        
+        .cart-item {
+            display: grid;
+            grid-template-columns: 80px 1fr auto auto;
+            gap: 15px;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .cart-item-img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+        
+        .cart-item-info h4 {
+            color: white;
+            margin-bottom: 5px;
+        }
+        
+        .cart-item-type {
+            font-size: 0.8rem;
+            color: #aaa;
+        }
+        
+        .cart-item-price {
+            color: var(--orange);
+            font-weight: bold;
+        }
+        
+        .cart-item-remove {
+            background: rgba(233, 30, 99, 0.3);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+        
+        .cart-item-remove:hover {
+            background: var(--pink);
+        }
+        
+        .cart-empty {
+            text-align: center;
+            padding: 30px;
+            color: #777;
+        }
+        
+        .cart-total {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px solid var(--green);
+        }
+        
+        .cart-total span {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: white;
+        }
+        
+        .cart-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+        
+        .quantity-selector {
+            display: flex;
+            align-items: center;
+        }
+        
+        .quantity-btn {
+            background: rgba(0, 188, 212, 0.3);
+            color: white;
+            border: none;
+            width: 25px;
+            height: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .quantity-btn:hover {
+            background: var(--cyan);
+        }
+        
+        .quantity-value {
+            width: 30px;
+            text-align: center;
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 1rem;
+        }
+        
         @media (max-width: 768px) {
             .modal-grid {
                 grid-template-columns: 1fr;
@@ -517,6 +689,12 @@
                         <li><a href="#products">Products</a></li>
                         <li><a href="#merchandise">Merchandise</a></li>
                         <li><a href="#contact">Contact</a></li>
+                        <li>
+                            <a href="#cart" id="cart-link">
+                                <span>Cart</span>
+                                <span id="cart-count" class="cart-badge">0</span>
+                            </a>
+                        </li>
                     </ul>
                 </nav>
             </div>
@@ -594,6 +772,7 @@
                             <h3 class="card-title">Custom Hoodie #1</h3>
                             <p class="card-description">Heavyweight cotton blend hoodie with front print.</p>
                             <span class="price-tag">$24.99</span>
+                            <button class="cta-button">Add to Cart</button> <!-- Add this button -->
                         </div>
                     </div>
                     
@@ -604,6 +783,7 @@
                             <h3 class="card-title">Custom Hoodie #2</h3>
                             <p class="card-description">Heavyweight cotton blend hoodie with front print.</p>
                             <span class="price-tag">$24.99</span>
+                            <button class="cta-button">Add to Cart</button> <!-- Add this button -->
                         </div>
                     </div>
                     
@@ -698,6 +878,59 @@
                     <button class="cta-button" style="margin-top: 30px;">Add to Cart</button>
                 </div>
             </div>
+</div>
+    </div>
+
+    <!-- Cart Modal -->
+    <div class="modal cart-modal" id="cartModal">
+        <div class="modal-content cart-container">
+            <span class="close-modal" id="closeCart">&times;</span>
+            <div class="cart-header">
+                <h2 class="cart-title">Your Cart</h2>
+            </div>
+            <div id="cartItems" class="cart-items">
+                <!-- Cart items will be inserted here dynamically -->
+            </div>
+            <div id="cartEmpty" class="cart-empty">
+                <p>Your cart is empty</p>
+            </div>
+            <div id="cartTotal" class="cart-total">
+                <span>Total:</span>
+                <span id="totalAmount">$0.00</span>
+            </div>
+            <div class="cart-buttons">
+                <button class="cta-button" id="continueShoppingBtn">Continue Shopping</button>
+                <button class="cta-button" id="checkoutBtn" style="background: linear-gradient(45deg, var(--green), var(--cyan));">Checkout</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Checkout Modal -->
+    <div class="modal" id="checkoutModal">
+        <div class="modal-content">
+            <span class="close-modal" id="closeCheckout">&times;</span>
+            <h2 style="color: var(--yellow); font-family: 'Montserrat', sans-serif; margin-bottom: 20px;">Complete Your Order</h2>
+            <form id="checkoutForm">
+                <div style="margin-bottom: 15px;">
+                    <label for="name" style="display: block; margin-bottom: 5px; color: var(--cyan);">Your Name</label>
+                    <input type="text" id="name" required style="width: 100%; padding: 10px; background: rgba(255,255,255,0.1); border: 1px solid var(--purple); border-radius: 5px; color: white;">
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <label for="email" style="display: block; margin-bottom: 5px; color: var(--cyan);">Email Address</label>
+                    <input type="email" id="email" required style="width: 100%; padding: 10px; background: rgba(255,255,255,0.1); border: 1px solid var(--purple); border-radius: 5px; color: white;">
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <label for="phone" style="display: block; margin-bottom: 5px; color: var(--cyan);">Phone Number (Optional)</label>
+                    <input type="tel" id="phone" style="width: 100%; padding: 10px; background: rgba(255,255,255,0.1); border: 1px solid var(--purple); border-radius: 5px; color: white;">
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <label for="message" style="display: block; margin-bottom: 5px; color: var(--cyan);">Additional Notes</label>
+                    <textarea id="message" rows="4" style="width: 100%; padding: 10px; background: rgba(255,255,255,0.1); border: 1px solid var(--purple); border-radius: 5px; color: white; resize: vertical;"></textarea>
+                </div>
+                <div style="margin-top: 30px; text-align: right;">
+                    <button type="submit" class="cta-button">Send Order Request</button>
+                </div>
+            </form>
         </div>
     </div>
     
@@ -715,9 +948,14 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Initialize cart
+            let cart = JSON.parse(localStorage.getItem('blowflowCart')) || [];
+            updateCartCount();
+            
             // Strain data
             const strainData = {
                 'tyson-punch': {
+                    id: 'tyson-punch',
                     name: 'Tyson Punch Pie',
                     type: 'Indica Dominant (90% Indica / 10% Sativa)',
                     image: '/img/strain1-placeholder.jpg',
@@ -727,9 +965,12 @@
                     flowering: '8-9 Weeks',
                     yield: 'Moderate - Benefits from multi-topping',
                     seeds: 'Feminized - Pack of 3, 5, or 10 seeds',
+                    price: 39.99,
+                    category: 'strain',
                     description: 'Tyson Punch Pie is our flagship strain, created from Purple Punch x Purple Kush genetics. It delivers a powerful knockout effect with a complex terpene profile featuring strong pineapple, sweet kushy gas, citrus, lime, and light cherry notes. The buds develop beautiful purple hues when properly cultivated. This heavy indica-dominant strain is perfect for evening use, pain relief, and relaxation.'
                 },
                 'cosmic-haze': {
+                    id: 'cosmic-haze',
                     name: 'Dabzy Cut',
                     type: 'Hybrid (French Toast x White Truffle)',
                     image: '/img/strain2-placeholder.jpg',
@@ -739,6 +980,8 @@
                     flowering: '9-10 Weeks',
                     yield: 'Indoor: 450-550g/m² | Outdoor: 600-800g/plant',
                     seeds: 'Feminized - Pack of 3, 5, or 10 seeds',
+                    price: 44.99,
+                    category: 'strain',
                     description: 'Dabzy Cut is a premium hybrid cross of French Toast and White Truffle. This exceptional strain offers a complex flavor profile featuring red fruit, earthy undertones, minty notes, and a distinct OG Kush punch. The stem rub reveals incredible lime and banana aromas with sweet cotton candy. While the flower delivers a very sweet experience, it leans slightly more toward the gassy side. Dabzy Cut produces a highly recognizable and thoroughly enjoyable smoke experience that stands out as a white out.'
                 }
             };
@@ -746,13 +989,19 @@
             // Product data
             const productData = {
                 'premium-rolling-tray': {
+                    id: 'premium-rolling-tray',
                     name: 'Premium Rolling Tray Bundle',
                     image: '/img/product1-placeholder.jpg',
+                    price: 49.99,
+                    category: 'product',
                     description: 'Our Premium Rolling Tray Bundle includes everything you need for the perfect session. The bundle features a custom-designed metal rolling tray with our signature psychedelic art, a 4-piece metal grinder with pollen catcher, king size rolling papers, a rolling machine, herb storage container, and a custom lighter. All items come in a gift-ready package that makes this the ultimate accessory collection for enthusiasts.'
                 },
                 'glass-collection': {
+                    id: 'glass-collection',
                     name: 'Custom Lighting & Decor',
                     image: '/img/product2-placeholder.jpg',
+                    price: 129.99,
+                    category: 'product',
                     description: 'Our Unique Lighting fixtures feature handcrafted immaginative pieces created by local artists. Each piece is unique and inspired by our local flair and flavor. The collection includes various sizes and designs, all made with premium materials and concepts. These limited edition pieces combine functionality with artistic expression, making them both practical and displayable art.'
                 }
             };
@@ -760,17 +1009,28 @@
             // Merchandise data
             const merchData = {
                 'merch1': {
+                    id: 'merch1',
                     name: 'Custom Hoodie #1',
                     image: '/img/merch1-placeholder.jpg',
-                    price: '$24.99',
+                    price: 24.99,
+                    category: 'merch',
                     description: 'Our premium heavyweight hoodie features a comfortable cotton-polyester blend that is perfect for all seasons. The front showcases our custom designs. Complete with a kangaroo pocket, adjustable drawstring hood, and ribbed cuffs and waistband for the perfect fit.'
                 },
                 'merch2': {
+                    id: 'merch2',
                     name: 'Custom Hoodie #2',
                     image: '/img/merch2-placeholder.jpg',
-                    price: '$24.99',
+                    price: 24.99,
+                    category: 'merch',
                     description: 'Our premium heavyweight hoodie features a comfortable cotton-polyester blend that is perfect for all seasons. The front showcases our custom designs. Complete with a kangaroo pocket, adjustable drawstring hood, and ribbed cuffs and waistband for the perfect fit.'
                 }
+            };
+            
+            // Combine all product data for easier access
+            const allProducts = {
+                ...strainData,
+                ...productData,
+                ...merchData
             };
             
             // Open strain modal
@@ -794,6 +1054,30 @@
                     document.getElementById('modalDescription').textContent = strain.description;
                     
                     strainModal.style.display = 'block';
+                    
+                    // Add "Add to Cart" button to strain modal
+                    setTimeout(() => {
+                        const modalContent = document.querySelector('#strainModal .modal-info');
+                        
+                        // Check if button already exists
+                        if (!document.getElementById('addStrainToCartBtn')) {
+                            const addButton = document.createElement('button');
+                            addButton.className = 'cta-button';
+                            addButton.id = 'addStrainToCartBtn';
+                            addButton.textContent = 'Add to Cart';
+                            addButton.setAttribute('data-id', strainId);
+                            addButton.style.marginTop = '20px';
+                            
+                            modalContent.appendChild(addButton);
+                            
+                            addButton.addEventListener('click', function() {
+                                const productId = this.getAttribute('data-id');
+                                addToCart(productId);
+                            });
+                        } else {
+                            document.getElementById('addStrainToCartBtn').setAttribute('data-id', strainId);
+                        }
+                    }, 100);
                 });
             });
             
@@ -812,6 +1096,30 @@
                     document.getElementById('productModalDescription').textContent = product.description;
                     
                     productModal.style.display = 'block';
+                    
+                    // Add "Add to Cart" button to product modal
+                    setTimeout(() => {
+                        const modalContent = document.querySelector('#productModal .modal-info');
+                        
+                        // Check if button already exists
+                        if (!document.getElementById('addProductToCartBtn')) {
+                            const addButton = document.createElement('button');
+                            addButton.className = 'cta-button';
+                            addButton.id = 'addProductToCartBtn';
+                            addButton.textContent = 'Add to Cart';
+                            addButton.setAttribute('data-id', productId);
+                            addButton.style.marginTop = '20px';
+                            
+                            modalContent.appendChild(addButton);
+                            
+                            addButton.addEventListener('click', function() {
+                                const productId = this.getAttribute('data-id');
+                                addToCart(productId);
+                            });
+                        } else {
+                            document.getElementById('addProductToCartBtn').setAttribute('data-id', productId);
+                        }
+                    }, 100);
                 });
             });
             
@@ -828,24 +1136,113 @@
                     document.getElementById('merchModalImage').src = merch.image;
                     document.getElementById('merchModalImage').alt = merch.name;
                     document.getElementById('merchModalDescription').textContent = merch.description;
-                    document.getElementById('merchModalPrice').textContent = merch.price;
+                    document.getElementById('merchModalPrice').textContent = '$' + merch.price;
                     
                     merchModal.style.display = 'block';
+                    
+                    // Add event listener to the "Add to Cart" button in the modal
+                    const modalAddBtn = document.querySelector('#merchModal .cta-button');
+                    modalAddBtn.setAttribute('data-id', merchId);
+                    
+                    modalAddBtn.addEventListener('click', function() {
+                        const productId = this.getAttribute('data-id');
+                        addToCart(productId);
+                    });
                 });
             });
             
-            // Close modals
-            const closeButtons = document.querySelectorAll('.close-modal');
-            
-            closeButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    strainModal.style.display = 'none';
-                    productModal.style.display = 'none';
-                    merchModal.style.display = 'none';
+            // Attach event listeners to merch "Add to Cart" buttons in the cards
+            document.querySelectorAll('.merch-card .cta-button').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.stopPropagation(); // Prevent opening the modal
+                    const merchId = this.closest('.merch-card').getAttribute('data-merch');
+                    addToCart(merchId);
                 });
             });
             
-            // Close modal when clicking outside
+            // Open cart modal
+            document.getElementById('cart-link').addEventListener('click', function(e) {
+                e.preventDefault();
+                openCartModal();
+            });
+            
+            // Close cart modal
+            document.getElementById('closeCart').addEventListener('click', function() {
+                document.getElementById('cartModal').style.display = 'none';
+            });
+            
+            // Continue shopping button
+            document.getElementById('continueShoppingBtn').addEventListener('click', function() {
+                document.getElementById('cartModal').style.display = 'none';
+            });
+            
+            // Checkout button
+            document.getElementById('checkoutBtn').addEventListener('click', function() {
+                if (cart.length > 0) {
+                    document.getElementById('cartModal').style.display = 'none';
+                    document.getElementById('checkoutModal').style.display = 'block';
+                }
+            });
+            
+            // Close checkout modal
+            document.getElementById('closeCheckout').addEventListener('click', function() {
+                document.getElementById('checkoutModal').style.display = 'none';
+            });
+            
+            // Submit checkout form
+            document.getElementById('checkoutForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const name = document.getElementById('name').value;
+                const email = document.getElementById('email').value;
+                const phone = document.getElementById('phone').value;
+                const message = document.getElementById('message').value;
+                
+                // Prepare order details
+                let orderDetails = 'Order Items:\n\n';
+                let total = 0;
+                
+                cart.forEach(item => {
+                    const product = allProducts[item.id];
+                    const itemTotal = item.quantity * product.price;
+                    total += itemTotal;
+                    
+                    orderDetails += `- ${item.quantity}x ${product.name} ($${product.price.toFixed(2)} each): $${itemTotal.toFixed(2)}\n`;
+                });
+                
+                orderDetails += `\nTotal: $${total.toFixed(2)}`;
+                
+                // Prepare email body
+                const emailBody = `
+Name: ${name}
+Email: ${email}
+Phone: ${phone}
+
+${orderDetails}
+
+Additional Notes:
+${message}
+`;
+                
+                // Create mailto link
+                const mailtoLink = `mailto:Blowflowllc@gmail.com?subject=New Order from ${name}&body=${encodeURIComponent(emailBody)}`;
+                
+                // Open email client
+                window.location.href = mailtoLink;
+                
+                // Clear cart
+                cart = [];
+                localStorage.setItem('blowflowCart', JSON.stringify(cart));
+                updateCartCount();
+                
+                // Close checkout modal
+                document.getElementById('checkoutModal').style.display = 'none';
+                
+                // Show thank you message
+                alert('Thank you for your order! Your email client has been opened with your order details. Please send the email to complete your order.');
+            });
+            
+            // Close modals when clicking outside
             window.addEventListener('click', function(event) {
                 if (event.target === strainModal) {
                     strainModal.style.display = 'none';
@@ -856,7 +1253,150 @@
                 if (event.target === merchModal) {
                     merchModal.style.display = 'none';
                 }
+                if (event.target === document.getElementById('cartModal')) {
+                    document.getElementById('cartModal').style.display = 'none';
+                }
+                if (event.target === document.getElementById('checkoutModal')) {
+                    document.getElementById('checkoutModal').style.display = 'none';
+                }
             });
+            
+            // Function to add item to cart
+            function addToCart(productId) {
+                const product = allProducts[productId];
+                
+                if (!product) {
+                    console.error('Product not found:', productId);
+                    return;
+                }
+                
+                // Check if product is already in cart
+                const existingItemIndex = cart.findIndex(item => item.id === productId);
+                
+                if (existingItemIndex !== -1) {
+                    // Increment quantity
+                    cart[existingItemIndex].quantity += 1;
+                } else {
+                    // Add new item
+                    cart.push({
+                        id: productId,
+                        quantity: 1
+                    });
+                }
+                
+                // Save cart to localStorage
+                localStorage.setItem('blowflowCart', JSON.stringify(cart));
+                
+                // Update cart count
+                updateCartCount();
+                
+                // Show confirmation
+                const modal = document.querySelector('.modal[style*="display: block"]');
+                if (modal) {
+                    modal.style.display = 'none';
+                }
+                
+                // Show cart modal
+                openCartModal();
+            }
+            
+            // Function to update cart count
+            function updateCartCount() {
+                const count = cart.reduce((total, item) => total + item.quantity, 0);
+                document.getElementById('cart-count').textContent = count;
+            }
+            
+            // Function to open cart modal
+            function openCartModal() {
+                // Clear cart items
+                const cartItemsEl = document.getElementById('cartItems');
+                cartItemsEl.innerHTML = '';
+                
+                // Show/hide empty cart message
+                const cartEmptyEl = document.getElementById('cartEmpty');
+                const cartTotalEl = document.getElementById('cartTotal');
+                const checkoutBtn = document.getElementById('checkoutBtn');
+                
+                if (cart.length === 0) {
+                    cartEmptyEl.style.display = 'block';
+                    cartTotalEl.style.display = 'none';
+                    checkoutBtn.disabled = true;
+                    checkoutBtn.style.opacity = '0.5';
+                } else {
+                    cartEmptyEl.style.display = 'none';
+                    cartTotalEl.style.display = 'flex';
+                    checkoutBtn.disabled = false;
+                    checkoutBtn.style.opacity = '1';
+                    
+                    // Add cart items
+                    let total = 0;
+                    
+                    cart.forEach((item, index) => {
+                        const product = allProducts[item.id];
+                        const itemTotal = item.quantity * product.price;
+                        total += itemTotal;
+                        
+                        const cartItemEl = document.createElement('div');
+                        cartItemEl.className = 'cart-item';
+                        cartItemEl.innerHTML = `
+                            <img src="${product.image}" alt="${product.name}" class="cart-item-img">
+                            <div class="cart-item-info">
+                                <h4>${product.name}</h4>
+                                <div class="cart-item-type">${product.category === 'strain' ? product.type : ''}</div>
+                            </div>
+                            <div class="quantity-selector">
+                                <button class="quantity-btn decrease" data-index="${index}">-</button>
+                                <span class="quantity-value">${item.quantity}</span>
+                                <button class="quantity-btn increase" data-index="${index}">+</button>
+                            </div>
+                            <div class="cart-item-price">$${itemTotal.toFixed(2)}</div>
+                            <button class="cart-item-remove" data-index="${index}">&times;</button>
+                        `;
+                        
+                        cartItemsEl.appendChild(cartItemEl);
+                    });
+                    
+                    // Update total
+                    document.getElementById('totalAmount').textContent = `$${total.toFixed(2)}`;
+                    
+                    // Add event listeners to quantity buttons
+                    document.querySelectorAll('.quantity-btn.decrease').forEach(button => {
+                        button.addEventListener('click', function() {
+                            const index = parseInt(this.getAttribute('data-index'));
+                            if (cart[index].quantity > 1) {
+                                cart[index].quantity -= 1;
+                                localStorage.setItem('blowflowCart', JSON.stringify(cart));
+                                updateCartCount();
+                                openCartModal(); // Refresh cart modal
+                            }
+                        });
+                    });
+                    
+                    document.querySelectorAll('.quantity-btn.increase').forEach(button => {
+                        button.addEventListener('click', function() {
+                            const index = parseInt(this.getAttribute('data-index'));
+                            cart[index].quantity += 1;
+                            localStorage.setItem('blowflowCart', JSON.stringify(cart));
+                            updateCartCount();
+                            openCartModal(); // Refresh cart modal
+                        });
+                    });
+                    
+                    // Add event listeners to remove buttons
+                    document.querySelectorAll('.cart-item-remove').forEach(button => {
+                        button.addEventListener('click', function() {
+                            const index = parseInt(this.getAttribute('data-index'));
+                            cart.splice(index, 1);
+                            localStorage.setItem('blowflowCart', JSON.stringify(cart));
+                            updateCartCount();
+                            openCartModal(); // Refresh cart modal
+                        });
+                    });
+                }
+                
+                // Show cart modal
+                document.getElementById('cartModal').style.display = 'block';
+            }
             
             // Create floating cannabis leaves
             const leavesContainer = document.getElementById('floatingLeaves');
@@ -930,4 +1470,4 @@
         });
     </script>
 </body>
-</html>
+</html>			
