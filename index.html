@@ -446,50 +446,50 @@
             <section id="strains">
                 <h2 class="section-title">Premium Strains</h2>
                 <div class="strain-grid">
-                    <!-- Strain Card 1 -->
-                    <div class="strain-card" data-strain="tyson-punch">
-                        <img src="/img/strain1-placeholder.jpg" alt="Tyson Punch" class="strain-img">
-                        <div class="card-content">
-                            <h3 class="card-title">Tyson Punch</h3>
-                            <span class="strain-type">Indica Dominant</span>
-                            <p class="card-description">A knockout strain with powerful relaxing effects and fruity aroma.</p>
-                            <div class="strain-details">
-                                <div class="detail-item">Feminized</div>
-                                <div class="detail-item">Indoor/Outdoor</div>
-                                <div class="detail-item">8-9 Weeks</div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Strain Card 2 -->
-                    <div class="strain-card" data-strain="cosmic-haze">
-                        <img src="/img/strain2-placeholder.jpg" alt="Cosmic Haze" class="strain-img">
-                        <div class="card-content">
-                            <h3 class="card-title">Cosmic Haze</h3>
-                            <span class="strain-type">Sativa Dominant</span>
-                            <p class="card-description">Euphoric cerebral effects with tropical fruit and spice notes.</p>
-                            <div class="strain-details">
-                                <div class="detail-item">Autoflower</div>
-                                <div class="detail-item">Indoor</div>
-                                <div class="detail-item">10-11 Weeks</div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Strain Card 3 -->
-                    <div class="strain-card" data-strain="purple-dream">
-                        <img src="/img/strain3-placeholder.jpg" alt="Purple Dream" class="strain-img">
-                        <div class="card-content">
-                            <h3 class="card-title">Purple Dream</h3>
-                            <span class="strain-type">Hybrid</span>
-                            <p class="card-description">Beautiful purple buds with balanced effects and grape candy aroma.</p>
-                            <div class="strain-details">
-                                <div class="detail-item">Regular</div>
-                                <div class="detail-item">Indoor/Outdoor</div>
-                                <div class="detail-item">9-10 Weeks</div>
-                            </div>
-                        </div>
-                    </div>
+					<!-- Strain Card 1 -->
+					<div class="strain-card" data-strain="tyson-punch">
+						<img src="/img/strain1-square.jpg" alt="Tyson Punch" class="strain-img">
+						<div class="card-content">
+							<h3 class="card-title">Tyson Punch Pie</h3>
+							<span class="strain-type">Indica Dominant</span>
+							<p class="card-description">A knockout strain with powerful relaxing effects and fruity aroma.</p>
+							<div class="strain-details">
+								<div class="detail-item">Feminized</div>
+								<div class="detail-item">Indoor/Outdoor</div>
+								<div class="detail-item">8-9 Weeks</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- Strain Card 2 -->
+					<div class="strain-card" data-strain="cosmic-haze">
+						<img src="/img/strain2-square.jpg" alt="Dabzy Cut" class="strain-img">
+						<div class="card-content">
+							<h3 class="card-title">Dabzy Cut</h3>
+							<span class="strain-type">Hybrid</span>
+							<p class="card-description">Complex profile with red fruit, earthy notes, and OG Kush punch.</p>
+							<div class="strain-details">
+								<div class="detail-item">Feminized</div>
+								<div class="detail-item">Indoor</div>
+								<div class="detail-item">9-10 Weeks</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- Strain Card 3 -->
+					<div class="strain-card" data-strain="purple-dream">
+						<img src="/img/strain3-square.jpg" alt="Purple Dream" class="strain-img">
+						<div class="card-content">
+							<h3 class="card-title">Purple Dream</h3>
+							<span class="strain-type">Hybrid</span>
+							<p class="card-description">Beautiful purple buds with balanced effects and grape candy aroma.</p>
+							<div class="strain-details">
+								<div class="detail-item">Regular</div>
+								<div class="detail-item">Indoor/Outdoor</div>
+								<div class="detail-item">9-10 Weeks</div>
+							</div>
+						</div>
+					</div>
                 </div>
             </section>
             
@@ -589,41 +589,44 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Strain data
-            const strainData = {
-                'tyson-punch': {
-                    name: 'Tyson Punch',
-                    type: 'Indica Dominant (70% Indica / 30% Sativa)',
-                    image: '/img/strain1-placeholder.jpg',
-                    thc: '24-28%',
-                    cbd: '0.5-1%',
-                    flowering: '8-9 Weeks',
-                    yield: 'Indoor: 450-550g/m² | Outdoor: 600-800g/plant',
-                    seeds: 'Feminized - Pack of 5, 10, or 25 seeds',
-                    description: 'Tyson Punch is our flagship strain, delivering a powerful knockout effect that will leave you deeply relaxed. The buds develop beautiful purple hues when exposed to cooler temperatures during flowering. Expect a complex flavor profile with notes of grape, berries, and earthy spice. This strain is perfect for evening use, pain relief, and insomnia.'
-                },
-                'cosmic-haze': {
-                    name: 'Cosmic Haze',
-                    type: 'Sativa Dominant (80% Sativa / 20% Indica)',
-                    image: '/img/strain2-placeholder.jpg',
-                    thc: '22-26%',
-                    cbd: '0.2-0.8%',
-                    flowering: '10-11 Weeks',
-                    yield: 'Indoor: 400-500g/m² | Outdoor: 550-700g/plant',
-                    seeds: 'Autoflower - Pack of 3, 7, or 20 seeds',
-                    description: 'Cosmic Haze will take you on a cerebral journey with its euphoric and creative effects. This sativa-dominant strain features elongated, resin-coated buds with vibrant orange pistils. The aroma combines tropical fruits, citrus, and exotic spices for an unforgettable experience. Perfect for daytime use, creative activities, and social settings. The autoflowering version makes it easy to grow for beginners.'
-                },
-                'purple-dream': {
-                    name: 'Purple Dream',
-                    type: 'Hybrid (50% Indica / 50% Sativa)',
-                    image: '/img/strain3-placeholder.jpg',
-                    thc: '20-24%',
-                    cbd: '1-2%',
-                    flowering: '9-10 Weeks',
-                    yield: 'Indoor: 500-600g/m² | Outdoor: 650-850g/plant',
-                    seeds: 'Regular - Pack of 10 or 20 seeds',
-                    description: 'Purple Dream offers the best of both worlds with its perfectly balanced hybrid effects. The striking purple and blue hues make this a visually stunning strain. Expect a sweet grape candy aroma with subtle earthy undertones. The effects start with an uplifting cerebral buzz that gradually transitions into deep physical relaxation without sedation. Ideal for all-day use and creative relaxation.'
-                }
-            };
+			const strainData = {
+				'tyson-punch': {
+					name: 'Tyson Punch Pie',
+					type: 'Indica Dominant (90% Indica / 10% Sativa)',
+					image: '/img/strain1-placeholder.jpg',
+					cardImage: '/img/strain1-square.jpg', // New square image for cards
+					thc: '22%',
+					cbd: '0.1%',
+					flowering: '8-9 Weeks',
+					yield: 'Moderate - Benefits from multi-topping',
+					seeds: 'Feminized - Pack of 5, 10, or 25 seeds',
+					description: 'Tyson Punch Pie is our flagship strain, created from Purple Punch x Purple Kush genetics. It delivers a powerful knockout effect with a complex terpene profile featuring strong pineapple, sweet kushy gas, citrus, lime, and light cherry notes. The buds develop beautiful purple hues when properly cultivated. This heavy indica-dominant strain is perfect for evening use, pain relief, and relaxation.'
+				},
+				'cosmic-haze': {
+					name: 'Dabzy Cut',
+					type: 'Hybrid (French Toast x White Truffle)',
+					image: '/img/strain2-placeholder.jpg',
+					cardImage: '/img/strain2-square.jpg', // New square image for cards
+					thc: '24-26%',
+					cbd: '0.3-0.8%',
+					flowering: '9-10 Weeks',
+					yield: 'Indoor: 450-550g/m² | Outdoor: 600-800g/plant',
+					seeds: 'Feminized - Pack of 5, 10, or 20 seeds',
+					description: 'Dabzy Cut is a premium hybrid cross of French Toast and White Truffle. This exceptional strain offers a complex flavor profile featuring red fruit, earthy undertones, minty notes, and a distinct OG Kush punch. The stem rub reveals incredible lime and banana aromas with sweet cotton candy. While the flower delivers a very sweet experience, it leans slightly more toward the gassy side. Dabzy Cut produces a highly recognizable and thoroughly enjoyable smoke experience that stands out as a white out.'
+				},
+				'purple-dream': {
+					name: 'Purple Dream',
+					type: 'Hybrid (50% Indica / 50% Sativa)',
+					image: '/img/strain3-placeholder.jpg',
+					cardImage: '/img/strain3-square.jpg', // New square image for cards
+					thc: '20-24%',
+					cbd: '1-2%',
+					flowering: '9-10 Weeks',
+					yield: 'Indoor: 500-600g/m² | Outdoor: 650-850g/plant',
+					seeds: 'Regular - Pack of 10 or 20 seeds',
+					description: 'Purple Dream offers the best of both worlds with its perfectly balanced hybrid effects. The striking purple and blue hues make this a visually stunning strain. Expect a sweet grape candy aroma with subtle earthy undertones. The effects start with an uplifting cerebral buzz that gradually transitions into deep physical relaxation without sedation. Ideal for all-day use and creative relaxation.'
+				}
+			};
             
             // Product data
             const productData = {
@@ -643,25 +646,25 @@
             const strainCards = document.querySelectorAll('.strain-card');
             const strainModal = document.getElementById('strainModal');
             
-            strainCards.forEach(card => {
-                card.addEventListener('click', function() {
-                    const strainId = this.getAttribute('data-strain');
-                    const strain = strainData[strainId];
-                    
-                    document.getElementById('modalTitle').textContent = strain.name;
-                    document.getElementById('modalImage').src = strain.image;
-                    document.getElementById('modalImage').alt = strain.name;
-                    document.getElementById('modalType').textContent = strain.type;
-                    document.getElementById('modalTHC').textContent = strain.thc;
-                    document.getElementById('modalCBD').textContent = strain.cbd;
-                    document.getElementById('modalFlowering').textContent = strain.flowering;
-                    document.getElementById('modalYield').textContent = strain.yield;
-                    document.getElementById('modalSeeds').textContent = strain.seeds;
-                    document.getElementById('modalDescription').textContent = strain.description;
-                    
-                    strainModal.style.display = 'block';
-                });
-            });
+			strainCards.forEach(card => {
+				card.addEventListener('click', function() {
+					const strainId = this.getAttribute('data-strain');
+					const strain = strainData[strainId];
+					
+					document.getElementById('modalTitle').textContent = strain.name;
+					document.getElementById('modalImage').src = strain.image; // Use the detailed image here
+					document.getElementById('modalImage').alt = strain.name;
+					document.getElementById('modalType').textContent = strain.type;
+					document.getElementById('modalTHC').textContent = strain.thc;
+					document.getElementById('modalCBD').textContent = strain.cbd;
+					document.getElementById('modalFlowering').textContent = strain.flowering;
+					document.getElementById('modalYield').textContent = strain.yield;
+					document.getElementById('modalSeeds').textContent = strain.seeds;
+					document.getElementById('modalDescription').textContent = strain.description;
+					
+					strainModal.style.display = 'block';
+				});
+			});
             
             // Open product modal
             const productCards = document.querySelectorAll('.product-card');
