@@ -3,43 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blow Flow Creationz</title>
+    <title>Blow Flow Genetics</title>
     <style>
         :root {
-            --dark-purple: #3A1E5C;
-            --purple: #572A81;
-            --light-purple: #7344A0;
-            --dark-green: #2E5E3E;
-            --light-green: #4CAF50;
-            --gold: #D4AF37;
+            --purple: #6a1b9a;
+            --pink: #e91e63;
+            --cyan: #00bcd4;
+            --green: #4CAF50;
+            --yellow: #FFEB3B;
+            --orange: #FF5722;
         }
         
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Helvetica', sans-serif;
+            font-family: 'Impact', 'Helvetica Neue', sans-serif;
         }
         
         body {
             background-color: #111;
             color: #fff;
             line-height: 1.6;
+            overflow-x: hidden;
         }
         
-        .gradient-bg {
-            background: linear-gradient(135deg, var(--dark-purple) 0%, var(--purple) 100%);
-            min-height: 100vh;
-            padding-bottom: 50px;
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, #3a086b 0%, #111 100%);
+            z-index: -2;
+        }
+        
+        .light-rays {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('rays-bg.jpg') no-repeat center center;
+            background-size: cover;
+            opacity: 0.4;
+            z-index: -1;
         }
         
         header {
-            background-color: rgba(0, 0, 0, 0.8);
             padding: 20px 0;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            border-bottom: 3px solid var(--light-green);
+            position: relative;
         }
         
         .container {
@@ -48,36 +61,26 @@
             margin: 0 auto;
         }
         
+        .logo-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
         .logo {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        
-        .logo h1 {
-            font-size: 2.5rem;
-            background: linear-gradient(to right, var(--light-purple), var(--light-green));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            text-shadow: 0 0 10px rgba(116, 68, 160, 0.3);
-        }
-        
-        .logo-icon {
-            width: 50px;
-            height: 50px;
-            background-color: var(--light-green);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--dark-purple);
-            font-size: 24px;
-            font-weight: bold;
+            max-width: 600px;
+            margin: 0 auto;
+            filter: drop-shadow(0 0 10px rgba(255, 87, 34, 0.8));
         }
         
         nav {
-            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            margin: 30px 0;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 15px;
+            border-radius: 50px;
+            border: 2px solid var(--cyan);
+            box-shadow: 0 0 20px rgba(0, 188, 212, 0.5);
         }
         
         nav ul {
@@ -90,106 +93,217 @@
             color: #fff;
             text-decoration: none;
             font-weight: bold;
-            font-size: 1.1rem;
-            transition: color 0.3s;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s;
             position: relative;
+            padding: 5px 15px;
+            border-radius: 20px;
         }
         
         nav a:hover {
-            color: var(--light-green);
+            background: rgba(233, 30, 99, 0.3);
+            color: var(--yellow);
+            text-shadow: 0 0 10px var(--yellow);
         }
         
-        nav a::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            bottom: -5px;
-            left: 0;
-            background-color: var(--light-green);
-            transition: width 0.3s;
+        .main-content {
+            padding: 40px 0;
         }
         
-        nav a:hover::after {
-            width: 100%;
-        }
-        
-        .hero {
-            padding: 80px 0;
+        .section-title {
             text-align: center;
-        }
-        
-        .hero h2 {
             font-size: 3rem;
-            margin-bottom: 20px;
-            color: #fff;
-            text-shadow: 0 0 15px rgba(76, 175, 80, 0.5);
+            margin-bottom: 40px;
+            text-transform: uppercase;
+            color: var(--yellow);
+            text-shadow: 3px 3px 0 var(--orange), 
+                        -3px -3px 0 var(--cyan);
+            letter-spacing: 2px;
         }
         
-        .hero p {
-            font-size: 1.2rem;
-            max-width: 800px;
-            margin: 0 auto 40px;
-        }
-        
-        .cta-button {
-            display: inline-block;
-            background-color: var(--light-green);
-            color: #000;
-            padding: 12px 30px;
-            border-radius: 30px;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 1.1rem;
-            transition: all 0.3s;
-            border: 2px solid var(--light-green);
-        }
-        
-        .cta-button:hover {
-            background-color: transparent;
-            color: var(--light-green);
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(76, 175, 80, 0.3);
-        }
-        
-        .features {
+        .strain-grid, .products-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 30px;
-            margin: 50px 0;
+            margin-bottom: 60px;
         }
         
-        .feature-card {
-            background: rgba(58, 30, 92, 0.7);
-            border-radius: 10px;
-            padding: 30px;
-            text-align: center;
-            border: 1px solid var(--light-purple);
+        .strain-card, .product-card {
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 15px;
+            overflow: hidden;
             transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+            cursor: pointer;
         }
         
-        .feature-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(116, 68, 160, 0.3);
+        .strain-card::before, .product-card::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, var(--cyan), var(--purple), var(--pink), var(--green), var(--yellow));
+            z-index: -1;
+            border-radius: 17px;
+            background-size: 400%;
+            animation: borderGlow 20s linear infinite;
         }
         
-        .feature-icon {
-            font-size: 2.5rem;
-            color: var(--light-green);
-            margin-bottom: 20px;
+        @keyframes borderGlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
         
-        .feature-card h3 {
-            font-size: 1.5rem;
+        .strain-card:hover, .product-card:hover {
+            transform: translateY(-10px) scale(1.03);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+        }
+        
+        .strain-img, .product-img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-bottom: 3px solid var(--green);
+        }
+        
+        .card-content {
+            padding: 20px;
+        }
+        
+        .card-title {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            color: var(--cyan);
+            text-transform: uppercase;
+        }
+        
+        .strain-type {
+            display: inline-block;
+            background-color: var(--purple);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.9rem;
             margin-bottom: 15px;
-            color: var(--gold);
+        }
+        
+        .card-description {
+            color: #ccc;
+            margin-bottom: 15px;
+        }
+        
+        .strain-details, .product-details {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+        }
+        
+        .detail-item {
+            text-align: center;
+            background: rgba(76, 175, 80, 0.2);
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.9rem;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            overflow: auto;
+            padding: 50px 0;
+        }
+        
+        .modal-content {
+            background: #111;
+            margin: 0 auto;
+            width: 90%;
+            max-width: 800px;
+            border-radius: 15px;
+            position: relative;
+            padding: 30px;
+            border: 3px solid var(--cyan);
+            box-shadow: 0 0 30px rgba(0, 188, 212, 0.7);
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 2rem;
+            color: var(--pink);
+            cursor: pointer;
+            z-index: 1001;
+        }
+        
+        .modal-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+        
+        @media (max-width: 768px) {
+            .modal-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .modal-image {
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .modal-info h2 {
+            color: var(--yellow);
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            text-shadow: 2px 2px 0 var(--orange);
+        }
+        
+        .info-row {
+            display: flex;
+            margin-bottom: 15px;
+            align-items: center;
+        }
+        
+        .info-label {
+            font-weight: bold;
+            color: var(--cyan);
+            width: 120px;
+            text-transform: uppercase;
+        }
+        
+        .info-value {
+            flex: 1;
+        }
+        
+        .modal-description {
+            margin-top: 20px;
+            line-height: 1.8;
         }
         
         footer {
-            background-color: #000;
+            background-color: rgba(0, 0, 0, 0.8);
             padding: 30px 0;
             text-align: center;
-            border-top: 3px solid var(--light-green);
+            border-top: 3px solid var(--pink);
+        }
+        
+        .footer-logo {
+            max-width: 200px;
+            margin-bottom: 20px;
         }
         
         .social-links {
@@ -202,7 +316,7 @@
         .social-icon {
             width: 40px;
             height: 40px;
-            background-color: var(--dark-purple);
+            background-color: var(--purple);
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -213,177 +327,381 @@
         }
         
         .social-icon:hover {
-            background-color: var(--light-green);
-            transform: translateY(-5px);
+            background-color: var(--pink);
+            transform: translateY(-5px) rotate(10deg);
         }
         
         .copyright {
             color: #777;
         }
         
-        /* Animation for the logo */
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
+        /* Floating cannabis leaves animation */
+        .floating-leaves {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: -1;
         }
         
-        .logo-icon {
-            animation: pulse 2s infinite;
+        .leaf {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            opacity: 0.5;
+            animation: float 15s linear infinite;
         }
         
-        /* Mobile responsiveness */
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.5;
+            }
+            90% {
+                opacity: 0.5;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
         @media (max-width: 768px) {
             nav ul {
-                flex-direction: column;
-                gap: 15px;
+                flex-wrap: wrap;
+                justify-content: center;
             }
             
-            .hero h2 {
-                font-size: 2.5rem;
+            .section-title {
+                font-size: 2.2rem;
             }
         }
     </style>
 </head>
 <body>
-    <div class="gradient-bg">
-        <header>
-            <div class="container">
-                <div class="logo">
-                    <div class="logo-icon">BF</div>
-                    <h1>Blow Flow Creationz</h1>
-                </div>
-                <nav>
-                    <ul>
-                        <li><a href="#home">Home</a></li>
-                        <li><a href="#about">About</a></li>
-                        <li><a href="#products">Products</a></li>
-                        <li><a href="#gallery">Gallery</a></li>
-                        <li><a href="#contact">Contact</a></li>
-                    </ul>
-                </nav>
+    <div class="background"></div>
+    <div class="light-rays"></div>
+    
+    <div class="floating-leaves" id="floatingLeaves"></div>
+    
+    <header>
+        <div class="container">
+            <div class="logo-container">
+                <img src="logo-placeholder.jpg" alt="Blow Flow Genetics" class="logo" id="mainLogo">
             </div>
-        </header>
-        
-        <section class="hero" id="home">
-            <div class="container">
-                <h2>Premium Cannabis Creations</h2>
-                <p>At Blow Flow Creationz, we combine art and science to create the finest cannabis products. From premium strains to innovative accessories, explore our world of high-quality creations.</p>
-                <a href="#products" class="cta-button">Explore Our Products</a>
+            <nav>
+                <ul>
+                    <li><a href="#strains">Strains</a></li>
+                    <li><a href="#products">Products</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <div class="main-content">
+        <div class="container">
+            <section id="strains">
+                <h2 class="section-title">Premium Strains</h2>
+                <div class="strain-grid">
+                    <!-- Strain Card 1 -->
+                    <div class="strain-card" data-strain="tyson-punch">
+                        <img src="strain1-placeholder.jpg" alt="Tyson Punch" class="strain-img">
+                        <div class="card-content">
+                            <h3 class="card-title">Tyson Punch</h3>
+                            <span class="strain-type">Indica Dominant</span>
+                            <p class="card-description">A knockout strain with powerful relaxing effects and fruity aroma.</p>
+                            <div class="strain-details">
+                                <div class="detail-item">Feminized</div>
+                                <div class="detail-item">Indoor/Outdoor</div>
+                                <div class="detail-item">8-9 Weeks</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Strain Card 2 -->
+                    <div class="strain-card" data-strain="cosmic-haze">
+                        <img src="strain2-placeholder.jpg" alt="Cosmic Haze" class="strain-img">
+                        <div class="card-content">
+                            <h3 class="card-title">Cosmic Haze</h3>
+                            <span class="strain-type">Sativa Dominant</span>
+                            <p class="card-description">Euphoric cerebral effects with tropical fruit and spice notes.</p>
+                            <div class="strain-details">
+                                <div class="detail-item">Autoflower</div>
+                                <div class="detail-item">Indoor</div>
+                                <div class="detail-item">10-11 Weeks</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Strain Card 3 -->
+                    <div class="strain-card" data-strain="purple-dream">
+                        <img src="strain3-placeholder.jpg" alt="Purple Dream" class="strain-img">
+                        <div class="card-content">
+                            <h3 class="card-title">Purple Dream</h3>
+                            <span class="strain-type">Hybrid</span>
+                            <p class="card-description">Beautiful purple buds with balanced effects and grape candy aroma.</p>
+                            <div class="strain-details">
+                                <div class="detail-item">Regular</div>
+                                <div class="detail-item">Indoor/Outdoor</div>
+                                <div class="detail-item">9-10 Weeks</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="products">
+                <h2 class="section-title">Crafted Items</h2>
+                <div class="products-grid">
+                    <!-- Product Card 1 -->
+                    <div class="product-card" data-product="premium-rolling-tray">
+                        <img src="product1-placeholder.jpg" alt="Premium Rolling Tray Bundle" class="product-img">
+                        <div class="card-content">
+                            <h3 class="card-title">Premium Rolling Tray Bundle</h3>
+                            <p class="card-description">Complete set with custom tray, grinder, papers, and accessories.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Product Card 2 -->
+                    <div class="product-card" data-product="glass-collection">
+                        <img src="product2-placeholder.jpg" alt="Artisan Glass Collection" class="product-img">
+                        <div class="card-content">
+                            <h3 class="card-title">Artisan Glass Collection</h3>
+                            <p class="card-description">Hand-blown glass pieces with psychedelic color patterns.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+    
+    <!-- Strain Modal Templates -->
+    <div class="modal" id="strainModal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="modal-grid">
+                <div class="modal-image-container">
+                    <img src="" alt="" class="modal-image" id="modalImage">
+                </div>
+                <div class="modal-info">
+                    <h2 id="modalTitle"></h2>
+                    <div class="info-row">
+                        <div class="info-label">Type:</div>
+                        <div class="info-value" id="modalType"></div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-label">THC:</div>
+                        <div class="info-value" id="modalTHC"></div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-label">CBD:</div>
+                        <div class="info-value" id="modalCBD"></div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-label">Flowering:</div>
+                        <div class="info-value" id="modalFlowering"></div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-label">Yield:</div>
+                        <div class="info-value" id="modalYield"></div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-label">Seeds:</div>
+                        <div class="info-value" id="modalSeeds"></div>
+                    </div>
+                    <div class="modal-description" id="modalDescription"></div>
+                </div>
             </div>
-        </section>
-        
-        <section class="container" id="about">
-            <div class="features">
-                <div class="feature-card">
-                    <div class="feature-icon">🌱</div>
-                    <h3>Premium Quality</h3>
-                    <p>We source only the finest materials and ingredients to ensure our products meet the highest standards of quality and potency.</p>
+        </div>
+    </div>
+    
+    <!-- Product Modal Template -->
+    <div class="modal" id="productModal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="modal-grid">
+                <div class="modal-image-container">
+                    <img src="" alt="" class="modal-image" id="productModalImage">
                 </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">🔬</div>
-                    <h3>Lab Tested</h3>
-                    <p>All our products undergo rigorous testing to ensure purity, potency, and safety for a superior experience every time.</p>
-                </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">🎨</div>
-                    <h3>Artistic Vision</h3>
-                    <p>We blend creativity with cannabis to deliver unique products that elevate both your experience and aesthetic sensibilities.</p>
+                <div class="modal-info">
+                    <h2 id="productModalTitle"></h2>
+                    <div class="modal-description" id="productModalDescription"></div>
                 </div>
             </div>
-        </section>
+        </div>
     </div>
     
     <footer>
         <div class="container">
+            <img src="logo-small-placeholder.jpg" alt="Blow Flow Genetics" class="footer-logo">
             <div class="social-links">
                 <a href="#" class="social-icon">f</a>
                 <a href="#" class="social-icon">in</a>
                 <a href="#" class="social-icon">ig</a>
             </div>
-            <p class="copyright">© 2025 Blow Flow Creationz. All rights reserved.</p>
+            <p class="copyright">© 2025 Blow Flow Genetics. All rights reserved.</p>
         </div>
     </footer>
 
     <script>
-        // Smooth scrolling for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
+        document.addEventListener('DOMContentLoaded', function() {
+            // Strain data
+            const strainData = {
+                'tyson-punch': {
+                    name: 'Tyson Punch',
+                    type: 'Indica Dominant (70% Indica / 30% Sativa)',
+                    image: 'strain1-placeholder.jpg',
+                    thc: '24-28%',
+                    cbd: '0.5-1%',
+                    flowering: '8-9 Weeks',
+                    yield: 'Indoor: 450-550g/m² | Outdoor: 600-800g/plant',
+                    seeds: 'Feminized - Pack of 5, 10, or 25 seeds',
+                    description: 'Tyson Punch is our flagship strain, delivering a powerful knockout effect that will leave you deeply relaxed. The buds develop beautiful purple hues when exposed to cooler temperatures during flowering. Expect a complex flavor profile with notes of grape, berries, and earthy spice. This strain is perfect for evening use, pain relief, and insomnia.'
+                },
+                'cosmic-haze': {
+                    name: 'Cosmic Haze',
+                    type: 'Sativa Dominant (80% Sativa / 20% Indica)',
+                    image: 'strain2-placeholder.jpg',
+                    thc: '22-26%',
+                    cbd: '0.2-0.8%',
+                    flowering: '10-11 Weeks',
+                    yield: 'Indoor: 400-500g/m² | Outdoor: 550-700g/plant',
+                    seeds: 'Autoflower - Pack of 3, 7, or 20 seeds',
+                    description: 'Cosmic Haze will take you on a cerebral journey with its euphoric and creative effects. This sativa-dominant strain features elongated, resin-coated buds with vibrant orange pistils. The aroma combines tropical fruits, citrus, and exotic spices for an unforgettable experience. Perfect for daytime use, creative activities, and social settings. The autoflowering version makes it easy to grow for beginners.'
+                },
+                'purple-dream': {
+                    name: 'Purple Dream',
+                    type: 'Hybrid (50% Indica / 50% Sativa)',
+                    image: 'strain3-placeholder.jpg',
+                    thc: '20-24%',
+                    cbd: '1-2%',
+                    flowering: '9-10 Weeks',
+                    yield: 'Indoor: 500-600g/m² | Outdoor: 650-850g/plant',
+                    seeds: 'Regular - Pack of 10 or 20 seeds',
+                    description: 'Purple Dream offers the best of both worlds with its perfectly balanced hybrid effects. The striking purple and blue hues make this a visually stunning strain. Expect a sweet grape candy aroma with subtle earthy undertones. The effects start with an uplifting cerebral buzz that gradually transitions into deep physical relaxation without sedation. Ideal for all-day use and creative relaxation.'
+                }
+            };
+            
+            // Product data
+            const productData = {
+                'premium-rolling-tray': {
+                    name: 'Premium Rolling Tray Bundle',
+                    image: 'product1-placeholder.jpg',
+                    description: 'Our Premium Rolling Tray Bundle includes everything you need for the perfect session. The bundle features a custom-designed metal rolling tray with our signature psychedelic art, a 4-piece metal grinder with pollen catcher, king size rolling papers, a rolling machine, herb storage container, and a custom lighter. All items come in a gift-ready package that makes this the ultimate accessory collection for enthusiasts.'
+                },
+                'glass-collection': {
+                    name: 'Artisan Glass Collection',
+                    image: 'product2-placeholder.jpg',
+                    description: 'Our Artisan Glass Collection features handcrafted, blown glass pieces created by local artists. Each piece is unique with swirling, psychedelic color patterns inspired by our strain artwork. The collection includes various sizes and designs, all made with premium borosilicate glass for durability and heat resistance. These limited edition pieces combine functionality with artistic expression, making them both practical tools and displayable art.'
+                }
+            };
+            
+            // Open strain modal
+            const strainCards = document.querySelectorAll('.strain-card');
+            const strainModal = document.getElementById('strainModal');
+            
+            strainCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    const strainId = this.getAttribute('data-strain');
+                    const strain = strainData[strainId];
+                    
+                    document.getElementById('modalTitle').textContent = strain.name;
+                    document.getElementById('modalImage').src = strain.image;
+                    document.getElementById('modalImage').alt = strain.name;
+                    document.getElementById('modalType').textContent = strain.type;
+                    document.getElementById('modalTHC').textContent = strain.thc;
+                    document.getElementById('modalCBD').textContent = strain.cbd;
+                    document.getElementById('modalFlowering').textContent = strain.flowering;
+                    document.getElementById('modalYield').textContent = strain.yield;
+                    document.getElementById('modalSeeds').textContent = strain.seeds;
+                    document.getElementById('modalDescription').textContent = strain.description;
+                    
+                    strainModal.style.display = 'block';
                 });
             });
-        });
-        
-        // Add animation to feature cards on scroll
-        const featureCards = document.querySelectorAll('.feature-card');
-        
-        function checkScroll() {
-            featureCards.forEach(card => {
-                const cardTop = card.getBoundingClientRect().top;
-                if (cardTop < window.innerHeight - 100) {
-                    card.style.opacity = 1;
-                    card.style.transform = 'translateY(0)';
+            
+            // Open product modal
+            const productCards = document.querySelectorAll('.product-card');
+            const productModal = document.getElementById('productModal');
+            
+            productCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    const productId = this.getAttribute('data-product');
+                    const product = productData[productId];
+                    
+                    document.getElementById('productModalTitle').textContent = product.name;
+                    document.getElementById('productModalImage').src = product.image;
+                    document.getElementById('productModalImage').alt = product.name;
+                    document.getElementById('productModalDescription').textContent = product.description;
+                    
+                    productModal.style.display = 'block';
+                });
+            });
+            
+            // Close modals
+            const closeButtons = document.querySelectorAll('.close-modal');
+            
+            closeButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    strainModal.style.display = 'none';
+                    productModal.style.display = 'none';
+                });
+            });
+            
+            // Close modal when clicking outside
+            window.addEventListener('click', function(event) {
+                if (event.target === strainModal) {
+                    strainModal.style.display = 'none';
+                }
+                if (event.target === productModal) {
+                    productModal.style.display = 'none';
                 }
             });
-        }
-        
-        // Set initial state for cards
-        featureCards.forEach(card => {
-            card.style.opacity = 0;
-            card.style.transform = 'translateY(50px)';
-            card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-        });
-        
-        // Check on scroll and initial load
-        window.addEventListener('scroll', checkScroll);
-        window.addEventListener('load', checkScroll);
-        
-        // Add random sparkle effect to the hero section
-        const hero = document.querySelector('.hero');
-        
-        function createSparkle() {
-            const sparkle = document.createElement('div');
-            sparkle.style.position = 'absolute';
-            sparkle.style.width = '5px';
-            sparkle.style.height = '5px';
-            sparkle.style.backgroundColor = Math.random() > 0.5 ? '#4CAF50' : '#7344A0';
-            sparkle.style.borderRadius = '50%';
-            sparkle.style.pointerEvents = 'none';
             
-            // Random position
-            sparkle.style.left = Math.random() * 100 + '%';
-            sparkle.style.top = Math.random() * 100 + '%';
+            // Create floating cannabis leaves
+            const leavesContainer = document.getElementById('floatingLeaves');
+            const leafColors = ['#4CAF50', '#8BC34A', '#CDDC39', '#7B1FA2', '#9C27B0'];
             
-            // Animation
-            sparkle.style.animation = `sparkle ${Math.random() * 2 + 1}s linear forwards`;
-            
-            // Add to hero
-            hero.appendChild(sparkle);
-            
-            // Remove after animation
-            setTimeout(() => {
-                sparkle.remove();
-            }, 3000);
-        }
-        
-        // Create keyframe animation
-        const style = document.createElement('style');
-        style.innerHTML = `
-            @keyframes sparkle {
-                0% { transform: scale(0); opacity: 0; }
-                50% { transform: scale(1); opacity: 1; }
-                100% { transform: scale(0); opacity: 0; }
+            function createLeaf() {
+                const leaf = document.createElement('div');
+                leaf.className = 'leaf';
+                leaf.style.left = Math.random() * 100 + 'vw';
+                leaf.style.animationDuration = Math.random() * 15 + 15 + 's';
+                leaf.style.width = Math.random() * 30 + 20 + 'px';
+                leaf.style.height = leaf.style.width;
+                
+                // Create SVG cannabis leaf as background
+                const color = leafColors[Math.floor(Math.random() * leafColors.length)];
+                const svgData = `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='${encodeURIComponent(color)}' d='M50 0c-2.5 20-10 30-20 40 10 2.5 17.5-2.5 20-10 2.5 7.5 10 12.5 20 10-10-10-17.5-20-20-40zM50 50c-2.5 20-10 30-20 40 10 2.5 17.5-2.5 20-10 2.5 7.5 10 12.5 20 10-10-10-17.5-20-20-40z'/%3E%3Cpath fill='${encodeURIComponent(color)}' d='M30 50c-20-2.5-30-10-40-20 2.5 10-2.5 17.5-10 20 7.5 2.5 12.5 10 10 20-10-10-20-17.5-40-20 20-2.5 30-10 40-20-2.5-10 2.5-17.5 10-20-7.5-2.5-12.5-10-10-20 10 10 20 17.5 40 20zM70 50c20-2.5 30-10 40-20-2.5 10 2.5 17.5 10 20-7.5 2.5-12.5 10-10 20 10-10 20-17.5 40-20-20-2.5-30-10-40-20 2.5-10-2.5-17.5-10-20 7.5-2.5 12.5-10 10-20-10 10-20 17.5-40 20z'/%3E%3C/svg%3E`;
+                
+                leaf.style.backgroundImage = `url("${svgData}")`;
+                leaf.style.transform = `rotate(${Math.random() * 360}deg)`;
+                
+                leavesContainer.appendChild(leaf);
+                
+                // Remove leaf after animation completes
+                setTimeout(() => {
+                    leaf.remove();
+                }, 30000);
             }
-        `;
-        document.head.appendChild(style);
-        
-        // Create sparkles periodically
-        setInterval(createSparkle, 300);
+            
+            // Create leaves every 2 seconds
+            setInterval(createLeaf, 2000);
+            
+            // Create initial leaves
+            for (let i = 0; i < 10; i++) {
+                createLeaf();
+            }
+        });
     </script>
 </body>
 </html>
