@@ -693,27 +693,44 @@
 				// Random horizontal position
 				leaf.style.left = Math.random() * 100 + 'vw';
 				
+				// Set position to bottom of screen
+				leaf.style.top = 'auto';
+				leaf.style.bottom = '-50px';
+				
 				// Random leaf size
-				const leafSize = Math.random() * 40 + 30;
+				const leafSize = Math.random() * 30 + 20;
 				leaf.style.width = leafSize + 'px';
 				leaf.style.height = leafSize + 'px';
 				
-				// Use the PNG image
+				// Keep the PNG image
 				leaf.style.backgroundImage = 'url("/img/cannabis-leaf.png")';
 				
-				// Set different animation durations
-				const floatDuration = Math.random() * 15 + 20;
-				const rotateDuration = Math.random() * 10 + 10;
+				// Set animation properties directly
+				leaf.style.animation = '';
 				
-				// Important: Apply these as separate animations
-				leaf.style.animation = `float ${floatDuration}s linear forwards, rotate ${rotateDuration}s linear infinite`;
-				
+				// Add to container
 				leavesContainer.appendChild(leaf);
 				
-				// Remove leaf after animation completes
+				// Float animation
+				const duration = Math.random() * 15 + 15;
+				
+				// Using the built-in animate method that works with existing code
+				leaf.animate([
+					{ transform: 'translateY(0) rotate(0deg)', opacity: 0 },
+					{ transform: 'translateY(-100px) rotate(60deg)', opacity: 0.7, offset: 0.1 },
+					{ transform: 'translateY(-300px) rotate(120deg)', opacity: 0.7, offset: 0.3 },
+					{ transform: 'translateY(-600px) rotate(240deg)', opacity: 0.7, offset: 0.6 },
+					{ transform: 'translateY(-1000px) rotate(360deg)', opacity: 0 }
+				], {
+					duration: duration * 1000,
+					easing: 'linear',
+					fill: 'forwards'
+				});
+				
+				// Remove leaf after animation
 				setTimeout(() => {
 					leaf.remove();
-				}, floatDuration * 1000 + 1000); // Convert seconds to milliseconds and add a buffer
+				}, duration * 1000);
 			}
             
             // Create leaves every 2 seconds
