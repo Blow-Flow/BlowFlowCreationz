@@ -3,26 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	
-	<!-- Primary Meta Tags -->
-	<meta name="title" content="Blow Flow Genetics">
-	<meta name="description" content="Premium cannabis genetics with unique strains. Quality seeds and accessories for cannabis enthusiasts and growers.">
+    
+    <!-- Primary Meta Tags -->
+    <meta name="title" content="Blow Flow Genetics">
+    <meta name="description" content="Premium cannabis genetics with unique strains. Quality seeds and accessories for cannabis enthusiasts and growers.">
 
-	<!-- Open Graph / Facebook / Discord -->
-	<meta property="og:type" content="website">
-	<meta property="og:url" content="https://blowflowcreationz.com/">
-	<meta property="og:title" content="Blow Flow Genetics">
-	<meta property="og:description" content="Premium cannabis genetics with unique strains. Quality seeds and accessories for cannabis enthusiasts and growers.">
-	<meta property="og:image" content="https://blowflowcreationz.com/img/social-preview.jpg?v=5">
+    <!-- Open Graph / Facebook / Discord -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://blowflowcreationz.com/">
+    <meta property="og:title" content="Blow Flow Genetics">
+    <meta property="og:description" content="Premium cannabis genetics with unique strains. Quality seeds and accessories for cannabis enthusiasts and growers.">
+    <meta property="og:image" content="https://blowflowcreationz.com/img/social-preview.jpg?v=5">
 
-	<!-- Twitter -->
-	<meta property="twitter:card" content="summary_large_image">
-	<meta property="twitter:url" content="https://blowflowcreationz.com/">
-	<meta property="twitter:title" content="Blow Flow Genetics">
-	<meta property="twitter:description" content="Premium cannabis genetics with unique strains. Quality seeds and accessories for cannabis enthusiasts and growers.">
-	<meta property="twitter:image" content="https://blowflowcreationz.com/img/social-preview.jpg?v=5">
-	
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://blowflowcreationz.com/">
+    <meta property="twitter:title" content="Blow Flow Genetics">
+    <meta property="twitter:description" content="Premium cannabis genetics with unique strains. Quality seeds and accessories for cannabis enthusiasts and growers.">
+    <meta property="twitter:image" content="https://blowflowcreationz.com/img/social-preview.jpg?v=5">
+    
     <title>Blow Flow Genetics</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
     <style>
         :root {
             --purple: #6a1b9a;
@@ -37,7 +43,7 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Impact', 'Helvetica Neue', sans-serif;
+            font-family: 'Poppins', 'Helvetica Neue', sans-serif;
         }
         
         body {
@@ -54,6 +60,18 @@
             width: 100%;
             height: 100%;
             background: radial-gradient(circle at center, #3a086b 0%, #111 100%);
+            z-index: -3;
+        }
+        
+        .logo-background {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            max-width: 1000px;
+            height: auto;
+            opacity: 0.1;
             z-index: -2;
         }
         
@@ -70,8 +88,15 @@
         }
         
         header {
-            padding: 20px 0;
-            position: relative;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid var(--cyan);
+            z-index: 1000;
+            box-shadow: 0 0 20px rgba(0, 188, 212, 0.5);
         }
         
         .container {
@@ -80,26 +105,31 @@
             margin: 0 auto;
         }
         
-        .logo-container {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        
-        .logo {
-            max-width: 600px;
-            margin: 0 auto;
-            filter: drop-shadow(0 0 10px rgba(255, 87, 34, 0.8));
-        }
-        
-        nav {
+        .header-container {
             display: flex;
-            justify-content: center;
-            margin: 30px 0;
-            background: rgba(0, 0, 0, 0.5);
-            padding: 15px;
-            border-radius: 50px;
-            border: 2px solid var(--cyan);
-            box-shadow: 0 0 20px rgba(0, 188, 212, 0.5);
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+        
+        .header-logo {
+            height: 60px;
+            filter: drop-shadow(0 0 5px rgba(255, 87, 34, 0.8));
+        }
+        
+        .site-title {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 1.8rem;
+            margin-left: 15px;
+            color: var(--yellow);
+            text-shadow: 2px 2px 0 var(--orange), 
+                        -2px -2px 0 var(--cyan);
         }
         
         nav ul {
@@ -111,8 +141,8 @@
         nav a {
             color: #fff;
             text-decoration: none;
-            font-weight: bold;
-            font-size: 1.2rem;
+            font-weight: 600;
+            font-size: 1.1rem;
             text-transform: uppercase;
             letter-spacing: 1px;
             transition: all 0.3s;
@@ -128,11 +158,12 @@
         }
         
         .main-content {
-            padding: 40px 0;
+            padding: 130px 0 40px;
         }
         
         .section-title {
             text-align: center;
+            font-family: 'Montserrat', sans-serif;
             font-size: 3rem;
             margin-bottom: 40px;
             text-transform: uppercase;
@@ -142,14 +173,14 @@
             letter-spacing: 2px;
         }
         
-        .strain-grid, .products-grid {
+        .strain-grid, .products-grid, .merch-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 30px;
             margin-bottom: 60px;
         }
         
-        .strain-card, .product-card {
+        .strain-card, .product-card, .merch-card {
             background: rgba(0, 0, 0, 0.7);
             border-radius: 15px;
             overflow: hidden;
@@ -158,7 +189,7 @@
             cursor: pointer;
         }
         
-        .strain-card::before, .product-card::before {
+        .strain-card::before, .product-card::before, .merch-card::before {
             content: '';
             position: absolute;
             top: -2px;
@@ -178,27 +209,29 @@
             100% { background-position: 0% 50%; }
         }
         
-        .strain-card:hover, .product-card:hover {
+        .strain-card:hover, .product-card:hover, .merch-card:hover {
             transform: translateY(-10px) scale(1.03);
             box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
         }
         
-		.strain-img, .product-img {
-			width: 100%;
-			aspect-ratio: 1/1;
-			object-fit: cover;
-			border-bottom: 3px solid var(--green);
-		}
+        .strain-img, .product-img, .merch-img {
+            width: 100%;
+            aspect-ratio: 1/1;
+            object-fit: cover;
+            border-bottom: 3px solid var(--green);
+        }
         
         .card-content {
             padding: 20px;
         }
         
         .card-title {
-            font-size: 1.8rem;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.6rem;
             margin-bottom: 10px;
             color: var(--cyan);
             text-transform: uppercase;
+            font-weight: 700;
         }
         
         .strain-type {
@@ -214,9 +247,10 @@
         .card-description {
             color: #ccc;
             margin-bottom: 15px;
+            font-weight: 300;
         }
         
-        .strain-details, .product-details {
+        .strain-details, .product-details, .merch-details {
             display: flex;
             justify-content: space-between;
             margin-top: 15px;
@@ -228,6 +262,17 @@
             padding: 5px 10px;
             border-radius: 5px;
             font-size: 0.9rem;
+        }
+        
+        .price-tag {
+            display: inline-block;
+            background-color: var(--orange);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-top: 10px;
         }
         
         .modal {
@@ -275,6 +320,26 @@
             .modal-grid {
                 grid-template-columns: 1fr;
             }
+            
+            .header-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .logo-container {
+                margin-bottom: 15px;
+                justify-content: center;
+            }
+            
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 15px;
+            }
+            
+            .main-content {
+                padding-top: 170px;
+            }
         }
         
         .modal-image {
@@ -285,7 +350,8 @@
         
         .modal-info h2 {
             color: var(--yellow);
-            font-size: 2.5rem;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2.2rem;
             margin-bottom: 20px;
             text-transform: uppercase;
             text-shadow: 2px 2px 0 var(--orange);
@@ -311,6 +377,7 @@
         .modal-description {
             margin-top: 20px;
             line-height: 1.8;
+            font-weight: 300;
         }
         
         footer {
@@ -352,6 +419,7 @@
         
         .copyright {
             color: #777;
+            font-size: 0.9rem;
         }
         
         /* Floating cannabis leaves animation */
@@ -370,74 +438,88 @@
             position: absolute;
             width: 40px;
             height: 40px;
-            background-size: contain;
-            background-repeat: no-repeat;
-            opacity: 0.5;
-            animation: float 15s linear infinite;
+            background-size: contain !important;
+            background-repeat: no-repeat !important;
+            background-position: center center !important;
+            z-index: -1;
+            will-change: transform;
+            animation-timing-function: linear;
         }
-				
-		@keyframes float {
-			0% {
-				transform: translateY(100vh);
-				opacity: 0;
-			}
-			10% {
-				opacity: 0.7;
-			}
-			90% {
-				opacity: 0.7;
-			}
-			100% {
-				transform: translateY(-100px);
-				opacity: 0;
-			}
-		}
+                
+        @keyframes float {
+            0% {
+                transform: translateY(100vh);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.7;
+            }
+            90% {
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(-100px);
+                opacity: 0;
+            }
+        }
 
-		@keyframes rotate {
-			0% { transform: rotate(0deg); }
-			100% { transform: rotate(360deg); }
-		}
-
-		.leaf {
-			position: absolute;
-			background-size: contain !important;
-			background-repeat: no-repeat !important;
-			background-position: center center !important;
-			z-index: -1;
-			will-change: transform;
-			animation-timing-function: linear;
-		}
+        /* Button Styles */
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(45deg, var(--purple), var(--pink));
+            color: white;
+            padding: 10px 20px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 15px;
+            box-shadow: 0 5px 15px rgba(233, 30, 99, 0.4);
+        }
         
-        @media (max-width: 768px) {
-            nav ul {
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-            
-            .section-title {
-                font-size: 2.2rem;
-            }
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(233, 30, 99, 0.6);
+        }
+        
+        /* Section spacing */
+        section {
+            padding: 50px 0;
+        }
+        
+        /* Scroll behavior */
+        html {
+            scroll-behavior: smooth;
         }
     </style>
 </head>
 <body>
     <div class="background"></div>
+    <img src="/img/logo-01.jpg" alt="Logo Background" class="logo-background">
     <div class="light-rays"></div>
     
     <div class="floating-leaves" id="floatingLeaves"></div>
     
     <header>
         <div class="container">
-            <div class="logo-container">
-                <img src="/img/logo-placeholder.jpg" alt="Blow Flow Genetics" class="logo" id="mainLogo">
+            <div class="header-container">
+                <div class="logo-container">
+                    <img src="/img/logo-01.jpg" alt="Blow Flow Genetics" class="header-logo">
+                    <h1 class="site-title">Blow Flow Genetics</h1>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="#strains">Strains</a></li>
+                        <li><a href="#products">Products</a></li>
+                        <li><a href="#merchandise">Merchandise</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </nav>
             </div>
-            <nav>
-                <ul>
-                    <li><a href="#strains">Strains</a></li>
-                    <li><a href="#products">Products</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                </ul>
-            </nav>
         </div>
     </header>
     
@@ -446,36 +528,35 @@
             <section id="strains">
                 <h2 class="section-title">Premium Strains</h2>
                 <div class="strain-grid">
-					<!-- Strain Card 1 -->
-					<div class="strain-card" data-strain="tyson-punch">
-						<img src="/img/strain1-square.jpg" alt="Tyson Punch" class="strain-img">
-						<div class="card-content">
-							<h3 class="card-title">Tyson Punch Pie</h3>
-							<span class="strain-type">Indica Dominant</span>
-							<p class="card-description">A knockout strain with powerful relaxing effects and fruity aroma.</p>
-							<div class="strain-details">
-								<div class="detail-item">Feminized</div>
-								<div class="detail-item">Indoor/Outdoor</div>
-								<div class="detail-item">8-9 Weeks</div>
-							</div>
-						</div>
-					</div>
+                    <!-- Strain Card 1 -->
+                    <div class="strain-card" data-strain="tyson-punch">
+                        <img src="/img/strain1-square.jpg" alt="Tyson Punch" class="strain-img">
+                        <div class="card-content">
+                            <h3 class="card-title">Tyson Punch Pie</h3>
+                            <span class="strain-type">Indica Dominant</span>
+                            <p class="card-description">A knockout strain with powerful relaxing effects and fruity aroma.</p>
+                            <div class="strain-details">
+                                <div class="detail-item">Feminized</div>
+                                <div class="detail-item">Indoor/Outdoor</div>
+                                <div class="detail-item">8-9 Weeks</div>
+                            </div>
+                        </div>
+                    </div>
 
-					<!-- Strain Card 2 -->
-					<div class="strain-card" data-strain="cosmic-haze">
-						<img src="/img/strain2-square.jpg" alt="Dabzy Cut" class="strain-img">
-						<div class="card-content">
-							<h3 class="card-title">Dabzy Cut</h3>
-							<span class="strain-type">Hybrid</span>
-							<p class="card-description">Complex profile with red fruit, earthy notes, and OG Kush punch.</p>
-							<div class="strain-details">
-								<div class="detail-item">Feminized</div>
-								<div class="detail-item">Indoor</div>
-								<div class="detail-item">9-10 Weeks</div>
-							</div>
-						</div>
-					</div>
-
+                    <!-- Strain Card 2 -->
+                    <div class="strain-card" data-strain="cosmic-haze">
+                        <img src="/img/strain2-square.jpg" alt="Dabzy Cut" class="strain-img">
+                        <div class="card-content">
+                            <h3 class="card-title">Dabzy Cut</h3>
+                            <span class="strain-type">Hybrid</span>
+                            <p class="card-description">Complex profile with red fruit, earthy notes, and OG Kush punch.</p>
+                            <div class="strain-details">
+                                <div class="detail-item">Feminized</div>
+                                <div class="detail-item">Indoor</div>
+                                <div class="detail-item">9-10 Weeks</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </section>
             
@@ -499,6 +580,50 @@
                             <p class="card-description">Unique Lighting fixtures feature immaginative pieces created by local artists.</p>
                         </div>
                     </div>
+                </div>
+            </section>
+            
+            <!-- New Merchandise Section -->
+            <section id="merchandise">
+                <h2 class="section-title">Merchandise</h2>
+                <div class="merch-grid">
+                    <!-- Merch Card 1 -->
+                    <div class="merch-card" data-merch="branded-tshirt">
+                        <img src="/img/merch1-placeholder.jpg" alt="Branded T-Shirt" class="merch-img">
+                        <div class="card-content">
+                            <h3 class="card-title">Psychedelic Logo Tee</h3>
+                            <p class="card-description">Premium cotton t-shirt featuring our signature psychedelic logo design.</p>
+                            <span class="price-tag">$29.99</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Merch Card 2 -->
+                    <div class="merch-card" data-merch="snapback-cap">
+                        <img src="/img/merch2-placeholder.jpg" alt="Snapback Cap" class="merch-img">
+                        <div class="card-content">
+                            <h3 class="card-title">Embroidered Snapback</h3>
+                            <p class="card-description">High-quality snapback cap with embroidered logo and adjustable sizing.</p>
+                            <span class="price-tag">$24.99</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Merch Card 3 -->
+                    <div class="merch-card" data-merch="hoodie">
+                        <img src="/img/merch3-placeholder.jpg" alt="Hoodie" class="merch-img">
+                        <div class="card-content">
+                            <h3 class="card-title">Blow Flow Hoodie</h3>
+                            <p class="card-description">Heavyweight cotton blend hoodie with front and back prints.</p>
+                            <span class="price-tag">$59.99</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="contact">
+                <h2 class="section-title">Get In Touch</h2>
+                <div style="text-align: center; max-width: 600px; margin: 0 auto;">
+                    <p style="margin-bottom: 20px;">Have questions about our products or want to place a special order? Drop us a line and we'll get back to you as soon as possible.</p>
+                    <a href="mailto:info@blowflowcreationz.com" class="cta-button">Contact Us</a>
                 </div>
             </section>
         </div>
@@ -560,9 +685,34 @@
         </div>
     </div>
     
+    <!-- Merchandise Modal Template -->
+    <div class="modal" id="merchModal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="modal-grid">
+                <div class="modal-image-container">
+                    <img src="" alt="" class="modal-image" id="merchModalImage">
+                </div>
+                <div class="modal-info">
+                    <h2 id="merchModalTitle"></h2>
+                    <div class="modal-description" id="merchModalDescription"></div>
+                    <div class="info-row" style="margin-top: 20px;">
+                        <div class="info-label">Price:</div>
+                        <div class="info-value" id="merchModalPrice"></div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-label">Sizes:</div>
+                        <div class="info-value">S, M, L, XL, XXL</div>
+                    </div>
+                    <button class="cta-button" style="margin-top: 30px;">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
     <footer>
         <div class="container">
-            <img src="/img/logo-small-placeholder.jpg" alt="Blow Flow Genetics" class="footer-logo">
+            <img src="/img/logo-01.jpg" alt="Blow Flow Genetics" class="footer-logo">
             <div class="social-links">
                 <a href="#" class="social-icon">f</a>
                 <a href="#" class="social-icon">in</a>
@@ -575,32 +725,32 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Strain data
-			const strainData = {
-				'tyson-punch': {
-					name: 'Tyson Punch Pie',
-					type: 'Indica Dominant (90% Indica / 10% Sativa)',
-					image: '/img/strain1-placeholder.jpg',
-					cardImage: '/img/strain1-square.jpg', // New square image for cards
-					thc: '22%',
-					cbd: '0.1%',
-					flowering: '8-9 Weeks',
-					yield: 'Moderate - Benefits from multi-topping',
-					seeds: 'Feminized - Pack of 5, 10, or 25 seeds',
-					description: 'Tyson Punch Pie is our flagship strain, created from Purple Punch x Purple Kush genetics. It delivers a powerful knockout effect with a complex terpene profile featuring strong pineapple, sweet kushy gas, citrus, lime, and light cherry notes. The buds develop beautiful purple hues when properly cultivated. This heavy indica-dominant strain is perfect for evening use, pain relief, and relaxation.'
-				},
-				'cosmic-haze': {
-					name: 'Dabzy Cut',
-					type: 'Hybrid (French Toast x White Truffle)',
-					image: '/img/strain2-placeholder.jpg',
-					cardImage: '/img/strain2-square.jpg', // New square image for cards
-					thc: '24-26%',
-					cbd: '0.3-0.8%',
-					flowering: '9-10 Weeks',
-					yield: 'Indoor: 450-550g/m² | Outdoor: 600-800g/plant',
-					seeds: 'Feminized - Pack of 5, 10, or 20 seeds',
-					description: 'Dabzy Cut is a premium hybrid cross of French Toast and White Truffle. This exceptional strain offers a complex flavor profile featuring red fruit, earthy undertones, minty notes, and a distinct OG Kush punch. The stem rub reveals incredible lime and banana aromas with sweet cotton candy. While the flower delivers a very sweet experience, it leans slightly more toward the gassy side. Dabzy Cut produces a highly recognizable and thoroughly enjoyable smoke experience that stands out as a white out.'
-				}
-			};
+            const strainData = {
+                'tyson-punch': {
+                    name: 'Tyson Punch Pie',
+                    type: 'Indica Dominant (90% Indica / 10% Sativa)',
+                    image: '/img/strain1-placeholder.jpg',
+                    cardImage: '/img/strain1-square.jpg',
+                    thc: '22%',
+                    cbd: '0.1%',
+                    flowering: '8-9 Weeks',
+                    yield: 'Moderate - Benefits from multi-topping',
+                    seeds: 'Feminized - Pack of 3, 5, or 10 seeds',
+                    description: 'Tyson Punch Pie is our flagship strain, created from Purple Punch x Purple Kush genetics. It delivers a powerful knockout effect with a complex terpene profile featuring strong pineapple, sweet kushy gas, citrus, lime, and light cherry notes. The buds develop beautiful purple hues when properly cultivated. This heavy indica-dominant strain is perfect for evening use, pain relief, and relaxation.'
+                },
+                'cosmic-haze': {
+                    name: 'Dabzy Cut',
+                    type: 'Hybrid (French Toast x White Truffle)',
+                    image: '/img/strain2-placeholder.jpg',
+                    cardImage: '/img/strain2-square.jpg',
+                    thc: '24-26%',
+                    cbd: '0.3-0.8%',
+                    flowering: '9-10 Weeks',
+                    yield: 'Indoor: 450-550g/m² | Outdoor: 600-800g/plant',
+                    seeds: 'Feminized - Pack of 3, 5, or 10 seeds',
+                    description: 'Dabzy Cut is a premium hybrid cross of French Toast and White Truffle. This exceptional strain offers a complex flavor profile featuring red fruit, earthy undertones, minty notes, and a distinct OG Kush punch. The stem rub reveals incredible lime and banana aromas with sweet cotton candy. While the flower delivers a very sweet experience, it leans slightly more toward the gassy side. Dabzy Cut produces a highly recognizable and thoroughly enjoyable smoke experience that stands out as a white out.'
+                }
+            };
             
             // Product data
             const productData = {
@@ -616,29 +766,51 @@
                 }
             };
             
+            // Merchandise data
+            const merchData = {
+                'branded-tshirt': {
+                    name: 'Psychedelic Logo Tee',
+                    image: '/img/merch1-placeholder.jpg',
+                    price: '$29.99',
+                    description: 'Our premium cotton t-shirt features the signature Blow Flow Genetics psychedelic logo on the front with a full-back print showcasing our most popular strains in an artistic arrangement. Made from 100% organic cotton with a super soft finish, this shirt is both comfortable and durable. Available in black, purple, and white colorways.'
+                },
+                'snapback-cap': {
+                    name: 'Embroidered Snapback',
+                    image: '/img/merch2-placeholder.jpg',
+                    price: '$24.99',
+                    description: 'High-quality snapback cap featuring premium embroidery of our logo on the front panel. The adjustable snapback closure ensures one size fits most. Made from durable materials with a structured fit and flat brim. Available in black with multicolor embroidery that pops with our signature psychedelic colors.'
+                },
+                'hoodie': {
+                    name: 'Blow Flow Hoodie',
+                    image: '/img/merch3-placeholder.jpg',
+                    price: '$59.99',
+                    description: 'Our premium heavyweight hoodie features a comfortable cotton-polyester blend that's perfect for all seasons. The front showcases our embroidered logo while the back features a full-color print of our most iconic strain artwork. Complete with a kangaroo pocket, adjustable drawstring hood, and ribbed cuffs and waistband for the perfect fit.'
+                }
+            };
+            
             // Open strain modal
             const strainCards = document.querySelectorAll('.strain-card');
             const strainModal = document.getElementById('strainModal');
             
-			strainCards.forEach(card => {
-				card.addEventListener('click', function() {
-					const strainId = this.getAttribute('data-strain');
-					const strain = strainData[strainId];
-					
-					document.getElementById('modalTitle').textContent = strain.name;
-					document.getElementById('modalImage').src = strain.image; // Use the detailed image here
-					document.getElementById('modalImage').alt = strain.name;
-					document.getElementById('modalType').textContent = strain.type;
-					document.getElementById('modalTHC').textContent = strain.thc;
-					document.getElementById('modalCBD').textContent = strain.cbd;
-					document.getElementById('modalFlowering').textContent = strain.flowering;
-					document.getElementById('modalYield').textContent = strain.yield;
-					document.getElementById('modalSeeds').textContent = strain.seeds;
-					document.getElementById('modalDescription').textContent = strain.description;
-					
-					strainModal.style.display = 'block';
-				});
-			});
+            strainCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    const strainId = this.getAttribute('data-strain');
+                    const strain = strainData[strainId];
+                    
+                    document.getElementById('modalTitle').textContent = strain.name;
+                    document.getElementById('modalImage').src = strain.image;
+                    document.getElementById('modalImage').alt = strain.name;
+                    document.getElementById('modalType').textContent = strain.type;
+                    document.getElementById('modalTHC').textContent = strain.thc;
+                    document.getElementById('modalCBD').textContent = strain.cbd;
+                    document.getElementById('modalFlowering').textContent = strain.flowering;
+                    document.getElementById('modalYield').textContent = strain.yield;
+                    document.getElementById('modalSeeds').textContent = strain.seeds;
+                    document.getElementById('modalDescription').textContent = strain.description;
+                    
+                    strainModal.style.display = 'block';
+                });
+            });
             
             // Open product modal
             const productCards = document.querySelectorAll('.product-card');
@@ -658,6 +830,25 @@
                 });
             });
             
+            // Open merchandise modal
+            const merchCards = document.querySelectorAll('.merch-card');
+            const merchModal = document.getElementById('merchModal');
+            
+            merchCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    const merchId = this.getAttribute('data-merch');
+                    const merch = merchData[merchId];
+                    
+                    document.getElementById('merchModalTitle').textContent = merch.name;
+                    document.getElementById('merchModalImage').src = merch.image;
+                    document.getElementById('merchModalImage').alt = merch.name;
+                    document.getElementById('merchModalDescription').textContent = merch.description;
+                    document.getElementById('merchModalPrice').textContent = merch.price;
+                    
+                    merchModal.style.display = 'block';
+                });
+            });
+            
             // Close modals
             const closeButtons = document.querySelectorAll('.close-modal');
             
@@ -665,6 +856,7 @@
                 button.addEventListener('click', function() {
                     strainModal.style.display = 'none';
                     productModal.style.display = 'none';
+                    merchModal.style.display = 'none';
                 });
             });
             
@@ -676,58 +868,57 @@
                 if (event.target === productModal) {
                     productModal.style.display = 'none';
                 }
+                if (event.target === merchModal) {
+                    merchModal.style.display = 'none';
+                }
             });
             
             // Create floating cannabis leaves
             const leavesContainer = document.getElementById('floatingLeaves');
-            const leafColors = ['#4CAF50', '#8BC34A', '#CDDC39', '#7B1FA2', '#9C27B0'];
             
-			function createLeaf() {
-				const leaf = document.createElement('div');
-				leaf.className = 'leaf';
-				
-				// Random horizontal position
-				leaf.style.left = Math.random() * 100 + 'vw';
-				
-				// Set position to bottom of screen
-				leaf.style.top = 'auto';
-				leaf.style.bottom = '-50px';
-				
-				// Random leaf size
-				const leafSize = Math.random() * 30 + 20;
-				leaf.style.width = leafSize + 'px';
-				leaf.style.height = leafSize + 'px';
-				
-				// Keep the PNG image
-				leaf.style.backgroundImage = 'url("/img/cannabis-leaf.png")';
-				
-				// Set animation properties directly
-				leaf.style.animation = '';
-				
-				// Add to container
-				leavesContainer.appendChild(leaf);
-				
-				// Float animation
-				const duration = Math.random() * 15 + 15;
-				
-				// Using the built-in animate method that works with existing code
-				leaf.animate([
-					{ transform: 'translateY(0) rotate(0deg)', opacity: 0 },
-					{ transform: 'translateY(-100px) rotate(60deg)', opacity: 0.7, offset: 0.1 },
-					{ transform: 'translateY(-300px) rotate(120deg)', opacity: 0.7, offset: 0.3 },
-					{ transform: 'translateY(-600px) rotate(240deg)', opacity: 0.7, offset: 0.6 },
-					{ transform: 'translateY(-1000px) rotate(360deg)', opacity: 0 }
-				], {
-					duration: duration * 1000,
-					easing: 'linear',
-					fill: 'forwards'
-				});
-				
-				// Remove leaf after animation
-				setTimeout(() => {
-					leaf.remove();
-				}, duration * 1000);
-			}
+            function createLeaf() {
+                const leaf = document.createElement('div');
+                leaf.className = 'leaf';
+                
+                // Random horizontal position
+                leaf.style.left = Math.random() * 100 + 'vw';
+                
+                // Set position to bottom of screen
+                leaf.style.top = 'auto';
+                leaf.style.bottom = '-50px';
+                
+                // Random leaf size
+                const leafSize = Math.random() * 30 + 20;
+                leaf.style.width = leafSize + 'px';
+                leaf.style.height = leafSize + 'px';
+                
+                // Keep the PNG image
+                leaf.style.backgroundImage = 'url("/img/cannabis-leaf.png")';
+                
+                // Add to container
+                leavesContainer.appendChild(leaf);
+                
+                // Float animation
+                const duration = Math.random() * 15 + 15;
+                
+                // Using the built-in animate method that works with existing code
+                leaf.animate([
+                    { transform: 'translateY(0) rotate(0deg)', opacity: 0 },
+                    { transform: 'translateY(-100px) rotate(60deg)', opacity: 0.7, offset: 0.1 },
+                    { transform: 'translateY(-300px) rotate(120deg)', opacity: 0.7, offset: 0.3 },
+                    { transform: 'translateY(-600px) rotate(240deg)', opacity: 0.7, offset: 0.6 },
+                    { transform: 'translateY(-1000px) rotate(360deg)', opacity: 0 }
+                ], {
+                    duration: duration * 1000,
+                    easing: 'linear',
+                    fill: 'forwards'
+                });
+                
+                // Remove leaf after animation
+                setTimeout(() => {
+                    leaf.remove();
+                }, duration * 1000);
+            }
             
             // Create leaves every 2 seconds
             setInterval(createLeaf, 2000);
@@ -736,6 +927,21 @@
             for (let i = 0; i < 10; i++) {
                 createLeaf();
             }
+            
+            // Smooth scrolling for navigation links
+            document.querySelectorAll('nav a').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                });
+            });
         });
     </script>
 </body>
