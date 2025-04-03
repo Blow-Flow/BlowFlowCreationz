@@ -356,20 +356,20 @@
             opacity: 0.5;
             animation: float 15s linear infinite;
         }
-        
+				
 		@keyframes float {
 			0% {
-				transform: translateY(100vh) rotate(0deg);
+				transform: translateY(100vh);
 				opacity: 0;
 			}
 			10% {
-				opacity: 0.8;
+				opacity: 0.7;
 			}
 			90% {
-				opacity: 0.8;
+				opacity: 0.7;
 			}
 			100% {
-				transform: translateY(-100px) rotate(360deg);
+				transform: translateY(-100px);
 				opacity: 0;
 			}
 		}
@@ -377,6 +377,16 @@
 		@keyframes rotate {
 			0% { transform: rotate(0deg); }
 			100% { transform: rotate(360deg); }
+		}
+
+		.leaf {
+			position: absolute;
+			background-size: contain !important;
+			background-repeat: no-repeat !important;
+			background-position: center center !important;
+			z-index: -1;
+			will-change: transform;
+			animation-timing-function: linear;
 		}
         
         @media (max-width: 768px) {
@@ -679,6 +689,8 @@
 			function createLeaf() {
 				const leaf = document.createElement('div');
 				leaf.className = 'leaf';
+				
+				// Random horizontal position
 				leaf.style.left = Math.random() * 100 + 'vw';
 				
 				// Random leaf size
@@ -688,26 +700,20 @@
 				
 				// Use the PNG image
 				leaf.style.backgroundImage = 'url("/img/cannabis-leaf.png")';
-				leaf.style.backgroundSize = 'contain';
-				leaf.style.backgroundRepeat = 'no-repeat';
 				
-				// Random starting rotation
-				const startRotation = Math.random() * 360;
-				leaf.style.transform = `rotate(${startRotation}deg)`;
-				
-				// Animation duration
+				// Set different animation durations
 				const floatDuration = Math.random() * 15 + 20;
 				const rotateDuration = Math.random() * 10 + 10;
 				
-				// Apply animations
-				leaf.style.animation = `float ${floatDuration}s linear infinite, rotate ${rotateDuration}s linear infinite`;
+				// Important: Apply these as separate animations
+				leaf.style.animation = `float ${floatDuration}s linear forwards, rotate ${rotateDuration}s linear infinite`;
 				
 				leavesContainer.appendChild(leaf);
 				
 				// Remove leaf after animation completes
 				setTimeout(() => {
 					leaf.remove();
-				}, 35000);
+				}, floatDuration * 1000 + 1000); // Convert seconds to milliseconds and add a buffer
 			}
             
             // Create leaves every 2 seconds
