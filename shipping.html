@@ -215,6 +215,47 @@
             font-size: 0.9rem;
         }
 
+		/* Floating cannabis leaves animation */
+		.floating-leaves {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			overflow: hidden;
+			pointer-events: none;
+			z-index: -1;
+		}
+
+		.leaf {
+			position: absolute;
+			width: 40px;
+			height: 40px;
+			background-size: contain !important;
+			background-repeat: no-repeat !important;
+			background-position: center center !important;
+			z-index: -1;
+			will-change: transform;
+			animation-timing-function: linear;
+		}
+				
+		@keyframes float {
+			0% {
+				transform: translateY(100vh);
+				opacity: 0;
+			}
+			10% {
+				opacity: 0.7;
+			}
+			90% {
+				opacity: 0.7;
+			}
+			100% {
+				transform: translateY(-100px);
+				opacity: 0;
+			}
+		}
+
         @media (max-width: 768px) {
             .footer-content {
                 grid-template-columns: 1fr 1fr;
@@ -249,6 +290,7 @@
     </style>
 </head>
 <body>
+	<script src="/js/leaves.js"></script>
     <div class="background"></div>
     
     <header>
