@@ -1159,45 +1159,79 @@
 				}
             };
 			
-            // Product data
-            const productData = {
-                'premium-rolling-tray': {
-                    id: 'premium-rolling-tray',
-                    name: 'Premium Rolling Tray Bundle',
-                    image: '/img/product1-placeholder.jpg',
-                    price: 49.99,
-                    category: 'product',
-                    description: 'Our Premium Rolling Tray Bundle includes everything you need for the perfect session. The bundle features a custom-designed metal rolling tray with our signature psychedelic art, a 4-piece metal grinder with pollen catcher, king size rolling papers, a rolling machine, herb storage container, and a custom lighter. All items come in a gift-ready package that makes this the ultimate accessory collection for enthusiasts.'
-                },
-                'glass-collection': {
-                    id: 'glass-collection',
-                    name: 'Custom Lighting & Decor',
-                    image: '/img/product2-placeholder.jpg',
-                    price: 129.99,
-                    category: 'product',
-                    description: 'Our Unique Lighting fixtures feature handcrafted immaginative pieces created by local artists. Each piece is unique and inspired by our local flair and flavor. The collection includes various sizes and designs, all made with premium materials and concepts. These limited edition pieces combine functionality with artistic expression, making them both practical and displayable art.'
-                }
-            };
+			// Product data
+			const productData = {
+				'premium-rolling-tray': {
+					id: 'premium-rolling-tray',
+					name: 'Premium Rolling Tray Bundle',
+					image: '/img/product1-placeholder.jpg',
+					price: 40.00,
+					category: 'product',
+					description: 'Our Premium Rolling Tray Bundle includes everything you need for the perfect session. The bundle features a custom-designed metal rolling tray with our signature psychedelic art, a 4-piece metal grinder with pollen catcher, king size rolling papers, a rolling machine, herb storage container, and a custom lighter. All items come in a gift-ready package that makes this the ultimate accessory collection for enthusiasts.',
+					hasOptions: true,
+					optionType: 'Character',
+					options: [
+						{ name: 'Smoking Character', price: 40.00 },
+						{ name: 'Drinking Character', price: 42.00 },
+						{ name: 'Smoking Themed', price: 45.00 },
+						{ name: 'Custom Design', price: 50.00 }
+					]
+				},
+				'glass-collection': {
+					id: 'glass-collection',
+					name: 'Custom Lighting & Decor',
+					image: '/img/product2-placeholder.jpg',
+					price: 60.00,
+					category: 'product',
+					description: 'Our Unique Lighting fixtures feature handcrafted immaginative pieces created by local artists. Each piece is unique and inspired by our local flair and flavor. The collection includes various sizes and designs, all made with premium materials and concepts. These limited edition pieces combine functionality with artistic expression, making them both practical and displayable art.',
+					hasOptions: true,
+					optionType: 'Style',
+					options: [
+						{ name: 'Classic Style', price: 60.00 },
+						{ name: 'Modern Style', price: 65.00 },
+						{ name: 'Abstract Style', price: 70.00 },
+						{ name: 'Custom Design', price: 80.00 }
+					]
+				}
+			};
             
-            // Merchandise data
-            const merchData = {
-                'merch1': {
-                    id: 'merch1',
-                    name: 'Custom Hoodie #1',
-                    image: '/img/merch1-placeholder.jpg',
-                    price: 24.99,
-                    category: 'merch',
-                    description: 'Our premium heavyweight hoodie features a comfortable cotton-polyester blend that is perfect for all seasons. The front showcases our custom designs. Complete with a kangaroo pocket, adjustable drawstring hood, and ribbed cuffs and waistband for the perfect fit.'
-                },
-                'merch2': {
-                    id: 'merch2',
-                    name: 'Custom Hoodie #2',
-                    image: '/img/merch2-placeholder.jpg',
-                    price: 24.99,
-                    category: 'merch',
-                    description: 'Our premium heavyweight hoodie features a comfortable cotton-polyester blend that is perfect for all seasons. The front showcases our custom designs. Complete with a kangaroo pocket, adjustable drawstring hood, and ribbed cuffs and waistband for the perfect fit.'
-                }
-            };
+			// Merchandise data
+			const merchData = {
+				'merch1': {
+					id: 'merch1',
+					name: 'Custom Hoodie #1',
+					image: '/img/merch1-placeholder.jpg',
+					price: 24.99,
+					category: 'merch',
+					description: 'Our premium heavyweight hoodie features a comfortable cotton-polyester blend that is perfect for all seasons. The front showcases our custom designs. Complete with a kangaroo pocket, adjustable drawstring hood, and ribbed cuffs and waistband for the perfect fit.',
+					hasOptions: true,
+					optionType: 'Size',
+					options: [
+						{ name: 'Small', price: 24.99 },
+						{ name: 'Medium', price: 24.99 },
+						{ name: 'Large', price: 24.99 },
+						{ name: 'XL', price: 26.99 },
+						{ name: 'XXL', price: 28.99 }
+					]
+				},
+				'merch2': {
+					id: 'merch2',
+					name: 'Custom Hoodie #2',
+					image: '/img/merch2-placeholder.jpg',
+					price: 24.99,
+					category: 'merch',
+					description: 'Our premium heavyweight hoodie features a comfortable cotton-polyester blend that is perfect for all seasons. The front showcases our custom designs. Complete with a kangaroo pocket, adjustable drawstring hood, and ribbed cuffs and waistband for the perfect fit.',
+					hasOptions: true,
+					optionType: 'Size',
+					options: [
+						{ name: 'Small', price: 24.99 },
+						{ name: 'Medium', price: 24.99 },
+						{ name: 'Large', price: 24.99 },
+						{ name: 'XL', price: 26.99 },
+						{ name: 'XXL', price: 28.99 }
+					]
+				}
+			};
             
             // Combine all product data for easier access
             const allProducts = {
@@ -1313,71 +1347,314 @@
             const productCards = document.querySelectorAll('.product-card');
             const productModal = document.getElementById('productModal');
             
-            productCards.forEach(card => {
-                card.addEventListener('click', function() {
-                    const productId = this.getAttribute('data-product');
-                    const product = productData[productId];
-                    
-                    document.getElementById('productModalTitle').textContent = product.name;
-                    document.getElementById('productModalImage').src = product.image;
-                    document.getElementById('productModalImage').alt = product.name;
-                    document.getElementById('productModalDescription').textContent = product.description;
-                    
-                    productModal.style.display = 'block';
-                    
-                    // Add "Add to Cart" button to product modal
-                    setTimeout(() => {
-                        const modalContent = document.querySelector('#productModal .modal-info');
-                        
-                        // Check if button already exists
-                        if (!document.getElementById('addProductToCartBtn')) {
-                            const addButton = document.createElement('button');
-                            addButton.className = 'cta-button';
-                            addButton.id = 'addProductToCartBtn';
-                            addButton.textContent = 'Add to Cart';
-                            addButton.setAttribute('data-id', productId);
-                            addButton.style.marginTop = '20px';
-                            
-                            modalContent.appendChild(addButton);
-                            
-                            addButton.addEventListener('click', function() {
-                                const productId = this.getAttribute('data-id');
-                                addToCart(productId);
-                            });
-                        } else {
-                            document.getElementById('addProductToCartBtn').setAttribute('data-id', productId);
-                        }
-                    }, 100);
-                });
-            });
+			// Update this section where you handle the product modal click events
+			productCards.forEach(card => {
+				card.addEventListener('click', function() {
+					const productId = this.getAttribute('data-product');
+					const product = productData[productId];
+					
+					document.getElementById('productModalTitle').textContent = product.name;
+					document.getElementById('productModalImage').src = product.image;
+					document.getElementById('productModalImage').alt = product.name;
+					document.getElementById('productModalDescription').textContent = product.description;
+					
+					productModal.style.display = 'block';
+					
+					// Add "Add to Cart" button and options to product modal
+					setTimeout(() => {
+						const modalContent = document.querySelector('#productModal .modal-info');
+						
+						// Clear previous content
+						if (document.getElementById('productOptionsContainer')) {
+							document.getElementById('productOptionsContainer').remove();
+						}
+						if (document.getElementById('customNoteContainer')) {
+							document.getElementById('customNoteContainer').remove();
+						}
+						if (document.getElementById('addProductToCartBtn')) {
+							document.getElementById('addProductToCartBtn').remove();
+						}
+						
+						// Add options if available
+						if (product.hasOptions && product.options && product.options.length > 0) {
+							const optionsContainer = document.createElement('div');
+							optionsContainer.id = 'productOptionsContainer';
+							optionsContainer.style.marginTop = '20px';
+							
+							const optionsTitle = document.createElement('h3');
+							optionsTitle.style.color = 'var(--cyan)';
+							optionsTitle.textContent = `Select ${product.optionType}:`;
+							optionsContainer.appendChild(optionsTitle);
+							
+							const optionsButtonsContainer = document.createElement('div');
+							optionsButtonsContainer.style.display = 'flex';
+							optionsButtonsContainer.style.flexWrap = 'wrap';
+							optionsButtonsContainer.style.gap = '10px';
+							optionsButtonsContainer.style.marginTop = '10px';
+							
+							product.options.forEach((option, index) => {
+								const optionButton = document.createElement('div');
+								optionButton.className = 'pack-option-button';
+								optionButton.setAttribute('data-option-index', index);
+								optionButton.innerHTML = `
+									<span class="pack-size">${option.name}</span>
+									<div class="pack-price">
+										<span class="sale-price">$${option.price.toFixed(2)}</span>
+									</div>
+								`;
+								
+								optionButton.addEventListener('click', function() {
+									document.querySelectorAll('#productOptionsContainer .pack-option-button').forEach(btn => {
+										btn.classList.remove('selected');
+									});
+									this.classList.add('selected');
+								});
+								
+								optionsButtonsContainer.appendChild(optionButton);
+							});
+							
+							optionsContainer.appendChild(optionsButtonsContainer);
+							modalContent.appendChild(optionsContainer);
+							
+							// Add custom note for custom designs
+							if (product.options.some(option => option.name.includes('Custom'))) {
+								const customNoteContainer = document.createElement('div');
+								customNoteContainer.id = 'customNoteContainer';
+								customNoteContainer.style.marginTop = '15px';
+								customNoteContainer.style.padding = '10px';
+								customNoteContainer.style.backgroundColor = 'rgba(255, 87, 34, 0.2)';
+								customNoteContainer.style.borderRadius = '5px';
+								customNoteContainer.style.fontSize = '0.9rem';
+								customNoteContainer.innerHTML = '<strong>IMPORTANT:</strong> For custom designs, please make sure to review all edits before they are finalized. You will receive design proofs via email for approval.';
+								modalContent.appendChild(customNoteContainer);
+							}
+							
+							// Select first option by default
+							if (optionsButtonsContainer.querySelector('.pack-option-button')) {
+								optionsButtonsContainer.querySelector('.pack-option-button').classList.add('selected');
+							}
+						}
+						
+						// Add to cart button
+						const addButton = document.createElement('button');
+						addButton.className = 'cta-button';
+						addButton.id = 'addProductToCartBtn';
+						addButton.textContent = 'Add to Cart';
+						addButton.setAttribute('data-id', productId);
+						addButton.style.marginTop = '20px';
+						
+						modalContent.appendChild(addButton);
+						
+						addButton.addEventListener('click', function() {
+							const productId = this.getAttribute('data-id');
+							const product = productData[productId];
+							
+							let selectedOption = null;
+							let selectedOptionIndex = -1;
+							
+							if (product.hasOptions) {
+								const selectedButton = document.querySelector('#productOptionsContainer .pack-option-button.selected');
+								if (selectedButton) {
+									selectedOptionIndex = parseInt(selectedButton.getAttribute('data-option-index'));
+									selectedOption = product.options[selectedOptionIndex];
+								} else {
+									alert('Please select an option');
+									return;
+								}
+							}
+							
+							addToCartWithOption(productId, selectedOptionIndex);
+						});
+					}, 100);
+				});
+			});
             
             // Open merchandise modal
             const merchCards = document.querySelectorAll('.merch-card');
             const merchModal = document.getElementById('merchModal');
             
-            merchCards.forEach(card => {
-                card.addEventListener('click', function() {
-                    const merchId = this.getAttribute('data-merch');
-                    const merch = merchData[merchId];
-                    
-                    document.getElementById('merchModalTitle').textContent = merch.name;
-                    document.getElementById('merchModalImage').src = merch.image;
-                    document.getElementById('merchModalImage').alt = merch.name;
-                    document.getElementById('merchModalDescription').textContent = merch.description;
-                    document.getElementById('merchModalPrice').textContent = '$' + merch.price;
-                    
-                    merchModal.style.display = 'block';
-                    
-                    // Add event listener to the "Add to Cart" button in the modal
-                    const modalAddBtn = document.querySelector('#merchModal .cta-button');
-                    modalAddBtn.setAttribute('data-id', merchId);
-                    
-                    modalAddBtn.addEventListener('click', function() {
-                        const productId = this.getAttribute('data-id');
-                        addToCart(productId);
-                    });
-                });
-            });
+			// Update this section where you handle the merchandise modal click events
+			merchCards.forEach(card => {
+				card.addEventListener('click', function() {
+					const merchId = this.getAttribute('data-merch');
+					const merch = merchData[merchId];
+					
+					document.getElementById('merchModalTitle').textContent = merch.name;
+					document.getElementById('merchModalImage').src = merch.image;
+					document.getElementById('merchModalImage').alt = merch.name;
+					document.getElementById('merchModalDescription').textContent = merch.description;
+					
+					// Clear previous price
+					document.getElementById('merchModalPrice').textContent = '';
+					
+					merchModal.style.display = 'block';
+					
+					// Add options if available
+					setTimeout(() => {
+						const modalInfo = document.querySelector('#merchModal .modal-info');
+						
+						// Clear previous content
+						if (document.getElementById('merchOptionsContainer')) {
+							document.getElementById('merchOptionsContainer').remove();
+						}
+						
+						// Remove existing button
+						const existingButton = document.querySelector('#merchModal .cta-button');
+						if (existingButton) {
+							existingButton.remove();
+						}
+						
+						if (merch.hasOptions && merch.options && merch.options.length > 0) {
+							const optionsContainer = document.createElement('div');
+							optionsContainer.id = 'merchOptionsContainer';
+							optionsContainer.style.marginTop = '20px';
+							
+							const optionsTitle = document.createElement('h3');
+							optionsTitle.style.color = 'var(--cyan)';
+							optionsTitle.textContent = `Select ${merch.optionType}:`;
+							optionsContainer.appendChild(optionsTitle);
+							
+							const optionsButtonsContainer = document.createElement('div');
+							optionsButtonsContainer.style.display = 'flex';
+							optionsButtonsContainer.style.flexWrap = 'wrap';
+							optionsButtonsContainer.style.gap = '10px';
+							optionsButtonsContainer.style.marginTop = '10px';
+							
+							merch.options.forEach((option, index) => {
+								const optionButton = document.createElement('div');
+								optionButton.className = 'pack-option-button';
+								optionButton.setAttribute('data-option-index', index);
+								optionButton.innerHTML = `
+									<span class="pack-size">${option.name}</span>
+									<div class="pack-price">
+										<span class="sale-price">$${option.price.toFixed(2)}</span>
+									</div>
+								`;
+								
+								optionButton.addEventListener('click', function() {
+									document.querySelectorAll('#merchOptionsContainer .pack-option-button').forEach(btn => {
+										btn.classList.remove('selected');
+									});
+									this.classList.add('selected');
+									
+									// Update displayed price
+									document.getElementById('merchModalPrice').textContent = '$' + option.price.toFixed(2);
+								});
+								
+								optionsButtonsContainer.appendChild(optionButton);
+							});
+							
+							optionsContainer.appendChild(optionsButtonsContainer);
+							
+							// Insert before the Add to Cart button
+							modalInfo.appendChild(optionsContainer);
+							
+							// Select first option by default
+							if (optionsButtonsContainer.querySelector('.pack-option-button')) {
+								const firstOption = optionsButtonsContainer.querySelector('.pack-option-button');
+								firstOption.classList.add('selected');
+								
+								// Update displayed price to match first option
+								const firstOptionIndex = parseInt(firstOption.getAttribute('data-option-index'));
+								document.getElementById('merchModalPrice').textContent = '$' + merch.options[firstOptionIndex].price.toFixed(2);
+							}
+						} else {
+							// If no options, show the default price
+							document.getElementById('merchModalPrice').textContent = '$' + merch.price.toFixed(2);
+						}
+						
+						// Add to cart button
+						const addButton = document.createElement('button');
+						addButton.className = 'cta-button';
+						addButton.textContent = 'Add to Cart';
+						addButton.setAttribute('data-id', merchId);
+						addButton.style.marginTop = '30px';
+						
+						modalInfo.appendChild(addButton);
+						
+						addButton.addEventListener('click', function() {
+							const merchId = this.getAttribute('data-id');
+							const merch = merchData[merchId];
+							
+							let selectedOption = null;
+							let selectedOptionIndex = -1;
+							
+							if (merch.hasOptions) {
+								const selectedButton = document.querySelector('#merchOptionsContainer .pack-option-button.selected');
+								if (selectedButton) {
+									selectedOptionIndex = parseInt(selectedButton.getAttribute('data-option-index'));
+									selectedOption = merch.options[selectedOptionIndex];
+								} else {
+									alert('Please select an option');
+									return;
+								}
+							}
+							
+							addToCartWithOption(merchId, selectedOptionIndex);
+						});
+					}, 100);
+				});
+			});
+
+			// Function to add item with option to cart
+			function addToCartWithOption(productId, optionIndex) {
+				const product = allProducts[productId];
+				
+				if (!product) {
+					console.error('Product not found:', productId);
+					return;
+				}
+				
+				let selectedOption = null;
+				let itemPrice = product.price;
+				let itemName = product.name;
+				
+				// If product has options and an option was selected
+				if (product.hasOptions && product.options && optionIndex >= 0) {
+					selectedOption = product.options[optionIndex];
+					itemPrice = selectedOption.price;
+					itemName = `${product.name} - ${selectedOption.name}`;
+				}
+				
+				// Create a unique ID for this product+option combination
+				const cartItemId = optionIndex >= 0 ? `${productId}-${optionIndex}` : productId;
+				
+				// Check if this exact product+option is already in cart
+				const existingItemIndex = cart.findIndex(item => item.id === cartItemId);
+				
+				if (existingItemIndex !== -1) {
+					// Increment quantity
+					cart[existingItemIndex].quantity += 1;
+				} else {
+					// Add new item with all details
+					cart.push({
+						id: cartItemId,
+						productId: productId,
+						name: itemName,
+						image: product.image,
+						price: itemPrice,
+						type: product.type || '',
+						category: product.category,
+						optionIndex: optionIndex,
+						quantity: 1
+					});
+				}
+				
+				// Save cart to localStorage
+				localStorage.setItem('blowflowCart', JSON.stringify(cart));
+				
+				// Update cart count
+				updateCartCount();
+				
+				// Close any open modal
+				const modal = document.querySelector('.modal[style*="display: block"]');
+				if (modal) {
+					modal.style.display = 'none';
+				}
+				
+				// Show cart modal
+				openCartModal();
+			}
 
 			function addPackToCart(packId, strain) {
 				const packOption = strain.packOptions.find(pack => pack.id === packId);
@@ -1546,46 +1823,7 @@
             
             // Function to add item to cart
 			function addToCart(productId) {
-				const product = allProducts[productId];
-				
-				if (!product) {
-					console.error('Product not found:', productId);
-					return;
-				}
-				
-				// Check if product is already in cart
-				const existingItemIndex = cart.findIndex(item => item.id === productId);
-				
-				if (existingItemIndex !== -1) {
-					// Increment quantity
-					cart[existingItemIndex].quantity += 1;
-				} else {
-					// Add new item with all details
-					cart.push({
-						id: productId,
-						name: product.name,
-						image: product.image,
-						price: product.price,
-						type: product.type || '',
-						category: product.category,
-						quantity: 1
-					});
-				}
-				
-				// Save cart to localStorage
-				localStorage.setItem('blowflowCart', JSON.stringify(cart));
-				
-				// Update cart count
-				updateCartCount();
-				
-				// Close any open modal
-				const modal = document.querySelector('.modal[style*="display: block"]');
-				if (modal) {
-					modal.style.display = 'none';
-				}
-				
-				// Show cart modal
-				openCartModal();
+				addToCartWithOption(productId, -1);
 			}
             
             // Function to update cart count
