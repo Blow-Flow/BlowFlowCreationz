@@ -1,0 +1,1470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Primary Meta Tags -->
+    <meta name="title" content="Blow Flow Creationz - Custom T-Shirt Designer">
+    <meta name="description" content="Design your own custom t-shirt with our online designer. Add text, images, and more to create your perfect t-shirt.">
+
+    <title>Blow Flow Creationz - Custom T-Shirt Designer</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Pacifico&family=Permanent+Marker&family=Roboto:wght@400;700&family=Bungee+Shade&display=swap" rel="stylesheet">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    
+    <!-- Fabric.js for the canvas editor -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.min.js"></script>
+    
+    <!-- Color picker -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-picker/2.12.2/vanilla-picker.min.js"></script>
+    
+    <style>
+        :root {
+            --purple: #6a1b9a;
+            --pink: #e91e63;
+            --cyan: #00bcd4;
+            --green: #4CAF50;
+            --yellow: #FFEB3B;
+            --orange: #FF5722;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', 'Helvetica Neue', sans-serif;
+        }
+        
+        body {
+            background-color: #111;
+            color: #fff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, #3a086b 0%, #111 100%);
+            z-index: -3;
+        }
+        
+        .logo-background {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            max-width: 1000px;
+            height: auto;
+            opacity: 0.1;
+            z-index: -2;
+        }
+        
+        .light-rays {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('/img/rays-bg.jpg') no-repeat center center;
+            background-size: cover;
+            opacity: 0.4;
+            z-index: -1;
+        }
+        
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid var(--cyan);
+            z-index: 1000;
+            box-shadow: 0 0 20px rgba(0, 188, 212, 0.5);
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+        
+        .header-logo {
+            height: 60px;
+            filter: drop-shadow(0 0 5px rgba(255, 87, 34, 0.8));
+        }
+        
+        .site-title {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 1.8rem;
+            margin-left: 15px;
+            color: var(--yellow);
+            text-shadow: 2px 2px 0 var(--orange), 
+                        -2px -2px 0 var(--cyan);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+        
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s;
+            position: relative;
+            padding: 5px 15px;
+            border-radius: 20px;
+        }
+        
+        nav a:hover {
+            background: rgba(233, 30, 99, 0.3);
+            color: var(--yellow);
+            text-shadow: 0 0 10px var(--yellow);
+        }
+        
+        .main-content {
+            padding: 130px 0 40px;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 3rem;
+            margin-bottom: 40px;
+            text-transform: uppercase;
+            color: var(--yellow);
+            text-shadow: 3px 3px 0 var(--orange), 
+                        -3px -3px 0 var(--cyan);
+            letter-spacing: 2px;
+        }
+        
+        .designer-container {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .designer-tools {
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 15px;
+            padding: 20px;
+            border: 2px solid var(--cyan);
+            box-shadow: 0 0 20px rgba(0, 188, 212, 0.3);
+        }
+        
+        .tool-section {
+            margin-bottom: 25px;
+        }
+        
+        .tool-title {
+            color: var(--cyan);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid rgba(0, 188, 212, 0.3);
+        }
+        
+        .tshirt-colors {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .color-option {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid #444;
+        }
+        
+        .color-option:hover, .color-option.active {
+            transform: scale(1.1);
+            border-color: var(--yellow);
+            box-shadow: 0 0 10px var(--yellow);
+        }
+        
+        .text-controls, .image-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .control-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 5px;
+        }
+        
+        .control-label {
+            min-width: 70px;
+            font-size: 0.9rem;
+        }
+        
+        select, input, button {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--purple);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 5px;
+            font-size: 0.9rem;
+        }
+        
+        button {
+            cursor: pointer;
+            background: linear-gradient(45deg, var(--purple), var(--pink));
+            border: none;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(233, 30, 99, 0.4);
+        }
+        
+        .canvas-container {
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 15px;
+            padding: 20px;
+            border: 2px solid var(--cyan);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 20px rgba(0, 188, 212, 0.3);
+        }
+        
+        .canvas-wrapper {
+            position: relative;
+            margin-bottom: 20px;
+        }
+        
+        #tshirt-canvas {
+            border: 1px dashed #444;
+            background-color: #f8f8f8;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(45deg, var(--purple), var(--pink));
+            color: white;
+            padding: 10px 20px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 15px;
+            box-shadow: 0 5px 15px rgba(233, 30, 99, 0.4);
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(233, 30, 99, 0.6);
+        }
+        
+        .cta-button.secondary {
+            background: linear-gradient(45deg, var(--cyan), var(--green));
+        }
+        
+        .graphics-library {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+            gap: 10px;
+            max-height: 160px;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+        
+        .graphics-library::-webkit-scrollbar {
+            width: 5px;
+        }
+        
+        .graphics-library::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+        
+        .graphics-library::-webkit-scrollbar-thumb {
+            background: var(--purple);
+            border-radius: 10px;
+        }
+        
+        .graphic-item {
+            width: 60px;
+            height: 60px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 5px;
+            transition: all 0.3s;
+            border: 1px solid transparent;
+        }
+        
+        .graphic-item:hover {
+            transform: scale(1.05);
+            border-color: var(--yellow);
+            box-shadow: 0 0 10px rgba(255, 235, 59, 0.5);
+        }
+        
+        .graphic-item img {
+            max-width: 100%;
+            max-height: 100%;
+        }
+        
+        .color-picker-container {
+            position: relative;
+        }
+        
+        .color-preview {
+            width: 30px;
+            height: 30px;
+            border-radius: 5px;
+            border: 1px solid #444;
+            cursor: pointer;
+        }
+        
+        .more-options {
+            margin-top: 5px;
+        }
+        
+        .font-preview {
+            display: inline-block;
+            margin-right: 10px;
+            font-size: 16px;
+            color: #fff;
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+        
+        .font-preview:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        #zoomControls {
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        #price-container {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 1.2rem;
+        }
+        
+        #price-amount {
+            color: var(--yellow);
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+        
+        .size-selector {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .size-option {
+            padding: 8px 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--purple);
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .size-option:hover, .size-option.active {
+            background: rgba(76, 175, 80, 0.2);
+            border-color: var(--green);
+        }
+        
+        footer {
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 50px 0 20px;
+            border-top: 3px solid var(--pink);
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .footer-section h3 {
+            color: var(--cyan);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .footer-section ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .footer-section ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-section ul li a {
+            color: #ccc;
+            text-decoration: none;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+        
+        .footer-section ul li a:hover {
+            color: var(--yellow);
+            text-shadow: 0 0 5px var(--yellow);
+        }
+        
+        .copyright {
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 20px;
+            color: #777;
+            font-size: 0.9rem;
+        }
+        
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            overflow: auto;
+            padding: 50px 0;
+        }
+        
+        .modal-content {
+            background: #111;
+            margin: 0 auto;
+            width: 90%;
+            max-width: 800px;
+            border-radius: 15px;
+            position: relative;
+            padding: 30px;
+            border: 3px solid var(--cyan);
+            box-shadow: 0 0 30px rgba(0, 188, 212, 0.7);
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 2rem;
+            color: var(--pink);
+            cursor: pointer;
+            z-index: 1001;
+        }
+        
+        #cart-link {
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+        
+        .cart-badge {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            background-color: var(--orange);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 0.8rem;
+            margin-left: 5px;
+        }
+        
+        @media (max-width: 768px) {
+            .designer-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .header-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .logo-container {
+                margin-bottom: 15px;
+                justify-content: center;
+            }
+            
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 15px;
+            }
+            
+            .main-content {
+                padding-top: 170px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="background"></div>
+    <img src="/img/logo-01.jpg" alt="Logo Background" class="logo-background">
+    <div class="light-rays"></div>
+    
+    <header>
+        <div class="container">
+            <div class="header-container">
+                <div class="logo-container">
+                    <a href="index.html" style="text-decoration: none; display: flex; align-items: center;">
+                        <img src="/img/logo-01.jpg" alt="Blow Flow Creationz" class="header-logo">
+                        <h1 class="site-title">Blow Flow Creationz</h1>
+                    </a>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="index.html#strains">Strains</a></li>
+                        <li><a href="index.html#products">Products</a></li>
+                        <li><a href="index.html#merchandise">Merchandise</a></li>
+                        <li>
+                            <a href="#cart" id="cart-link">
+                                <span>Cart</span>
+                                <span id="cart-count" class="cart-badge">0</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+    
+    <div class="main-content">
+        <div class="container">
+            <h2 class="section-title">Custom T-Shirt Designer</h2>
+            
+            <div class="designer-container">
+                <div class="designer-tools">
+                    <div class="tool-section">
+                        <h3 class="tool-title">T-Shirt Color</h3>
+                        <div class="tshirt-colors">
+                            <div class="color-option active" style="background-color: #ffffff;" data-color="#ffffff"></div>
+                            <div class="color-option" style="background-color: #000000;" data-color="#000000"></div>
+                            <div class="color-option" style="background-color: #ff5722;" data-color="#ff5722"></div>
+                            <div class="color-option" style="background-color: #4caf50;" data-color="#4caf50"></div>
+                            <div class="color-option" style="background-color: #2196f3;" data-color="#2196f3"></div>
+                            <div class="color-option" style="background-color: #9c27b0;" data-color="#9c27b0"></div>
+                            <div class="color-option" style="background-color: #ffeb3b;" data-color="#ffeb3b"></div>
+                            <div class="color-option" style="background-color: #795548;" data-color="#795548"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="tool-section">
+                        <h3 class="tool-title">Add Text</h3>
+                        <div class="text-controls">
+                            <textarea id="textInput" placeholder="Enter your text here..." rows="2" style="width: 100%; background: rgba(255, 255, 255, 0.1); border: 1px solid var(--purple); border-radius: 5px; padding: 8px; color: white;"></textarea>
+                            
+                            <div class="control-row">
+                                <span class="control-label">Font:</span>
+                                <select id="fontFamily">
+                                    <option value="Arial">Arial</option>
+                                    <option value="Montserrat">Montserrat</option>
+                                    <option value="Poppins">Poppins</option>
+                                    <option value="Permanent Marker">Marker</option>
+                                    <option value="Pacifico">Pacifico</option>
+                                    <option value="Anton">Anton</option>
+                                    <option value="Bungee Shade">Bungee</option>
+                                </select>
+                            </div>
+                            
+                            <div class="control-row">
+                                <span class="control-label">Size:</span>
+                                <input type="range" id="fontSize" min="12" max="72" value="24">
+                                <span id="fontSizeValue">24px</span>
+                            </div>
+                            
+                            <div class="control-row">
+                                <span class="control-label">Color:</span>
+                                <div class="color-picker-container">
+                                    <div class="color-preview" id="textColorPreview" style="background-color: #000000;"></div>
+                                </div>
+                            </div>
+                            
+                            <button id="addTextBtn">Add Text</button>
+                        </div>
+                    </div>
+                    
+                    <div class="tool-section">
+                        <h3 class="tool-title">Add Graphics</h3>
+                        <div class="graphics-library" id="graphicsLibrary">
+                            <!-- Graphics will be loaded here dynamically -->
+                        </div>
+                        
+                        <div class="more-options">
+                            <button id="uploadImageBtn">Upload Custom Image</button>
+                            <input type="file" id="imageUpload" accept="image/*" style="display: none;">
+                        </div>
+                    </div>
+                    
+                    <div class="tool-section">
+                        <h3 class="tool-title">Shirt Size</h3>
+                        <div class="size-selector">
+                            <div class="size-option" data-size="S">S</div>
+                            <div class="size-option active" data-size="M">M</div>
+                            <div class="size-option" data-size="L">L</div>
+                            <div class="size-option" data-size="XL">XL</div>
+                            <div class="size-option" data-size="XXL">XXL</div>
+                        </div>
+                    </div>
+                    
+                    <div id="price-container">
+                        <div>Price: <span id="price-amount">$24.99</span></div>
+                    </div>
+                </div>
+                
+                <div class="canvas-container">
+                    <div class="canvas-wrapper">
+                        <canvas id="tshirt-canvas" width="450" height="550"></canvas>
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <button id="removeSelectedBtn" class="cta-button secondary">Remove Selected</button>
+                        <button id="resetDesignBtn" class="cta-button secondary">Reset Design</button>
+                        <button id="saveDesignBtn" class="cta-button">Save Design</button>
+                        <button id="addToCartBtn" class="cta-button">Add To Cart</button>
+                    </div>
+                    
+                    <div id="zoomControls">
+                        <button id="zoomInBtn">+</button>
+                        <span>Zoom</span>
+                        <button id="zoomOutBtn">-</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Cart Modal -->
+    <div class="modal" id="cartModal">
+        <div class="modal-content">
+            <span class="close-modal" id="closeCart">&times;</span>
+            <div class="cart-header">
+                <h2 style="color: var(--yellow); font-family: 'Montserrat', sans-serif; margin-bottom: 20px;">Your Cart</h2>
+            </div>
+            <div id="cartItems" class="cart-items">
+                <!-- Cart items will be inserted here dynamically -->
+            </div>
+            <div id="cartEmpty" class="cart-empty">
+                <p>Your cart is empty</p>
+            </div>
+            <div id="cartTotal" class="cart-total">
+                <span>Total:</span>
+                <span id="totalAmount">$0.00</span>
+            </div>
+            <div class="cart-buttons">
+                <button class="cta-button" id="continueShoppingBtn">Continue Shopping</button>
+                <button class="cta-button" id="checkoutBtn" style="background: linear-gradient(45deg, var(--green), var(--cyan));">Checkout</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Save Design Modal -->
+    <div class="modal" id="saveDesignModal">
+        <div class="modal-content">
+            <span class="close-modal" id="closeSaveDesign">&times;</span>
+            <h2 style="color: var(--yellow); font-family: 'Montserrat', sans-serif; margin-bottom: 20px;">Save Your Design</h2>
+            <p>Your design has been saved! You can access it from the menu or by using the code below:</p>
+            <div style="margin: 20px 0; padding: 15px; background: rgba(255, 255, 255, 0.1); border-radius: 5px; text-align: center;">
+                <span id="designCode" style="font-family: monospace; font-size: 1.2rem; color: var(--cyan);"></span>
+            </div>
+            <p style="margin-bottom: 20px;">Copy this code or take a screenshot to retrieve your design later.</p>
+            <div style="text-align: center;">
+                <button class="cta-button" id="copyCodeBtn">Copy Code</button>
+                <button class="cta-button secondary" id="downloadDesignBtn">Download Preview</button>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Blow Flow Creationz</h3>
+                    <ul>
+                        <li><a href="index.html#strains">Premium Collectables</a></li>
+                        <li><a href="index.html#products">Crafted Items</a></li>
+                        <li><a href="index.html#merchandise">Merchandise</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Legal</h3>
+                    <ul>
+                        <li><a href="/terms.html">Terms of Service</a></li>
+                        <li><a href="/privacy.html">Privacy Policy</a></li>
+                        <li><a href="/shipping.html">Shipping Policy</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Contact</h3>
+                    <ul>
+                        <li><a href="mailto:Blowflowllc@gmail.com" target="_blank">E-Mail Us</a></li>
+                        <li><a href="https://discord.gg/6paMkDAFu8" target="_blank">Discord</a></li>
+                        <li><a href="https://youtube.com/@blow_flow?si=SZrw1T02XSLajWmp" target="_blank">YouTube</a></li>
+                        <li><a href="https://tiktok.com/@blow_flow24?_t=ZT-8uVGAl5z8jW&_r=1" target="_blank">TikTok</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Visit Our Friends</h3>
+                    <ul>
+                        <li><a href="https://vivosun.com" target="_blank">Vivosun</a></li>
+                        <li><a href="https://strainnavigator.com" target="_blank">StrainNavigator</a></li>
+                        <li><a href="https://daydreamergenetics.com" target="_blank">DayDreamer Genetics</a></li>						
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>© 2025 Blow Flow Creationz. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+		document.addEventListener('DOMContentLoaded', function() {
+			// Initialize Fabric.js canvas
+			const canvas = new fabric.Canvas('tshirt-canvas');
+			let canvasScale = 1;
+			
+			// Initialize color picker for text
+			const textColorPicker = new Picker({
+				parent: document.getElementById('textColorPreview'),
+				color: '#000000',
+				popup: 'right',
+				onDone: function(color) {
+					document.getElementById('textColorPreview').style.backgroundColor = color.rgbaString;
+					if (canvas.getActiveObject() && canvas.getActiveObject().type === 'textbox') {
+						canvas.getActiveObject().set('fill', color.rgbaString);
+						canvas.renderAll();
+					}
+				}
+			});
+			
+			// Load T-shirt base image
+			let tshirtImage = new Image();
+			tshirtImage.src = 'img/tshirt-white.png'; // Default white t-shirt
+			tshirtImage.onload = function() {
+				const tshirtObj = new fabric.Image(tshirtImage, {
+					selectable: false,
+					evented: false,
+					left: 0,
+					top: 0,
+					scaleX: canvas.width / tshirtImage.width,
+					scaleY: canvas.height / tshirtImage.height
+				});
+				
+				canvas.setBackgroundImage(tshirtObj, canvas.renderAll.bind(canvas));
+				
+				// Setup design area limits
+				setupDesignArea();
+			};
+			
+			// Setup design area (where designs/text can be placed)
+			function setupDesignArea() {
+				const designAreaWidth = canvas.width * 0.6;
+				const designAreaHeight = canvas.height * 0.5;
+				const designAreaLeft = (canvas.width - designAreaWidth) / 2;
+				const designAreaTop = canvas.height * 0.2;
+				
+				const designArea = new fabric.Rect({
+					left: designAreaLeft,
+					top: designAreaTop,
+					width: designAreaWidth,
+					height: designAreaHeight,
+					fill: 'rgba(0,0,0,0)',
+					stroke: 'rgba(255,255,255,0.3)',
+					strokeDashArray: [5, 5],
+					selectable: false,
+					evented: false,
+					id: 'designArea'
+				});
+				
+				canvas.add(designArea);
+				canvas.designArea = {
+					left: designAreaLeft,
+					top: designAreaTop,
+					width: designAreaWidth,
+					height: designAreaHeight,
+					right: designAreaLeft + designAreaWidth,
+					bottom: designAreaTop + designAreaHeight
+				};
+			}
+			
+			// Change t-shirt color
+			document.querySelectorAll('.color-option').forEach(colorOption => {
+				colorOption.addEventListener('click', function() {
+					const color = this.getAttribute('data-color');
+					
+					// Remove active class from all color options
+					document.querySelectorAll('.color-option').forEach(option => {
+						option.classList.remove('active');
+					});
+					
+					// Add active class to selected color option
+					this.classList.add('active');
+					
+					// Change the t-shirt image based on color
+					let newTshirtImage = new Image();
+					newTshirtImage.src = `img/tshirt-${color.substring(1)}.png`;
+					
+					// If image doesn't exist, use the white tshirt as base and apply color
+					newTshirtImage.onerror = function() {
+						let tshirtObj = canvas.backgroundImage;
+						tshirtObj.filters = [new fabric.Image.filters.BlendColor({
+							color: color,
+							mode: 'tint',
+							opacity: 0.8
+						})];
+						tshirtObj.applyFilters();
+						canvas.renderAll();
+					};
+					
+					newTshirtImage.onload = function() {
+						const tshirtObj = new fabric.Image(newTshirtImage, {
+							selectable: false,
+							evented: false,
+							left: 0,
+							top: 0,
+							scaleX: canvas.width / newTshirtImage.width,
+							scaleY: canvas.height / newTshirtImage.height
+						});
+						
+						canvas.setBackgroundImage(tshirtObj, canvas.renderAll.bind(canvas));
+					};
+				});
+			});
+			
+			// Font size slider
+			document.getElementById('fontSize').addEventListener('input', function() {
+				const value = this.value;
+				document.getElementById('fontSizeValue').textContent = value + 'px';
+				
+				if (canvas.getActiveObject() && canvas.getActiveObject().type === 'textbox') {
+					canvas.getActiveObject().set('fontSize', parseInt(value));
+					canvas.renderAll();
+				}
+			});
+			
+			// Add text to canvas
+			document.getElementById('addTextBtn').addEventListener('click', function() {
+				const text = document.getElementById('textInput').value;
+				if (!text) return;
+				
+				const fontFamily = document.getElementById('fontFamily').value;
+				const fontSize = parseInt(document.getElementById('fontSize').value);
+				const textColor = document.getElementById('textColorPreview').style.backgroundColor;
+				
+				const textbox = new fabric.Textbox(text, {
+					left: canvas.designArea.left + canvas.designArea.width / 2,
+					top: canvas.designArea.top + canvas.designArea.height / 2,
+					fontFamily: fontFamily,
+					fontSize: fontSize,
+					fill: textColor,
+					textAlign: 'center',
+					originX: 'center',
+					originY: 'center',
+					width: canvas.designArea.width * 0.8
+				});
+				
+				canvas.add(textbox);
+				canvas.setActiveObject(textbox);
+				
+				// Clear text input
+				document.getElementById('textInput').value = '';
+			});
+			
+			// Load graphics library
+			const graphicsLibrary = [
+				{ name: 'Logo 1', src: 'img/graphics/logo1.png' },
+				{ name: 'Logo 2', src: 'img/graphics/logo2.png' },
+				{ name: 'Heart', src: 'img/graphics/heart.png' },
+				{ name: 'Star', src: 'img/graphics/star.png' },
+				{ name: 'Cannabis Leaf', src: 'img/graphics/cannabis.png' },
+				{ name: 'Party', src: 'img/graphics/party.png' },
+				{ name: 'Crown', src: 'img/graphics/crown.png' },
+				{ name: 'Flame', src: 'img/graphics/flame.png' },
+				{ name: 'Peace', src: 'img/graphics/peace.png' },
+				{ name: 'Flower', src: 'img/graphics/flower.png' }
+			];
+			
+			// Generate graphics library
+			const graphicsContainer = document.getElementById('graphicsLibrary');
+			
+			graphicsLibrary.forEach(graphic => {
+				const graphicItem = document.createElement('div');
+				graphicItem.className = 'graphic-item';
+				graphicItem.title = graphic.name;
+				
+				const img = document.createElement('img');
+				img.src = graphic.src;
+				img.alt = graphic.name;
+				
+				graphicItem.appendChild(img);
+				graphicsContainer.appendChild(graphicItem);
+				
+				// Add graphic to canvas on click
+				graphicItem.addEventListener('click', function() {
+					fabric.Image.fromURL(graphic.src, function(img) {
+						// Scale image to fit within design area while maintaining aspect ratio
+						const maxWidth = canvas.designArea.width * 0.5;
+						const maxHeight = canvas.designArea.height * 0.5;
+						
+						const scale = Math.min(
+							maxWidth / img.width,
+							maxHeight / img.height
+						);
+						
+						img.set({
+							left: canvas.designArea.left + canvas.designArea.width / 2,
+							top: canvas.designArea.top + canvas.designArea.height / 2,
+							originX: 'center',
+							originY: 'center',
+							scaleX: scale,
+							scaleY: scale
+						});
+						
+						canvas.add(img);
+						canvas.setActiveObject(img);
+					});
+				});
+			});
+			
+			// Upload custom image
+			document.getElementById('uploadImageBtn').addEventListener('click', function() {
+				document.getElementById('imageUpload').click();
+			});
+			
+			document.getElementById('imageUpload').addEventListener('change', function(e) {
+				const file = e.target.files[0];
+				if (!file) return;
+				
+				const reader = new FileReader();
+				
+				reader.onload = function(event) {
+					const imgObj = new Image();
+					imgObj.src = event.target.result;
+					
+					imgObj.onload = function() {
+						const img = new fabric.Image(imgObj);
+						
+						// Scale image to fit within design area while maintaining aspect ratio
+						const maxWidth = canvas.designArea.width * 0.5;
+						const maxHeight = canvas.designArea.height * 0.5;
+						
+						const scale = Math.min(
+							maxWidth / img.width,
+							maxHeight / img.height
+						);
+						
+						img.set({
+							left: canvas.designArea.left + canvas.designArea.width / 2,
+							top: canvas.designArea.top + canvas.designArea.height / 2,
+							originX: 'center',
+							originY: 'center',
+							scaleX: scale,
+							scaleY: scale
+						});
+						
+						canvas.add(img);
+						canvas.setActiveObject(img);
+					};
+				};
+				
+				reader.readAsDataURL(file);
+			});
+			
+			// Select size option
+			document.querySelectorAll('.size-option').forEach(sizeOption => {
+				sizeOption.addEventListener('click', function() {
+					document.querySelectorAll('.size-option').forEach(option => {
+						option.classList.remove('active');
+					});
+					
+					this.classList.add('active');
+					
+					// Adjust price based on size
+					const size = this.getAttribute('data-size');
+					let price = 24.99;
+					
+					if (size === 'XL') {
+						price = 26.99;
+					} else if (size === 'XXL') {
+						price = 28.99;
+					}
+					
+					document.getElementById('price-amount').textContent = '$' + price.toFixed(2);
+				});
+			});
+			
+			// Remove selected object
+			document.getElementById('removeSelectedBtn').addEventListener('click', function() {
+				if (canvas.getActiveObject()) {
+					canvas.remove(canvas.getActiveObject());
+				}
+			});
+			
+			// Reset design
+			document.getElementById('resetDesignBtn').addEventListener('click', function() {
+				// Remove all objects except the design area
+				const objects = canvas.getObjects();
+				
+				for (let i = objects.length - 1; i >= 0; i--) {
+					if (objects[i].id !== 'designArea') {
+						canvas.remove(objects[i]);
+					}
+				}
+			});
+			
+			// Zoom controls
+			document.getElementById('zoomInBtn').addEventListener('click', function() {
+				if (canvasScale < 2) {
+					canvasScale += 0.1;
+					canvas.setZoom(canvasScale);
+					canvas.setDimensions({
+						width: 450 * canvasScale,
+						height: 550 * canvasScale
+					});
+				}
+			});
+			
+			document.getElementById('zoomOutBtn').addEventListener('click', function() {
+				if (canvasScale > 0.5) {
+					canvasScale -= 0.1;
+					canvas.setZoom(canvasScale);
+					canvas.setDimensions({
+						width: 450 * canvasScale,
+						height: 550 * canvasScale
+					});
+				}
+			});
+			
+			// Save design
+			document.getElementById('saveDesignBtn').addEventListener('click', function() {
+				// Generate a unique code for the design
+				const designCode = 'BFC-' + Math.random().toString(36).substring(2, 10).toUpperCase();
+				
+				// Save design to localStorage
+				const designData = {
+					code: designCode,
+					json: JSON.stringify(canvas.toJSON(['id'])),
+					preview: canvas.toDataURL({
+						format: 'png',
+						quality: 0.8
+					}),
+					timestamp: new Date().getTime()
+				};
+				
+				// Get existing saved designs
+				let savedDesigns = JSON.parse(localStorage.getItem('blowflowSavedDesigns')) || [];
+				savedDesigns.push(designData);
+				
+				// Limit to last 10 designs
+				if (savedDesigns.length > 10) {
+					savedDesigns = savedDesigns.slice(-10);
+				}
+				
+				localStorage.setItem('blowflowSavedDesigns', JSON.stringify(savedDesigns));
+				
+				// Show save design modal
+				document.getElementById('designCode').textContent = designCode;
+				document.getElementById('saveDesignModal').style.display = 'block';
+			});
+			
+			// Copy design code
+			document.getElementById('copyCodeBtn').addEventListener('click', function() {
+				const codeText = document.getElementById('designCode').textContent;
+				navigator.clipboard.writeText(codeText)
+					.then(() => {
+						this.textContent = 'Copied!';
+						setTimeout(() => {
+							this.textContent = 'Copy Code';
+						}, 2000);
+					})
+					.catch(err => {
+						console.error('Failed to copy: ', err);
+					});
+			});
+			
+			// Download design preview
+			document.getElementById('downloadDesignBtn').addEventListener('click', function() {
+				const dataURL = canvas.toDataURL({
+					format: 'png',
+					quality: 0.8
+				});
+				
+				const link = document.createElement('a');
+				link.href = dataURL;
+				link.download = 'custom-tshirt-design.png';
+				link.click();
+			});
+			
+			// Add to cart
+			document.getElementById('addToCartBtn').addEventListener('click', function() {
+				// Check if there are any design elements
+				const objects = canvas.getObjects();
+				let hasDesignElements = false;
+				
+				for (let i = 0; i < objects.length; i++) {
+					if (objects[i].id !== 'designArea') {
+						hasDesignElements = true;
+						break;
+					}
+				}
+				
+				if (!hasDesignElements) {
+					alert('Please add at least one design element to your t-shirt.');
+					return;
+				}
+				
+				// Get t-shirt details
+				const color = document.querySelector('.color-option.active').getAttribute('data-color');
+				const size = document.querySelector('.size-option.active').getAttribute('data-size');
+				const priceText = document.getElementById('price-amount').textContent;
+				const price = parseFloat(priceText.replace('$', ''));
+				
+				// Generate preview image
+				const previewImage = canvas.toDataURL({
+					format: 'png',
+					quality: 0.8
+				});
+				
+				// Get existing cart
+				let cart = JSON.parse(localStorage.getItem('blowflowCart')) || [];
+				
+				// Add item to cart
+				const cartItem = {
+					id: 'custom-tshirt-' + new Date().getTime(),
+					name: 'Custom T-Shirt - ' + size,
+					image: previewImage,
+					price: price,
+					type: 'Custom Design',
+					category: 'customTshirt',
+					designData: JSON.stringify(canvas.toJSON(['id'])),
+					tshirtColor: color,
+					tshirtSize: size,
+					quantity: 1
+				};
+				
+				cart.push(cartItem);
+				
+				// Save cart to localStorage
+				localStorage.setItem('blowflowCart', JSON.stringify(cart));
+				
+				// Update cart count
+				updateCartCount();
+				
+				// Show confirmation and open cart
+				alert('Your custom t-shirt has been added to the cart!');
+				openCartModal();
+			});
+			
+			// Initialize cart count
+			function updateCartCount() {
+				const cart = JSON.parse(localStorage.getItem('blowflowCart')) || [];
+				const count = cart.reduce((total, item) => total + item.quantity, 0);
+				document.getElementById('cart-count').textContent = count;
+			}
+			
+			// Call initially to set cart count
+			updateCartCount();
+			
+			// Open cart modal
+			document.getElementById('cart-link').addEventListener('click', function(e) {
+				e.preventDefault();
+				openCartModal();
+			});
+			
+			// Function to open cart modal
+			function openCartModal() {
+				// Get cart items
+				const cart = JSON.parse(localStorage.getItem('blowflowCart')) || [];
+				
+				// Clear cart items
+				const cartItemsEl = document.getElementById('cartItems');
+				cartItemsEl.innerHTML = '';
+				
+				// Show/hide empty cart message
+				const cartEmptyEl = document.getElementById('cartEmpty');
+				const cartTotalEl = document.getElementById('cartTotal');
+				const checkoutBtn = document.getElementById('checkoutBtn');
+				
+				if (cart.length === 0) {
+					cartEmptyEl.style.display = 'block';
+					cartTotalEl.style.display = 'none';
+					checkoutBtn.disabled = true;
+					checkoutBtn.style.opacity = '0.5';
+				} else {
+					cartEmptyEl.style.display = 'none';
+					cartTotalEl.style.display = 'flex';
+					checkoutBtn.disabled = false;
+					checkoutBtn.style.opacity = '1';
+					
+					// Add cart items
+					let total = 0;
+					
+					cart.forEach((item, index) => {
+						const itemTotal = item.quantity * item.price;
+						total += itemTotal;
+						
+						const cartItemEl = document.createElement('div');
+						cartItemEl.className = 'cart-item';
+						cartItemEl.style.display = 'grid';
+						cartItemEl.style.gridTemplateColumns = '80px 1fr auto auto';
+						cartItemEl.style.gap = '15px';
+						cartItemEl.style.alignItems = 'center';
+						cartItemEl.style.marginBottom = '15px';
+						cartItemEl.style.paddingBottom = '15px';
+						cartItemEl.style.borderBottom = '1px solid rgba(255, 255, 255, 0.1)';
+						
+						cartItemEl.innerHTML = `
+							<img src="${item.image}" alt="${item.name}" style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px;">
+							<div>
+								<h4 style="color: white; margin-bottom: 5px;">${item.name}</h4>
+								<div style="font-size: 0.8rem; color: #aaa;">${item.type || ''}</div>
+							</div>
+							<div style="display: flex; align-items: center;">
+								<button class="quantity-btn decrease" data-index="${index}" style="background: rgba(0, 188, 212, 0.3); color: white; border: none; width: 25px; height: 25px; display: flex; align-items: center; justify-content: center; cursor: pointer;">-</button>
+								<span style="width: 30px; text-align: center; background: transparent; border: none; color: white; font-size: 1rem;">${item.quantity}</span>
+								<button class="quantity-btn increase" data-index="${index}" style="background: rgba(0, 188, 212, 0.3); color: white; border: none; width: 25px; height: 25px; display: flex; align-items: center; justify-content: center; cursor: pointer;">+</button>
+							</div>
+							<div style="color: var(--orange); font-weight: bold;">$${itemTotal.toFixed(2)}</div>
+							<button class="cart-item-remove" data-index="${index}" style="background: rgba(233, 30, 99, 0.3); color: white; border: none; border-radius: 50%; width: 30px; height: 30px; cursor: pointer; display: flex; align-items: center; justify-content: center;">&times;</button>
+						`;
+						
+						cartItemsEl.appendChild(cartItemEl);
+					});
+					
+					// Update total
+					document.getElementById('totalAmount').textContent = `$${total.toFixed(2)}`;
+					
+					// Add event listeners to quantity buttons and remove buttons
+					addCartItemEventListeners();
+				}
+				
+				// Show cart modal
+				document.getElementById('cartModal').style.display = 'block';
+			}
+			
+			// Add event listeners to cart item controls
+			function addCartItemEventListeners() {
+				// Quantity decrease buttons
+				document.querySelectorAll('.quantity-btn.decrease').forEach(button => {
+					button.addEventListener('click', function() {
+						const index = parseInt(this.getAttribute('data-index'));
+						let cart = JSON.parse(localStorage.getItem('blowflowCart')) || [];
+						
+						if (cart[index].quantity > 1) {
+							cart[index].quantity -= 1;
+							localStorage.setItem('blowflowCart', JSON.stringify(cart));
+							updateCartCount();
+							openCartModal(); // Refresh cart modal
+						}
+					});
+				});
+				
+				// Quantity increase buttons
+				document.querySelectorAll('.quantity-btn.increase').forEach(button => {
+					button.addEventListener('click', function() {
+						const index = parseInt(this.getAttribute('data-index'));
+						let cart = JSON.parse(localStorage.getItem('blowflowCart')) || [];
+						
+						cart[index].quantity += 1;
+						localStorage.setItem('blowflowCart', JSON.stringify(cart));
+						updateCartCount();
+						openCartModal(); // Refresh cart modal
+					});
+				});
+				
+				// Remove buttons
+				document.querySelectorAll('.cart-item-remove').forEach(button => {
+					button.addEventListener('click', function() {
+						const index = parseInt(this.getAttribute('data-index'));
+						let cart = JSON.parse(localStorage.getItem('blowflowCart')) || [];
+						
+						cart.splice(index, 1);
+						localStorage.setItem('blowflowCart', JSON.stringify(cart));
+						updateCartCount();
+						openCartModal(); // Refresh cart modal
+					});
+				});
+			}
+			
+			// Close cart modal
+			document.getElementById('closeCart').addEventListener('click', function() {
+				document.getElementById('cartModal').style.display = 'none';
+			});
+			
+			// Continue shopping button
+			document.getElementById('continueShoppingBtn').addEventListener('click', function() {
+				document.getElementById('cartModal').style.display = 'none';
+			});
+			
+			// Checkout button
+			document.getElementById('checkoutBtn').addEventListener('click', function() {
+				// Prepare order details for email
+				const cart = JSON.parse(localStorage.getItem('blowflowCart')) || [];
+				if (cart.length === 0) return;
+				
+				let orderDetails = 'Order Items:\n\n';
+				let total = 0;
+				
+				cart.forEach(item => {
+					const itemTotal = item.quantity * item.price;
+					total += itemTotal;
+					
+					let itemDetails = `- ${item.quantity}x ${item.name} ($${item.price.toFixed(2)} each): $${itemTotal.toFixed(2)}\n`;
+					
+					// Add details for custom t-shirts
+					if (item.category === 'customTshirt') {
+						itemDetails += `  Color: ${item.tshirtColor}, Size: ${item.tshirtSize}\n`;
+					}
+					
+					orderDetails += itemDetails;
+				});
+				
+				orderDetails += `\nTotal: $${total.toFixed(2)}`;
+				
+				// Redirect to checkout page or open mailto link
+				const mailtoLink = `mailto:Blowflowllc@gmail.com?subject=New Custom T-Shirt Order&body=${encodeURIComponent('I would like to order the following custom t-shirt design:\n\n' + orderDetails + '\n\nPlease contact me to complete this order.')}`;
+				
+				window.location.href = mailtoLink;
+			});
+			
+			// Close save design modal
+			document.getElementById('closeSaveDesign').addEventListener('click', function() {
+				document.getElementById('saveDesignModal').style.display = 'none';
+			});
+			
+			// Close modals when clicking outside
+			window.addEventListener('click', function(event) {
+				if (event.target === document.getElementById('cartModal')) {
+					document.getElementById('cartModal').style.display = 'none';
+				}
+				if (event.target === document.getElementById('saveDesignModal')) {
+					document.getElementById('saveDesignModal').style.display = 'none';
+				}
+			});
+			
+			// Objects selection event - update controls based on selected object
+			canvas.on('selection:created', updateControlsFromSelection);
+			canvas.on('selection:updated', updateControlsFromSelection);
+			
+			function updateControlsFromSelection(e) {
+				const selectedObject = e.selected[0];
+				
+				if (selectedObject.type === 'textbox') {
+					// Update text controls
+					document.getElementById('fontFamily').value = selectedObject.fontFamily;
+					document.getElementById('fontSize').value = selectedObject.fontSize;
+					document.getElementById('fontSizeValue').textContent = selectedObject.fontSize + 'px';
+					document.getElementById('textColorPreview').style.backgroundColor = selectedObject.fill;
+				}
+			}
+			
+			// Enforce design area boundaries on object movement
+			canvas.on('object:moving', function(e) {
+				const obj = e.target;
+				const objBounds = obj.getBoundingRect();
+				
+				let left = obj.left;
+				let top = obj.top;
+				
+				// Left boundary
+				if (objBounds.left < canvas.designArea.left) {
+					left = canvas.designArea.left + (objBounds.width / 2) - obj.width * obj.scaleX * (obj.originX === 'center' ? 0.5 : 0);
+				}
+				
+				// Right boundary
+				if (objBounds.left + objBounds.width > canvas.designArea.right) {
+					left = canvas.designArea.right - (objBounds.width / 2) - obj.width * obj.scaleX * (obj.originX === 'center' ? 0.5 : 1);
+				}
+				
+				// Top boundary
+				if (objBounds.top < canvas.designArea.top) {
+					top = canvas.designArea.top + (objBounds.height / 2) - obj.height * obj.scaleY * (obj.originY === 'center' ? 0.5 : 0);
+				}
+				
+				// Bottom boundary
+				if (objBounds.top + objBounds.height > canvas.designArea.bottom) {
+					top = canvas.designArea.bottom - (objBounds.height / 2) - obj.height * obj.scaleY * (obj.originY === 'center' ? 0.5 : 1);
+				}
+				
+				obj.set({
+					left: left,
+					top: top
+				});
+			});
+		});
+    </script>
+</body>
+</html>
