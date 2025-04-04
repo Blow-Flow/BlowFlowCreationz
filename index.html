@@ -1187,10 +1187,9 @@
 					hasOptions: true,
 					optionType: 'Style',
 					options: [
-						{ name: 'Classic Style', price: 60.00 },
-						{ name: 'Modern Style', price: 65.00 },
-						{ name: 'Abstract Style', price: 70.00 },
-						{ name: 'Custom Design', price: 80.00 }
+						{ name: 'Dark Liquor', price: 60.00, image: '/img/dark-liquor-lamp.jpg' },
+						{ name: 'White Liquor', price: 65.00, image: '/img/white-liquor-lamp.jpg' },
+						{ name: 'Custom Design', price: 75.00, image: '/img/custom-lamp.jpg' }
 					]
 				}
 			};
@@ -1408,6 +1407,11 @@
 										btn.classList.remove('selected');
 									});
 									this.classList.add('selected');
+									
+									// Update the image when an option is selected
+									if (option.image) {
+										document.getElementById('productModalImage').src = option.image;
+									}
 								});
 								
 								optionsButtonsContainer.appendChild(optionButton);
@@ -1431,7 +1435,14 @@
 							
 							// Select first option by default
 							if (optionsButtonsContainer.querySelector('.pack-option-button')) {
-								optionsButtonsContainer.querySelector('.pack-option-button').classList.add('selected');
+								const firstOption = optionsButtonsContainer.querySelector('.pack-option-button');
+								firstOption.classList.add('selected');
+								
+								// Update image to first option image if it exists
+								const firstOptionIndex = parseInt(firstOption.getAttribute('data-option-index'));
+								if (product.options[firstOptionIndex].image) {
+									document.getElementById('productModalImage').src = product.options[firstOptionIndex].image;
+								}
 							}
 						}
 						
@@ -1608,12 +1619,17 @@
 				let selectedOption = null;
 				let itemPrice = product.price;
 				let itemName = product.name;
+				let itemImage = product.image;
 				
 				// If product has options and an option was selected
 				if (product.hasOptions && product.options && optionIndex >= 0) {
 					selectedOption = product.options[optionIndex];
 					itemPrice = selectedOption.price;
 					itemName = `${product.name} - ${selectedOption.name}`;
+					// Use option-specific image if available
+					if (selectedOption.image) {
+						itemImage = selectedOption.image;
+					}
 				}
 				
 				// Create a unique ID for this product+option combination
@@ -1631,7 +1647,7 @@
 						id: cartItemId,
 						productId: productId,
 						name: itemName,
-						image: product.image,
+						image: itemImage,
 						price: itemPrice,
 						type: product.type || '',
 						category: product.category,
