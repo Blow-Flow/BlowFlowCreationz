@@ -545,6 +545,69 @@
 			font-weight: bold;
 			font-size: 1.1rem;
 		}
+
+		footer {
+			background-color: rgba(0, 0, 0, 0.8);
+			padding: 50px 0 20px;
+			border-top: 3px solid var(--pink);
+		}
+
+		.footer-content {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+			gap: 30px;
+			margin-bottom: 30px;
+		}
+
+		.footer-section h3 {
+			color: var(--cyan);
+			font-family: 'Montserrat', sans-serif;
+			font-size: 1.2rem;
+			margin-bottom: 20px;
+			text-transform: uppercase;
+			letter-spacing: 1px;
+		}
+
+		.footer-section ul {
+			list-style: none;
+			padding: 0;
+		}
+
+		.footer-section ul li {
+			margin-bottom: 10px;
+		}
+
+		.footer-section ul li a {
+			color: #ccc;
+			text-decoration: none;
+			transition: all 0.3s;
+			font-size: 0.9rem;
+		}
+
+		.footer-section ul li a:hover {
+			color: var(--yellow);
+			text-shadow: 0 0 5px var(--yellow);
+		}
+
+		.copyright {
+			text-align: center;
+			border-top: 1px solid rgba(255, 255, 255, 0.1);
+			padding-top: 20px;
+			color: #777;
+			font-size: 0.9rem;
+		}
+
+		@media (max-width: 768px) {
+			.footer-content {
+				grid-template-columns: 1fr 1fr;
+			}
+		}
+
+		@media (max-width: 480px) {
+			.footer-content {
+				grid-template-columns: 1fr;
+			}
+		}
         
         @media (max-width: 768px) {
             .modal-grid {
@@ -1000,17 +1063,50 @@
         </div>
     </div>
     
-    <footer>
-        <div class="container">
-            <img src="/img/logo-01.jpg" alt="Blow Flow Genetics" class="footer-logo">
-            <div class="social-links">
-                <a href="#" class="social-icon">f</a>
-                <a href="#" class="social-icon">in</a>
-                <a href="#" class="social-icon">ig</a>
-            </div>
-            <p class="copyright">© 2025 Blow Flow Genetics. All rights reserved.</p>
-        </div>
-    </footer>
+	<footer>
+		<div class="container">
+			<div class="footer-content">
+				<div class="footer-section">
+					<h3>Blow Flow Genetics</h3>
+					<ul>
+						<li><a href="#strains">Premium Collectables</a></li>
+						<li><a href="#products">Crafted Items</a></li>
+						<li><a href="#merchandise">Merchandise</a></li>
+						<li><a href="#contact">Contact</a></li>
+					</ul>
+				</div>
+				
+				<div class="footer-section">
+					<h3>Legal</h3>
+					<ul>
+						<li><a href="/terms.html">Terms of Service</a></li>
+						<li><a href="/privacy.html">Privacy Policy</a></li>
+						<li><a href="/shipping.html">Shipping Policy</a></li>
+					</ul>
+				</div>
+				
+				<div class="footer-section">
+					<h3>Contact</h3>
+					<ul>
+						<li><a href="mailto:Blowflowllc@gmail.com">Blowflowllc@gmail.com</a></li>
+						<li><a href="https://www.instagram.com/blowflowgenetics" target="_blank">Instagram</a></li>
+					</ul>
+				</div>
+				
+				<div class="footer-section">
+					<h3>Shop Our Friends</h3>
+					<ul>
+						<li><a href="https://vivosun.com" target="_blank">Vivosun</a></li>
+						<li><a href="https://lovewhatyougrow.com" target="_blank">Love What You Grow</a></li>
+						<li><a href="https://fastbuds.com" target="_blank">FastBuds.com</a> <span style="color: var(--green);">(Code: BFG420)</span></li>
+					</ul>
+				</div>
+			</div>
+			<div class="copyright">
+				<p>© 2025 Blow Flow Genetics. All rights reserved.</p>
+			</div>
+		</div>
+	</footer>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
