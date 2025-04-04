@@ -1453,6 +1453,16 @@
                 }
             });
             
+			document.querySelectorAll('.close-modal').forEach(closeBtn => {
+				closeBtn.addEventListener('click', function() {
+					// Find the closest parent modal
+					const modal = this.closest('.modal');
+					if (modal) {
+						modal.style.display = 'none';
+					}
+				});
+			});			
+			
             // Close checkout modal
             document.getElementById('closeCheckout').addEventListener('click', function() {
                 document.getElementById('checkoutModal').style.display = 'none';
