@@ -487,6 +487,64 @@
             color: white;
             font-size: 1rem;
         }
+
+		.pack-options {
+			margin-top: 20px;
+		}
+
+		.pack-option-buttons {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 10px;
+			margin-top: 10px;
+		}
+
+		.pack-option-button {
+			background: rgba(0, 0, 0, 0.7);
+			border: 2px solid var(--purple);
+			border-radius: 10px;
+			padding: 10px 15px;
+			cursor: pointer;
+			transition: all 0.3s;
+			color: white;
+			position: relative;
+			overflow: hidden;
+		}
+
+		.pack-option-button.selected {
+			border-color: var(--green);
+			background: rgba(76, 175, 80, 0.2);
+		}
+
+		.pack-option-button:hover {
+			transform: translateY(-3px);
+			box-shadow: 0 5px 15px rgba(106, 27, 154, 0.4);
+		}
+
+		.pack-size {
+			font-weight: bold;
+			display: block;
+			font-size: 1.1rem;
+			margin-bottom: 5px;
+		}
+
+		.pack-price {
+			display: flex;
+			align-items: center;
+			gap: 8px;
+		}
+
+		.regular-price {
+			color: #aaa;
+			text-decoration: line-through;
+			font-size: 0.9rem;
+		}
+
+		.sale-price {
+			color: var(--green);
+			font-weight: bold;
+			font-size: 1.1rem;
+		}
         
         @media (max-width: 768px) {
             .modal-grid {
@@ -808,34 +866,40 @@
                 <div class="modal-image-container">
                     <img src="" alt="" class="modal-image" id="modalImage">
                 </div>
-                <div class="modal-info">
-                    <h2 id="modalTitle"></h2>
-                    <div class="info-row">
-                        <div class="info-label">Type:</div>
-                        <div class="info-value" id="modalType"></div>
-                    </div>
-                    <div class="info-row">
-                        <div class="info-label">THC:</div>
-                        <div class="info-value" id="modalTHC"></div>
-                    </div>
-                    <div class="info-row">
-                        <div class="info-label">CBD:</div>
-                        <div class="info-value" id="modalCBD"></div>
-                    </div>
-                    <div class="info-row">
-                        <div class="info-label">Flowering:</div>
-                        <div class="info-value" id="modalFlowering"></div>
-                    </div>
-                    <div class="info-row">
-                        <div class="info-label">Yield:</div>
-                        <div class="info-value" id="modalYield"></div>
-                    </div>
-                    <div class="info-row">
-                        <div class="info-label">Seeds:</div>
-                        <div class="info-value" id="modalSeeds"></div>
-                    </div>
-                    <div class="modal-description" id="modalDescription"></div>
-                </div>
+				<div class="modal-info">
+					<h2 id="modalTitle"></h2>
+					<div class="info-row">
+						<div class="info-label">Type:</div>
+						<div class="info-value" id="modalType"></div>
+					</div>
+					<div class="info-row">
+						<div class="info-label">THC:</div>
+						<div class="info-value" id="modalTHC"></div>
+					</div>
+					<div class="info-row">
+						<div class="info-label">CBD:</div>
+						<div class="info-value" id="modalCBD"></div>
+					</div>
+					<div class="info-row">
+						<div class="info-label">Flowering:</div>
+						<div class="info-value" id="modalFlowering"></div>
+					</div>
+					<div class="info-row">
+						<div class="info-label">Yield:</div>
+						<div class="info-value" id="modalYield"></div>
+					</div>
+					<div class="info-row">
+						<div class="info-label">Seeds:</div>
+						<div class="info-value" id="modalSeeds"></div>
+					</div>
+					<div class="modal-description" id="modalDescription"></div>
+					
+					<!-- Add this new section for pack options -->
+					<div class="pack-options" id="packOptions">
+						<h3 style="margin-top: 20px; color: var(--cyan);">Select Pack Size:</h3>
+						<div class="pack-option-buttons" id="packOptionButtons"></div>
+					</div>
+				</div>
             </div>
         </div>
     </div>
@@ -954,37 +1018,44 @@
             
             // Strain data
             const strainData = {
-                'tyson-punch': {
-                    id: 'tyson-punch',
-                    name: 'Tyson Punch Pie',
-                    type: 'Indica Dominant (90% Indica / 10% Sativa)',
-                    image: '/img/strain1-placeholder.jpg',
-                    cardImage: '/img/strain1-square.jpg',
-                    thc: '22%',
-                    cbd: '0.1%',
-                    flowering: '8-9 Weeks',
-                    yield: 'Moderate - Benefits from multi-topping',
-                    seeds: 'Feminized - Pack of 3, 5, or 10 seeds',
-                    price: 39.99,
-                    category: 'strain',
-                    description: 'Tyson Punch Pie is our flagship strain, created from Purple Punch x Purple Kush genetics. It delivers a powerful knockout effect with a complex terpene profile featuring strong pineapple, sweet kushy gas, citrus, lime, and light cherry notes. The buds develop beautiful purple hues when properly cultivated. This heavy indica-dominant strain is perfect for evening use, pain relief, and relaxation.'
-                },
-                'cosmic-haze': {
-                    id: 'cosmic-haze',
-                    name: 'Dabzy Cut',
-                    type: 'Hybrid (French Toast x White Truffle)',
-                    image: '/img/strain2-placeholder.jpg',
-                    cardImage: '/img/strain2-square.jpg',
-                    thc: '24-26%',
-                    cbd: '0.3-0.8%',
-                    flowering: '9-10 Weeks',
-                    yield: 'Indoor: 450-550g/m² | Outdoor: 600-800g/plant',
-                    seeds: 'Feminized - Pack of 3, 5, or 10 seeds',
-                    price: 44.99,
-                    category: 'strain',
-                    description: 'Dabzy Cut is a premium hybrid cross of French Toast and White Truffle. This exceptional strain offers a complex flavor profile featuring red fruit, earthy undertones, minty notes, and a distinct OG Kush punch. The stem rub reveals incredible lime and banana aromas with sweet cotton candy. While the flower delivers a very sweet experience, it leans slightly more toward the gassy side. Dabzy Cut produces a highly recognizable and thoroughly enjoyable smoke experience that stands out as a white out.'
-                }
-            };
+				'tyson-punch': {
+					id: 'tyson-punch',
+					name: 'Tyson Punch Pie',
+					type: 'Indica Dominant (90% Indica / 10% Sativa)',
+					image: '/img/strain1-placeholder.jpg',
+					cardImage: '/img/strain1-square.jpg',
+					thc: '22%',
+					cbd: '0.1%',
+					flowering: '8-9 Weeks',
+					yield: 'Moderate - Benefits from multi-topping',
+					seeds: 'Feminized',
+					description: 'Tyson Punch Pie is our flagship strain, created from Purple Punch x Purple Kush genetics. It delivers a powerful knockout effect with a complex terpene profile featuring strong pineapple, sweet kushy gas, citrus, lime, and light cherry notes. The buds develop beautiful purple hues when properly cultivated. This heavy indica-dominant strain is perfect for evening use, pain relief, and relaxation.',
+					category: 'strain',
+					packOptions: [
+						{ id: 'tyson-punch-3', size: '3 Pack', regularPrice: 50, salePrice: 45 },
+						{ id: 'tyson-punch-5', size: '5 Pack', regularPrice: 75, salePrice: 70 },
+						{ id: 'tyson-punch-10', size: '10 Pack', regularPrice: 150, salePrice: 140 }
+					]
+				},
+				'cosmic-haze': {
+					id: 'cosmic-haze',
+					name: 'Dabzy Cut',
+					type: 'Hybrid (French Toast x White Truffle)',
+					image: '/img/strain2-placeholder.jpg',
+					cardImage: '/img/strain2-square.jpg',
+					thc: '24-26%',
+					cbd: '0.3-0.8%',
+					flowering: '9-10 Weeks',
+					yield: 'Indoor: 450-550g/m² | Outdoor: 600-800g/plant',
+					seeds: 'Feminized',
+					description: 'Dabzy Cut is a premium hybrid cross of French Toast and White Truffle. This exceptional strain offers a complex flavor profile featuring red fruit, earthy undertones, minty notes, and a distinct OG Kush punch. The stem rub reveals incredible lime and banana aromas with sweet cotton candy. While the flower delivers a very sweet experience, it leans slightly more toward the gassy side. Dabzy Cut produces a highly recognizable and thoroughly enjoyable smoke experience that stands out as a white out.',
+					category: 'strain',
+					packOptions: [
+						{ id: 'cosmic-haze-3', size: '3 Pack', regularPrice: 50, salePrice: 45 },
+						{ id: 'cosmic-haze-5', size: '5 Pack', regularPrice: 75, salePrice: 70 },
+						{ id: 'cosmic-haze-10', size: '10 Pack', regularPrice: 150, salePrice: 140 }
+					]
+				}
             
             // Product data
             const productData = {
@@ -1032,54 +1103,109 @@
                 ...productData,
                 ...merchData
             };
+
+			Object.values(strainData).forEach(strain => {
+				if (strain.packOptions) {
+					strain.packOptions.forEach(pack => {
+						allProducts[pack.id] = {
+							id: pack.id,
+							strainId: strain.id,
+							name: `${strain.name} - ${pack.size}`,
+							image: strain.cardImage,
+							price: pack.salePrice,
+							regularPrice: pack.regularPrice,
+							type: strain.type,
+							category: 'strain'
+						};
+					});
+				}
+			});
             
             // Open strain modal
             const strainCards = document.querySelectorAll('.strain-card');
             const strainModal = document.getElementById('strainModal');
             
-            strainCards.forEach(card => {
-                card.addEventListener('click', function() {
-                    const strainId = this.getAttribute('data-strain');
-                    const strain = strainData[strainId];
-                    
-                    document.getElementById('modalTitle').textContent = strain.name;
-                    document.getElementById('modalImage').src = strain.image;
-                    document.getElementById('modalImage').alt = strain.name;
-                    document.getElementById('modalType').textContent = strain.type;
-                    document.getElementById('modalTHC').textContent = strain.thc;
-                    document.getElementById('modalCBD').textContent = strain.cbd;
-                    document.getElementById('modalFlowering').textContent = strain.flowering;
-                    document.getElementById('modalYield').textContent = strain.yield;
-                    document.getElementById('modalSeeds').textContent = strain.seeds;
-                    document.getElementById('modalDescription').textContent = strain.description;
-                    
-                    strainModal.style.display = 'block';
-                    
-                    // Add "Add to Cart" button to strain modal
-                    setTimeout(() => {
-                        const modalContent = document.querySelector('#strainModal .modal-info');
-                        
-                        // Check if button already exists
-                        if (!document.getElementById('addStrainToCartBtn')) {
-                            const addButton = document.createElement('button');
-                            addButton.className = 'cta-button';
-                            addButton.id = 'addStrainToCartBtn';
-                            addButton.textContent = 'Add to Cart';
-                            addButton.setAttribute('data-id', strainId);
-                            addButton.style.marginTop = '20px';
-                            
-                            modalContent.appendChild(addButton);
-                            
-                            addButton.addEventListener('click', function() {
-                                const productId = this.getAttribute('data-id');
-                                addToCart(productId);
-                            });
-                        } else {
-                            document.getElementById('addStrainToCartBtn').setAttribute('data-id', strainId);
-                        }
-                    }, 100);
-                });
-            });
+			strainCards.forEach(card => {
+				card.addEventListener('click', function() {
+					const strainId = this.getAttribute('data-strain');
+					const strain = strainData[strainId];
+					
+					document.getElementById('modalTitle').textContent = strain.name;
+					document.getElementById('modalImage').src = strain.image;
+					document.getElementById('modalImage').alt = strain.name;
+					document.getElementById('modalType').textContent = strain.type;
+					document.getElementById('modalTHC').textContent = strain.thc;
+					document.getElementById('modalCBD').textContent = strain.cbd;
+					document.getElementById('modalFlowering').textContent = strain.flowering;
+					document.getElementById('modalYield').textContent = strain.yield;
+					document.getElementById('modalSeeds').textContent = strain.seeds;
+					document.getElementById('modalDescription').textContent = strain.description;
+					
+					strainModal.style.display = 'block';
+					
+					// Replace the "Add to Cart" button logic with this
+					setTimeout(() => {
+						// Clear previous pack options
+						const packOptionsContainer = document.getElementById('packOptionButtons');
+						packOptionsContainer.innerHTML = '';
+						
+						// Generate pack option buttons
+						if (strain.packOptions && strain.packOptions.length > 0) {
+							strain.packOptions.forEach(pack => {
+								const button = document.createElement('div');
+								button.className = 'pack-option-button';
+								button.setAttribute('data-pack-id', pack.id);
+								button.innerHTML = `
+									<span class="pack-size">${pack.size}</span>
+									<div class="pack-price">
+										<span class="regular-price">$${pack.regularPrice.toFixed(2)}</span>
+										<span class="sale-price">$${pack.salePrice.toFixed(2)}</span>
+									</div>
+								`;
+								
+								button.addEventListener('click', function() {
+									// Remove 'selected' class from all buttons
+									document.querySelectorAll('.pack-option-button').forEach(btn => {
+										btn.classList.remove('selected');
+									});
+									
+									// Add 'selected' class to clicked button
+									this.classList.add('selected');
+								});
+								
+								packOptionsContainer.appendChild(button);
+							});
+							
+							// Add to cart button
+							const addButton = document.createElement('button');
+							addButton.className = 'cta-button';
+							addButton.id = 'addStrainToCartBtn';
+							addButton.textContent = 'Add to Cart';
+							addButton.style.marginTop = '20px';
+							addButton.style.width = '100%';
+							
+							addButton.addEventListener('click', function() {
+								const selectedPack = document.querySelector('.pack-option-button.selected');
+								
+								if (!selectedPack) {
+									alert('Please select a pack size');
+									return;
+								}
+								
+								const packId = selectedPack.getAttribute('data-pack-id');
+								addPackToCart(packId, strain);
+							});
+							
+							packOptionsContainer.appendChild(addButton);
+							
+							// Select the first option by default
+							if (packOptionsContainer.querySelector('.pack-option-button')) {
+								packOptionsContainer.querySelector('.pack-option-button').classList.add('selected');
+							}
+						}
+					}, 100);
+				});
+			});
             
             // Open product modal
             const productCards = document.querySelectorAll('.product-card');
@@ -1150,6 +1276,51 @@
                     });
                 });
             });
+
+			function addPackToCart(packId, strain) {
+				const packOption = strain.packOptions.find(pack => pack.id === packId);
+				
+				if (!packOption) {
+					console.error('Pack option not found:', packId);
+					return;
+				}
+				
+				// Define the item to add to cart
+				const cartItem = {
+					id: packId,
+					strainId: strain.id,
+					name: `${strain.name} - ${packOption.size}`,
+					image: strain.cardImage,
+					price: packOption.salePrice,
+					regularPrice: packOption.regularPrice,
+					type: strain.type,
+					category: 'strain',
+					quantity: 1
+				};
+				
+				// Check if this exact pack is already in cart
+				const existingItemIndex = cart.findIndex(item => item.id === packId);
+				
+				if (existingItemIndex !== -1) {
+					// Increment quantity
+					cart[existingItemIndex].quantity += 1;
+				} else {
+					// Add new item
+					cart.push(cartItem);
+				}
+				
+				// Save cart to localStorage
+				localStorage.setItem('blowflowCart', JSON.stringify(cart));
+				
+				// Update cart count
+				updateCartCount();
+				
+				// Close modal
+				strainModal.style.display = 'none';
+				
+				// Show cart modal
+				openCartModal();
+			}
             
             // Attach event listeners to merch "Add to Cart" buttons in the cards
             document.querySelectorAll('.merch-card .cta-button').forEach(button => {
@@ -1214,15 +1385,15 @@
                 
                 // Prepare email body
                 const emailBody = `
-Name: ${name}
-Email: ${email}
-Phone: ${phone}
+				Name: ${name}
+				Email: ${email}
+				Phone: ${phone}
 
-${orderDetails}
+				${orderDetails}
 
-Additional Notes:
-${message}
-`;
+				Additional Notes:
+				${message}
+				`;
                 
                 // Create mailto link
                 const mailtoLink = `mailto:Blowflowllc@gmail.com?subject=New Order from ${name}&body=${encodeURIComponent(emailBody)}`;
@@ -1330,31 +1501,41 @@ ${message}
                     
                     // Add cart items
                     let total = 0;
-                    
-                    cart.forEach((item, index) => {
-                        const product = allProducts[item.id];
-                        const itemTotal = item.quantity * product.price;
-                        total += itemTotal;
-                        
-                        const cartItemEl = document.createElement('div');
-                        cartItemEl.className = 'cart-item';
-                        cartItemEl.innerHTML = `
-                            <img src="${product.image}" alt="${product.name}" class="cart-item-img">
-                            <div class="cart-item-info">
-                                <h4>${product.name}</h4>
-                                <div class="cart-item-type">${product.category === 'strain' ? product.type : ''}</div>
-                            </div>
-                            <div class="quantity-selector">
-                                <button class="quantity-btn decrease" data-index="${index}">-</button>
-                                <span class="quantity-value">${item.quantity}</span>
-                                <button class="quantity-btn increase" data-index="${index}">+</button>
-                            </div>
-                            <div class="cart-item-price">$${itemTotal.toFixed(2)}</div>
-                            <button class="cart-item-remove" data-index="${index}">&times;</button>
-                        `;
-                        
-                        cartItemsEl.appendChild(cartItemEl);
-                    });
+                    					
+					cart.forEach((item, index) => {
+						let displayName = item.name || '';
+						let displayType = '';
+						
+						if (item.category === 'strain' && item.strainId) {
+							const strain = strainData[item.strainId];
+							if (strain) {
+								displayType = strain.type;
+							}
+						}
+						
+						const itemPrice = item.price || 0;
+						const itemTotal = item.quantity * itemPrice;
+						total += itemTotal;
+						
+						const cartItemEl = document.createElement('div');
+						cartItemEl.className = 'cart-item';
+						cartItemEl.innerHTML = `
+							<img src="${item.image}" alt="${displayName}" class="cart-item-img">
+							<div class="cart-item-info">
+								<h4>${displayName}</h4>
+								<div class="cart-item-type">${displayType}</div>
+							</div>
+							<div class="quantity-selector">
+								<button class="quantity-btn decrease" data-index="${index}">-</button>
+								<span class="quantity-value">${item.quantity}</span>
+								<button class="quantity-btn increase" data-index="${index}">+</button>
+							</div>
+							<div class="cart-item-price">$${itemTotal.toFixed(2)}</div>
+							<button class="cart-item-remove" data-index="${index}">&times;</button>
+						`;
+						
+						cartItemsEl.appendChild(cartItemEl);
+					});
                     
                     // Update total
                     document.getElementById('totalAmount').textContent = `$${total.toFixed(2)}`;
