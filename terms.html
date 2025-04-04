@@ -215,6 +215,47 @@
             font-size: 0.9rem;
         }
 
+		/* Floating cannabis leaves animation */
+		.floating-leaves {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			overflow: hidden;
+			pointer-events: none;
+			z-index: -1;
+		}
+
+		.leaf {
+			position: absolute;
+			width: 40px;
+			height: 40px;
+			background-size: contain !important;
+			background-repeat: no-repeat !important;
+			background-position: center center !important;
+			z-index: -1;
+			will-change: transform;
+			animation-timing-function: linear;
+		}
+				
+		@keyframes float {
+			0% {
+				transform: translateY(100vh);
+				opacity: 0;
+			}
+			10% {
+				opacity: 0.7;
+			}
+			90% {
+				opacity: 0.7;
+			}
+			100% {
+				transform: translateY(-100px);
+				opacity: 0;
+			}
+		}
+
         @media (max-width: 768px) {
             .footer-content {
                 grid-template-columns: 1fr 1fr;
@@ -249,15 +290,18 @@
     </style>
 </head>
 <body>
+	<script src="/js/leaves.js"></script>
     <div class="background"></div>
     
     <header>
         <div class="container">
             <div class="header-container">
-                <div class="logo-container">
-                    <img src="/img/logo-01.jpg" alt="Blow Flow Genetics" class="header-logo">
-                    <h1 class="site-title">Blow Flow Genetics</h1>
-                </div>
+				<div class="logo-container">
+					<a href="index.html" style="text-decoration: none; display: flex; align-items: center;">
+						<img src="/img/logo-01.jpg" alt="Blow Flow Genetics" class="header-logo">
+						<h1 class="site-title">Blow Flow Genetics</h1>
+					</a>
+				</div>
                 <nav>
                     <ul>
                         <li><a href="index.html#strains">Strains</a></li>
