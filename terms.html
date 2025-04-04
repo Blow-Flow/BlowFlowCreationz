@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terms of Service - Blow Flow Genetics</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --purple: #6a1b9a;
+            --pink: #e91e63;
+            --cyan: #00bcd4;
+            --green: #4CAF50;
+            --yellow: #FFEB3B;
+            --orange: #FF5722;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', 'Helvetica Neue', sans-serif;
+        }
+        
+        body {
+            background-color: #111;
+            color: #fff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, #3a086b 0%, #111 100%);
+            z-index: -3;
+        }
+        
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid var(--cyan);
+            z-index: 1000;
+            box-shadow: 0 0 20px rgba(0, 188, 212, 0.5);
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+        
+        .header-logo {
+            height: 60px;
+            filter: drop-shadow(0 0 5px rgba(255, 87, 34, 0.8));
+        }
+        
+        .site-title {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 1.8rem;
+            margin-left: 15px;
+            color: var(--yellow);
+            text-shadow: 2px 2px 0 var(--orange), 
+                        -2px -2px 0 var(--cyan);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+        
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s;
+            position: relative;
+            padding: 5px 15px;
+            border-radius: 20px;
+        }
+        
+        nav a:hover {
+            background: rgba(233, 30, 99, 0.3);
+            color: var(--yellow);
+            text-shadow: 0 0 10px var(--yellow);
+        }
+        
+        .main-content {
+            padding: 130px 0 40px;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 3rem;
+            margin-bottom: 40px;
+            text-transform: uppercase;
+            color: var(--yellow);
+            text-shadow: 3px 3px 0 var(--orange), 
+                        -3px -3px 0 var(--cyan);
+            letter-spacing: 2px;
+        }
+        
+        .legal-content {
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 50px;
+            border: 2px solid var(--cyan);
+        }
+        
+        .legal-content h2 {
+            color: var(--cyan);
+            font-family: 'Montserrat', sans-serif;
+            margin: 30px 0 15px;
+            font-size: 1.6rem;
+        }
+        
+        .legal-content h2:first-child {
+            margin-top: 0;
+        }
+        
+        .legal-content p {
+            margin-bottom: 15px;
+            color: #ddd;
+        }
+        
+        .legal-content ul, .legal-content ol {
+            margin-bottom: 15px;
+            margin-left: 30px;
+            color: #ddd;
+        }
+        
+        .legal-content li {
+            margin-bottom: 5px;
+        }
+        
+        footer {
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 50px 0 20px;
+            border-top: 3px solid var(--pink);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .footer-section h3 {
+            color: var(--cyan);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .footer-section ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-section ul li a {
+            color: #ccc;
+            text-decoration: none;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .footer-section ul li a:hover {
+            color: var(--yellow);
+            text-shadow: 0 0 5px var(--yellow);
+        }
+
+        .copyright {
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 20px;
+            color: #777;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .footer-content {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .header-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .logo-container {
+                margin-bottom: 15px;
+                justify-content: center;
+            }
+            
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 15px;
+            }
+            
+            .main-content {
+                padding-top: 170px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="background"></div>
+    
+    <header>
+        <div class="container">
+            <div class="header-container">
+                <div class="logo-container">
+                    <img src="/img/logo-01.jpg" alt="Blow Flow Genetics" class="header-logo">
+                    <h1 class="site-title">Blow Flow Genetics</h1>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="index.html#strains">Strains</a></li>
+                        <li><a href="index.html#products">Products</a></li>
+                        <li><a href="index.html#merchandise">Merchandise</a></li>
+                        <li><a href="index.html#contact">Contact</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+    
+    <div class="main-content">
+        <div class="container">
+            <h1 class="section-title">Terms of Service</h1>
+            
+            <div class="legal-content">
+                <h2>1. Introduction</h2>
+                <p>Welcome to Blow Flow Genetics. These Terms of Service govern your use of our website and the products and services offered by Blow Flow Genetics (referred to as "we," "us," or "our"). By accessing or using our website, you agree to be bound by these Terms of Service.</p>
+                
+                <h2>2. Products</h2>
+                <p>All products displayed on our website are intended as collectible novelty items. We do not encourage any illegal activity. Customers are responsible for complying with their local laws and regulations.</p>
+                
+                <h2>3. Order Processing</h2>
+                <p>When you place an order through our website, you are making an offer to purchase our products. We reserve the right to accept or decline your offer at our discretion. Once we accept your order, you will receive an order confirmation via email.</p>
+                <p>Shipping details, including costs and delivery timeframes, will be determined on a per-order basis and communicated to you during the order process.</p>
+                
+                <h2>4. Pricing and Payment</h2>
+                <p>All prices displayed on our website are in US dollars and do not include shipping costs. We reserve the right to change prices at any time without prior notice.</p>
+                <p>Payment details will be provided after order submission. We do not store payment information on our website.</p>
+                
+                <h2>5. Intellectual Property</h2>
+                <p>All content on this website, including text, graphics, logos, images, and software, is the property of Blow Flow Genetics and is protected by copyright and other intellectual property laws. You may not reproduce, distribute, or create derivative works from this content without our express written consent.</p>
+                
+                <h2>6. Limitation of Liability</h2>
+                <p>Blow Flow Genetics will not be liable for any indirect, incidental, special, consequential, or punitive damages arising out of your access to or use of our website or products.</p>
+                
+                <h2>7. Website Use</h2>
+                <p>You agree to use our website only for lawful purposes and in a way that does not infringe upon the rights of others or restrict their use of the website.</p>
+                
+                <h2>8. Third-Party Links</h2>
+                <p>Our website may contain links to third-party websites. We are not responsible for the content, privacy policies, or practices of any third-party websites.</p>
+                
+                <h2>9. Changes to Terms</h2>
+                <p>We reserve the right to modify these Terms of Service at any time. Changes will be effective immediately upon posting on the website. Your continued use of the website after changes are posted constitutes your acceptance of the modified terms.</p>
+                
+                <h2>10. Contact Information</h2>
+                <p>If you have questions about these Terms of Service, please contact us at Blowflowllc@gmail.com.</p>
+                
+                <h2>11. Governing Law</h2>
+                <p>These Terms of Service shall be governed by and construed in accordance with the laws of the United States, without regard to its conflict of law provisions.</p>
+                
+                <p><strong>Last updated:</strong> April 4, 2025</p>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Blow Flow Genetics</h3>
+                    <ul>
+                        <li><a href="index.html#strains">Premium Collectables</a></li>
+                        <li><a href="index.html#products">Crafted Items</a></li>
+                        <li><a href="index.html#merchandise">Merchandise</a></li>
+                        <li><a href="index.html#contact">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Legal</h3>
+                    <ul>
+                        <li><a href="terms.html">Terms of Service</a></li>
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                        <li><a href="shipping.html">Shipping Policy</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Contact</h3>
+                    <ul>
+                        <li><a href="mailto:Blowflowllc@gmail.com">Blowflowllc@gmail.com</a></li>
+                        <li><a href="https://www.instagram.com/blowflowgenetics" target="_blank">Instagram</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Shop Our Friends</h3>
+                    <ul>
+                        <li><a href="https://vivosun.com" target="_blank">Vivosun</a></li>
+                        <li><a href="https://lovewhatyougrow.com" target="_blank">Love What You Grow</a></li>
+                        <li><a href="https://fastbuds.com" target="_blank">FastBuds.com</a> <span style="color: var(--green);">(Code: BFG420)</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>© 2025 Blow Flow Genetics. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
