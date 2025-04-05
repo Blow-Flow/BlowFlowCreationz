@@ -24,7 +24,9 @@
     <!-- Three.js for 3D visualization -->
     <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/controls/OrbitControls.js"></script>
-    
+    <!-- html2canvas for image capture -->
+	<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+
     <style>
         :root {
             --purple: #6a1b9a;
@@ -771,10 +773,10 @@
                 <div class="preview-container">
                     <div id="shirt-3d-container"></div>
                     
-                    <div class="action-buttons">
-                        <button id="resetDesignBtn" class="cta-button secondary">Reset Design</button>
-                        <button id="saveDesignBtn" class="cta-button">Save Design</button>
-                    </div>
+					<div class="action-buttons">
+						<button id="resetDesignBtn" class="cta-button secondary">Reset Design</button>
+						<button id="copyToClipboardBtn" class="cta-button">Copy to Clipboard</button>
+					</div>
                 </div>
             </div>
         </div>
@@ -1311,34 +1313,66 @@
 				openCartModal();
 			});
 			
-			// Save design button
-			document.getElementById('saveDesignBtn').addEventListener('click', function() {
-				// Generate a unique code for the design
-				const designCode = 'BFC-' + Math.random().toString(36).substring(2, 10).toUpperCase();
+			// Copy to Clipboard button
+			document.getElementById('copyToClipboardBtn').addEventListener('click', function() {
+				// Get the current view canvas
+				const container = document.getElementById('shirt-3d-container');
 				
-				// Save design to localStorage
-				const designData = {
-					code: designCode,
-					state: JSON.stringify(currentState),
-					frontPreview: captureView('front'),
-					backPreview: captureView('back'),
-					timestamp: new Date().getTime()
-				};
-				
-				// Get existing saved designs
-				let savedDesigns = JSON.parse(localStorage.getItem('blowflowSavedDesigns')) || [];
-				savedDesigns.push(designData);
-				
-				// Limit to last 10 designs
-				if (savedDesigns.length > 10) {
-					savedDesigns = savedDesigns.slice(-10);
-				}
-				
-				localStorage.setItem('blowflowSavedDesigns', JSON.stringify(savedDesigns));
-				
-				// Show confirmation
-				alert('Your design has been saved! You can access it later using code: ' + designCode);
+				// Use html2canvas to capture the current view
+				html2canvas(container).then(canvas => {
+					// Convert the canvas to a data URL
+					const imageURL = canvas.toDataURL('image/png');
+					
+					// Create a temporary canvas to make sure we have a clean, properly sized image
+					const tempCanvas = document.createElement('canvas');
+					const ctx = tempCanvas.getContext('2d');
+					tempCanvas.width = canvas.width;
+					tempCanvas.height = canvas.height;
+					
+					// Draw a clean background
+					ctx.fillStyle = '#111';
+					ctx.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
+					
+					// Draw the captured image on top
+					const img = new Image();
+					img.onload = function() {
+						ctx.drawImage(img, 0, 0);
+						
+						// Try to copy to clipboard
+						tempCanvas.toBlob(function(blob) {
+							try {
+								// Modern clipboard API
+								const clipboardItem = new ClipboardItem({ 'image/png': blob });
+								navigator.clipboard.write([clipboardItem]).then(function() {
+									alert('Design copied to clipboard! You can now paste it in Discord or other applications.');
+								}, function(err) {
+									// Fallback for browsers that don't support ClipboardItem
+									fallbackCopyToClipboard(imageURL);
+								});
+							} catch (e) {
+								// Fallback for browsers that don't support ClipboardItem
+								fallbackCopyToClipboard(imageURL);
+							}
+						});
+					};
+					img.src = imageURL;
+				});
 			});
+
+			// Fallback function to copy image URL to clipboard
+			function fallbackCopyToClipboard(imageURL) {
+				// Create a link element and set attributes for downloading
+				const link = document.createElement('a');
+				link.href = imageURL;
+				link.download = 'tshirt-design.png';
+				
+				// Append to body, click, and remove
+				document.body.appendChild(link);
+				link.click();
+				document.body.removeChild(link);
+				
+				alert('Your design has been downloaded. Unfortunately, direct clipboard copy is not supported in your browser.');
+			}
 			
 			// Initialize cart count
 			function updateCartCount() {
