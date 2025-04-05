@@ -647,140 +647,144 @@
         </div>
     </header>
     
-    <div class="main-content">
-        <div class="container">
-            <h2 class="section-title">Custom T-Shirt Designer</h2>
-            
-            <div class="designer-container">
-                <div class="designer-tools">
-                    <!-- Color Section -->
-                    <div class="tool-section">
-                        <h3 class="tool-title">T-Shirt Color</h3>
-                        <div class="tshirt-colors">
-                            <div class="color-option active" style="background-color: #ffffff;" data-color="#ffffff"></div>
-                            <div class="color-option" style="background-color: #000000;" data-color="#000000"></div>
-                            <div class="color-option" style="background-color: #ff5722;" data-color="#ff5722"></div>
-                            <div class="color-option" style="background-color: #4caf50;" data-color="#4caf50"></div>
-                            <div class="color-option" style="background-color: #2196f3;" data-color="#2196f3"></div>
-                            <div class="color-option" style="background-color: #9c27b0;" data-color="#9c27b0"></div>
-                        </div>
-                    </div>
-                    
-                    <!-- View Controls -->
-                    <div class="tool-section">
-                        <h3 class="tool-title">View</h3>
-                        <div class="view-buttons">
-                            <div class="view-btn active" data-view="front">Front</div>
-                            <div class="view-btn" data-view="back">Back</div>
-                        </div>
-                        <p class="instructions">Click and drag to rotate the 3D view. Use mouse wheel to zoom.</p>
-                    </div>
-                    
-                    <!-- Front Text -->
-                    <div class="tool-section" id="frontTextSection">
-                        <h3 class="tool-title">Front Text</h3>
-                        <div class="design-form">
-                            <div class="input-group">
-                                <label for="frontText">Text (max 30 chars)</label>
-                                <textarea id="frontText" maxlength="30" placeholder="Enter front text"></textarea>
-                            </div>
-                            
-                            <div class="input-group">
-                                <label for="frontTextColor">Text Color</label>
-                                <input type="color" id="frontTextColor" value="#000000">
-                            </div>
-                            
-                            <div class="input-group">
-                                <label>Font</label>
-                                <div class="font-samples">
-                                    <div class="font-sample active" data-font="Arial">Aa</div>
-                                    <div class="font-sample" data-font="Montserrat">Aa</div>
-                                    <div class="font-sample" data-font="Poppins">Aa</div>
-                                    <div class="font-sample" data-font="Permanent Marker">Aa</div>
-                                    <div class="font-sample" data-font="Pacifico">Aa</div>
-                                    <div class="font-sample" data-font="Anton">Aa</div>
-                                </div>
-                                <input type="hidden" id="frontTextFont" value="Arial">
-                            </div>
-                            
-                            <div class="input-group">
-                                <label for="frontPlacement">Placement</label>
-                                <select id="frontPlacement">
-                                    <option value="center">Center</option>
-                                    <option value="pocket">Pocket</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Back Text -->
-                    <div class="tool-section" id="backTextSection" style="display: none;">
-                        <h3 class="tool-title">Back Text</h3>
-                        <div class="design-form">
-                            <div class="input-group">
-                                <label for="backText">Text (max 30 chars)</label>
-                                <textarea id="backText" maxlength="30" placeholder="Enter back text"></textarea>
-                            </div>
-                            
-                            <div class="input-group">
-                                <label for="backTextColor">Text Color</label>
-                                <input type="color" id="backTextColor" value="#000000">
-                            </div>
-                            
-                            <div class="input-group">
-                                <label>Font</label>
-                                <div class="font-samples">
-                                    <div class="font-sample active" data-font="Arial">Aa</div>
-                                    <div class="font-sample" data-font="Montserrat">Aa</div>
-                                    <div class="font-sample" data-font="Poppins">Aa</div>
-                                    <div class="font-sample" data-font="Permanent Marker">Aa</div>
-                                    <div class="font-sample" data-font="Pacifico">Aa</div>
-                                    <div class="font-sample" data-font="Anton">Aa</div>
-                                </div>
-                                <input type="hidden" id="backTextFont" value="Arial">
-                            </div>
-                            
-                            <div class="input-group">
-                                <label for="backPlacement">Placement</label>
-                                <select id="backPlacement">
-                                    <option value="center">Center</option>
-                                    <option value="top">Upper Back</option>
-                                    <option value="bottom">Lower Back</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Size Section -->
-                    <div class="tool-section">
-                        <h3 class="tool-title">T-Shirt Size</h3>
-                        <div class="size-selector">
-                            <div class="size-option" data-size="S">S</div>
-                            <div class="size-option active" data-size="M">M</div>
-                            <div class="size-option" data-size="L">L</div>
-                            <div class="size-option" data-size="XL">XL</div>
-                            <div class="size-option" data-size="XXL">XXL</div>
-                        </div>
-                    </div>
-                    
-                    <div id="price-container">
-                        <div>Price: <span id="price-amount">$24.99</span></div>
-                    </div>
-                    
-                    <button id="addToCartBtn" class="cta-button">Add To Cart</button>
-                </div>
-                
-                <div class="preview-container">
-                    <div id="shirt-3d-container"></div>
-                    
+	<div class="main-content">
+		<div class="container">
+			<h2 class="section-title">Custom T-Shirt Designer</h2>
+			
+			<div class="designer-container">
+				<div class="designer-tools">
+					<!-- Color Section -->
+					<div class="tool-section">
+						<h3 class="tool-title">T-Shirt Color</h3>
+						<div class="tshirt-colors">
+							<div class="color-option active" style="background-color: #ffffff;" data-color="#ffffff"></div>
+							<div class="color-option" style="background-color: #000000;" data-color="#000000"></div>
+							<div class="color-option" style="background-color: #ff5722;" data-color="#ff5722"></div>
+							<div class="color-option" style="background-color: #4caf50;" data-color="#4caf50"></div>
+							<div class="color-option" style="background-color: #2196f3;" data-color="#2196f3"></div>
+							<div class="color-option" style="background-color: #9c27b0;" data-color="#9c27b0"></div>
+						</div>
+						<div class="custom-color-input" style="margin-top: 10px;">
+							<label for="customShirtColor">Custom Color:</label>
+							<input type="color" id="customShirtColor" value="#ffffff">
+						</div>
+					</div>
+					
+					<!-- View Controls -->
+					<div class="tool-section">
+						<h3 class="tool-title">View</h3>
+						<div class="view-buttons">
+							<div class="view-btn active" data-view="front">Front</div>
+							<div class="view-btn" data-view="back">Back</div>
+						</div>
+						<p class="instructions">Click and drag to rotate the 3D view. Use mouse wheel to zoom.</p>
+					</div>
+					
+					<!-- Front Text -->
+					<div class="tool-section" id="frontTextSection">
+						<h3 class="tool-title">Front Text</h3>
+						<div class="design-form">
+							<div class="input-group">
+								<label for="frontText">Text (max 30 chars)</label>
+								<textarea id="frontText" maxlength="30" placeholder="Enter front text"></textarea>
+							</div>
+							
+							<div class="input-group">
+								<label for="frontTextColor">Text Color</label>
+								<input type="color" id="frontTextColor" value="#000000">
+							</div>
+							
+							<div class="input-group">
+								<label>Font</label>
+								<div class="font-samples">
+									<div class="font-sample active" data-font="Arial">Aa</div>
+									<div class="font-sample" data-font="Montserrat">Aa</div>
+									<div class="font-sample" data-font="Poppins">Aa</div>
+									<div class="font-sample" data-font="Permanent Marker">Aa</div>
+									<div class="font-sample" data-font="Pacifico">Aa</div>
+									<div class="font-sample" data-font="Anton">Aa</div>
+								</div>
+								<input type="hidden" id="frontTextFont" value="Arial">
+							</div>
+							
+							<div class="input-group">
+								<label for="frontPlacement">Placement</label>
+								<select id="frontPlacement">
+									<option value="center">Center</option>
+									<option value="pocket">Pocket</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					
+					<!-- Back Text -->
+					<div class="tool-section" id="backTextSection" style="display: none;">
+						<h3 class="tool-title">Back Text</h3>
+						<div class="design-form">
+							<div class="input-group">
+								<label for="backText">Text (max 30 chars)</label>
+								<textarea id="backText" maxlength="30" placeholder="Enter back text"></textarea>
+							</div>
+							
+							<div class="input-group">
+								<label for="backTextColor">Text Color</label>
+								<input type="color" id="backTextColor" value="#000000">
+							</div>
+							
+							<div class="input-group">
+								<label>Font</label>
+								<div class="font-samples">
+									<div class="font-sample active" data-font="Arial">Aa</div>
+									<div class="font-sample" data-font="Montserrat">Aa</div>
+									<div class="font-sample" data-font="Poppins">Aa</div>
+									<div class="font-sample" data-font="Permanent Marker">Aa</div>
+									<div class="font-sample" data-font="Pacifico">Aa</div>
+									<div class="font-sample" data-font="Anton">Aa</div>
+								</div>
+								<input type="hidden" id="backTextFont" value="Arial">
+							</div>
+							
+							<div class="input-group">
+								<label for="backPlacement">Placement</label>
+								<select id="backPlacement">
+									<option value="center">Center</option>
+									<option value="top">Upper Back</option>
+									<option value="bottom">Lower Back</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					
+					<!-- Size Section -->
+					<div class="tool-section">
+						<h3 class="tool-title">T-Shirt Size</h3>
+						<div class="size-selector">
+							<div class="size-option" data-size="S">S</div>
+							<div class="size-option active" data-size="M">M</div>
+							<div class="size-option" data-size="L">L</div>
+							<div class="size-option" data-size="XL">XL</div>
+							<div class="size-option" data-size="XXL">XXL</div>
+						</div>
+					</div>
+					
+					<div id="price-container">
+						<div>Price: <span id="price-amount">$24.99</span></div>
+					</div>
+					
+					<button id="addToCartBtn" class="cta-button">Add To Cart</button>
+				</div>
+				
+				<div class="preview-container">
+					<div id="shirt-3d-container"></div>
+					
 					<div class="action-buttons">
 						<button id="resetDesignBtn" class="cta-button secondary">Reset Design</button>
 						<button id="copyToClipboardBtn" class="cta-button">Copy to Clipboard</button>
 					</div>
-                </div>
-            </div>
-        </div>
-    </div>
+				</div>
+			</div>
+		</div>
+	</div>
     
     <!-- Cart Modal -->
     <div class="modal" id="cartModal">
@@ -1520,6 +1524,18 @@
 			// Continue shopping button
 			document.getElementById('continueShoppingBtn').addEventListener('click', function() {
 				document.getElementById('cartModal').style.display = 'none';
+			});
+
+			// Custom color picker
+			document.getElementById('customShirtColor').addEventListener('input', function() {
+				const color = this.value;
+				
+				// Update UI
+				document.querySelectorAll('.color-option').forEach(opt => opt.classList.remove('active'));
+				
+				// Update current state and display
+				currentState.color = color;
+				updateTShirtColor(color);
 			});
 			
 			// Checkout button
