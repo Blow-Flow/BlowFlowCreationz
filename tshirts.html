@@ -1530,11 +1530,7 @@
             // Front text input
 			document.getElementById('frontText').addEventListener('input', function() {
 			  currentState.frontText = this.value;
-			  waitForTshirtModel(function() {
-				updateTShirtText();
-				// Force a render update
-				renderer.render(scene, camera);
-			  });
+			  updateTShirtText();
 			});
             
 			document.getElementById('frontTextColor').addEventListener('input', function() {
