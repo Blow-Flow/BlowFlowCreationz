@@ -851,7 +851,10 @@
 				backTextFont: "Arial",
 				backPlacement: "center"
 			};
-			
+
+			currentState.frontText = document.getElementById('frontText').value;
+			currentState.backText = document.getElementById('backText').value;
+	
 			// Initialize the container
 			const container = document.getElementById('shirt-3d-container');
 			container.innerHTML = '';
@@ -1476,6 +1479,16 @@
 			
 			// Initial setup
 			updateView('front');
+			
+			// This makes text display immediately on page load if inputs have values
+			if (document.getElementById('frontText').value || document.getElementById('backText').value) {
+				// Transfer values to currentState
+				currentState.frontText = document.getElementById('frontText').value;
+				currentState.backText = document.getElementById('backText').value;
+				
+				// Force text display update
+				updateTextDisplay();
+			}
 		});
     </script>
 </body>
