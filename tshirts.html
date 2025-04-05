@@ -1440,52 +1440,51 @@
             }
             
             // Change the view (front, back, rotate)
-            function updateView(view) {
-                // Reset camera position
-                controls.reset();
-                
-                // Update controls based on view
-                if (view === "front") {
-                    camera.position.set(0, 0, 5);
-                    controls.enabled = false;
-                    controls.autoRotate = false;
-                    
-                    // Show front text controls, hide back text controls
-                    document.getElementById('frontTextSection').style.display = 'block';
-                    document.getElementById('backTextSection').style.display = 'none';
-                } else if (view === "back") {
-                    camera.position.set(0, 0, -5);
-                    controls.enabled = false;
-                    controls.autoRotate = false;
-                    
-                    // Show back text controls, hide front text controls
-                    document.getElementById('frontTextSection').style.display = 'none';
-                    document.getElementById('backTextSection').style.display = 'block';
-                } else if (view === "rotate") {
-                    camera.position.set(3, 0, 3);
-                    controls.enabled = true;
-                    controls.autoRotate = true;
-                    
-                    // Show both front and back text controls
-                    document.getElementById('frontTextSection').style.display = 'block';
-                    document.getElementById('backTextSection').style.display = 'block';
-                }
-                
-                // Update camera
-                camera.lookAt(scene.position);
-                controls.update();
-            }
+			function updateView(view) {
+				// Reset camera position
+				if (controls) controls.reset();
+				
+				// Update based on view (simplified 2D views instead of 3D)
+				if (view === "front") {
+					// Set to static front view
+					camera.position.set(0, 0, 5);
+					controls.enabled = false;
+					controls.autoRotate = false;
+					
+					// Show front text controls, hide back text controls
+					document.getElementById('frontTextSection').style.display = 'block';
+					document.getElementById('backTextSection').style.display = 'none';
+				} else if (view === "back") {
+					// Set to static back view
+					camera.position.set(0, 0, -5);
+					controls.enabled = false;
+					controls.autoRotate = false;
+					
+					// Show back text controls, hide front text controls
+					document.getElementById('frontTextSection').style.display = 'none';
+					document.getElementById('backTextSection').style.display = 'block';
+				} else if (view === "rotate") {
+					// Instead of 3D rotation, just show front view
+					camera.position.set(0, 0, 5);
+					controls.enabled = false; // Disable rotation
+					controls.autoRotate = false;
+					
+					// Show both front and back text controls
+					document.getElementById('frontTextSection').style.display = 'block';
+					document.getElementById('backTextSection').style.display = 'block';
+				}
+				
+				// Update camera
+				camera.lookAt(scene.position);
+				if (controls) controls.update();
+			}
             
             // Animation loop
-            function animate() {
-                requestAnimationFrame(animate);
-                
-                if (controls.enabled) {
-                    controls.update();
-                }
-                
-                renderer.render(scene, camera);
-            }
+			function animate() {
+				requestAnimationFrame(animate);
+				// Remove rotation updates
+				renderer.render(scene, camera);
+			}
             
             // Handle window resize
             function onWindowResize() {
