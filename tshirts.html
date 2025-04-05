@@ -907,21 +907,16 @@
 				currentState.view = view;
 				
 				if (view === "front") {
-					shirtImg.src = `/img/tshirt-front-${currentState.color.substring(1)}.png`;
+					shirtImg.src = '/img/tshirt-white-front.png'; // Use your actual image filename
 					document.getElementById('frontTextSection').style.display = 'block';
 					document.getElementById('backTextSection').style.display = 'none';
-					updateTextDisplay();
 				} else if (view === "back") {
-					shirtImg.src = `/img/tshirt-back-${currentState.color.substring(1)}.png`;
+					shirtImg.src = '/img/tshirt-white-back.png'; // Use your actual image filename
 					document.getElementById('frontTextSection').style.display = 'none';
 					document.getElementById('backTextSection').style.display = 'block';
-					updateTextDisplay();
-				} else if (view === "rotate") {
-					// In 2D mode, just show front
-					shirtImg.src = `/img/tshirt-front-${currentState.color.substring(1)}.png`;
-					document.getElementById('frontTextSection').style.display = 'block';
-					document.getElementById('backTextSection').style.display = 'block';
 				}
+				
+				updateTextDisplay();
 			}
 			
 			// Function to update text display
