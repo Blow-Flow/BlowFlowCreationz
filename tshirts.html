@@ -521,8 +521,69 @@
         .font-sample[data-font="Anton"] {
             font-family: 'Anton', sans-serif;
         }
+
+		footer {
+			background-color: rgba(0, 0, 0, 0.8);
+			padding: 50px 0 20px;
+			border-top: 3px solid var(--pink);
+		}
+
+		.footer-content {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+			gap: 30px;
+			margin-bottom: 30px;
+		}
+
+		.footer-section h3 {
+			color: var(--cyan);
+			font-family: 'Montserrat', sans-serif;
+			font-size: 1.2rem;
+			margin-bottom: 20px;
+			text-transform: uppercase;
+			letter-spacing: 1px;
+		}
+
+		.footer-section ul {
+			list-style: none;
+			padding: 0;
+		}
+
+		.footer-section ul li {
+			margin-bottom: 10px;
+		}
+
+		.footer-section ul li a {
+			color: #ccc;
+			text-decoration: none;
+			transition: all 0.3s;
+			font-size: 0.9rem;
+		}
+
+		.footer-section ul li a:hover {
+			color: var(--yellow);
+			text-shadow: 0 0 5px var(--yellow);
+		}
+
+		.copyright {
+			text-align: center;
+			border-top: 1px solid rgba(255, 255, 255, 0.1);
+			padding-top: 20px;
+			color: #777;
+			font-size: 0.9rem;
+		}
+
+		@media (max-width: 480px) {
+			.footer-content {
+				grid-template-columns: 1fr;
+			}
+		}
         
         @media (max-width: 768px) {
+			.footer-content {
+				grid-template-columns: 1fr 1fr;
+			}
+		
             .designer-container {
                 grid-template-columns: 1fr;
             }
