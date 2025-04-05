@@ -257,6 +257,16 @@
             border-radius: 5px;
             font-size: 0.95rem;
         }
+
+		select option {
+			background-color: #333;
+			color: white;
+		}
+
+		select {
+			background-color: rgba(50, 50, 50, 0.8) !important;
+			color: white !important;
+		}
         
         .input-group textarea {
             background: rgba(255, 255, 255, 0.1);
@@ -1002,197 +1012,215 @@
                 shirtGroup.add(backBottomPlane);
             }
             
-            // Update t-shirt text
-            function updateTShirtText() {
-                // Create canvas for front text
-                if (currentState.frontText) {
-                    const frontCanvas = document.createElement('canvas');
-                    frontCanvas.width = 1000;
-                    frontCanvas.height = 600;
-                    const frontCtx = frontCanvas.getContext('2d');
-                    
-                    // Clear canvas
-                    frontCtx.clearRect(0, 0, frontCanvas.width, frontCanvas.height);
-                    
-                    // Set text properties
-                    frontCtx.fillStyle = currentState.frontTextColor;
-                    frontCtx.font = `bold 80px ${currentState.frontTextFont}`;
-                    frontCtx.textAlign = 'center';
-                    frontCtx.textBaseline = 'middle';
-                    
-                    // Handle multiline text
-                    const frontLines = currentState.frontText.split('\n');
-                    const lineHeight = 100;
-                    
-                    frontLines.forEach((line, index) => {
-                        const y = frontCanvas.height / 2 - (frontLines.length - 1) * lineHeight / 2 + index * lineHeight;
-                        frontCtx.fillText(line, frontCanvas.width / 2, y);
-                    });
-                    
-                    // Create texture
-                    const frontTexture = new THREE.CanvasTexture(frontCanvas);
-                    
-                    // Apply texture to appropriate plane
-                    if (currentState.frontPlacement === "center") {
-                        const frontPlane = tshirtMesh.getObjectByName("frontCenterPlane");
-                        if (frontPlane) {
-                            frontPlane.material.map = frontTexture;
-                            frontPlane.material.opacity = 1;
-                            frontPlane.material.needsUpdate = true;
-                        }
-                        
-                        // Clear pocket text
-                        const pocketPlane = tshirtMesh.getObjectByName("frontPocketPlane");
-                        if (pocketPlane) {
-                            pocketPlane.material.opacity = 0;
-                            pocketPlane.material.needsUpdate = true;
-                        }
-                    } else if (currentState.frontPlacement === "pocket") {
-                        const pocketPlane = tshirtMesh.getObjectByName("frontPocketPlane");
-                        if (pocketPlane) {
-                            pocketPlane.material.map = frontTexture;
-                            pocketPlane.material.opacity = 1;
-                            pocketPlane.material.needsUpdate = true;
-                        }
-                        
-                        // Clear center text
-                        const frontPlane = tshirtMesh.getObjectByName("frontCenterPlane");
-                        if (frontPlane) {
-                            frontPlane.material.opacity = 0;
-                            frontPlane.material.needsUpdate = true;
-                        }
-                    }
-                } else {
-                    // No front text, clear all front planes
-                    const frontPlane = tshirtMesh.getObjectByName("frontCenterPlane");
-                    const pocketPlane = tshirtMesh.getObjectByName("frontPocketPlane");
-                    
-                    if (frontPlane) {
-                        frontPlane.material.opacity = 0;
-                        frontPlane.material.needsUpdate = true;
-                    }
-                    
-                    if (pocketPlane) {
-                        pocketPlane.material.opacity = 0;
-                        pocketPlane.material.needsUpdate = true;
-                    }
-                }
-                
-                // Create canvas for back text
-                if (currentState.backText) {
-                    const backCanvas = document.createElement('canvas');
-                    backCanvas.width = 1000;
-                    backCanvas.height = 600;
-                    const backCtx = backCanvas.getContext('2d');
-                    
-                    // Clear canvas
-                    backCtx.clearRect(0, 0, backCanvas.width, backCanvas.height);
-                    
-                    // Set text properties
-                    backCtx.fillStyle = currentState.backTextColor;
-                    backCtx.font = `bold 80px ${currentState.backTextFont}`;
-                    backCtx.textAlign = 'center';
-                    backCtx.textBaseline = 'middle';
-                    
-                    // Handle multiline text
-                    const backLines = currentState.backText.split('\n');
-                    const lineHeight = 100;
-                    
-                    backLines.forEach((line, index) => {
-                        const y = backCanvas.height / 2 - (backLines.length - 1) * lineHeight / 2 + index * lineHeight;
-                        backCtx.fillText(line, backCanvas.width / 2, y);
-                    });
-                    
-                    // Create texture
-                    const backTexture = new THREE.CanvasTexture(backCanvas);
-                    
-                    // Apply texture to appropriate plane
-                    if (currentState.backPlacement === "center") {
-                        const backPlane = tshirtMesh.getObjectByName("backCenterPlane");
-                        if (backPlane) {
-                            backPlane.material.map = backTexture;
-                            backPlane.material.opacity = 1;
-                            backPlane.material.needsUpdate = true;
-                        }
-                        
-                        // Clear other back planes
-                        const topPlane = tshirtMesh.getObjectByName("backTopPlane");
-                        const bottomPlane = tshirtMesh.getObjectByName("backBottomPlane");
-                        
-                        if (topPlane) {
-                            topPlane.material.opacity = 0;
-                            topPlane.material.needsUpdate = true;
-                        }
-                        
-                        if (bottomPlane) {
-                            bottomPlane.material.opacity = 0;
-                            bottomPlane.material.needsUpdate = true;
-                        }
-                    } else if (currentState.backPlacement === "top") {
-                        const topPlane = tshirtMesh.getObjectByName("backTopPlane");
-                        if (topPlane) {
-                            topPlane.material.map = backTexture;
-                            topPlane.material.opacity = 1;
-                            topPlane.material.needsUpdate = true;
-                        }
-                        
-                        // Clear other back planes
-                        const backPlane = tshirtMesh.getObjectByName("backCenterPlane");
-                        const bottomPlane = tshirtMesh.getObjectByName("backBottomPlane");
-                        
-                        if (backPlane) {
-                            backPlane.material.opacity = 0;
-                            backPlane.material.needsUpdate = true;
-                        }
-                        
-                        if (bottomPlane) {
-                            bottomPlane.material.opacity = 0;
-                            bottomPlane.material.needsUpdate = true;
-                        }
-                    } else if (currentState.backPlacement === "bottom") {
-                        const bottomPlane = tshirtMesh.getObjectByName("backBottomPlane");
-                        if (bottomPlane) {
-                            bottomPlane.material.map = backTexture;
-                            bottomPlane.material.opacity = 1;
-                            bottomPlane.material.needsUpdate = true;
-                        }
-                        
-                        // Clear other back planes
-                        const backPlane = tshirtMesh.getObjectByName("backCenterPlane");
-                        const topPlane = tshirtMesh.getObjectByName("backTopPlane");
-                        
-                        if (backPlane) {
-                            backPlane.material.opacity = 0;
-                            backPlane.material.needsUpdate = true;
-                        }
-                        
-                        if (topPlane) {
-                            topPlane.material.opacity = 0;
-                            topPlane.material.needsUpdate = true;
-                        }
-                    }
-                } else {
-                    // No back text, clear all back planes
-                    const backPlane = tshirtMesh.getObjectByName("backCenterPlane");
-                    const topPlane = tshirtMesh.getObjectByName("backTopPlane");
-                    const bottomPlane = tshirtMesh.getObjectByName("backBottomPlane");
-                    
-                    if (backPlane) {
-                        backPlane.material.opacity = 0;
-                        backPlane.material.needsUpdate = true;
-                    }
-                    
-                    if (topPlane) {
-                        topPlane.material.opacity = 0;
-                        topPlane.material.needsUpdate = true;
-                    }
-                    
-                    if (bottomPlane) {
-                        bottomPlane.material.opacity = 0;
-                        bottomPlane.material.needsUpdate = true;
-                    }
-                }
-            }
+			// Update t-shirt text
+			function updateTShirtText() {
+				// Create canvas for front text
+				if (currentState.frontText) {
+					const frontCanvas = document.createElement('canvas');
+					frontCanvas.width = 512;
+					frontCanvas.height = 512;
+					const frontCtx = frontCanvas.getContext('2d');
+					
+					// Clear canvas with transparent background
+					frontCtx.clearRect(0, 0, frontCanvas.width, frontCanvas.height);
+					
+					// Set text properties
+					frontCtx.fillStyle = currentState.frontTextColor;
+					frontCtx.font = `bold 60px ${currentState.frontTextFont}`;
+					frontCtx.textAlign = 'center';
+					frontCtx.textBaseline = 'middle';
+					
+					// Handle multiline text
+					const frontLines = currentState.frontText.split('\n');
+					const lineHeight = 70;
+					
+					frontLines.forEach((line, index) => {
+						const y = frontCanvas.height / 2 - (frontLines.length - 1) * lineHeight / 2 + index * lineHeight;
+						frontCtx.fillText(line, frontCanvas.width / 2, y);
+					});
+					
+					// Create texture
+					const frontTexture = new THREE.CanvasTexture(frontCanvas);
+					
+					// Apply texture to appropriate plane
+					if (currentState.frontPlacement === "center") {
+						const frontPlane = tshirtMesh.getObjectByName("frontCenterPlane");
+						if (frontPlane) {
+							frontPlane.material = new THREE.MeshBasicMaterial({
+								map: frontTexture,
+								transparent: true,
+								side: THREE.DoubleSide
+							});
+							frontPlane.material.needsUpdate = true;
+						}
+						
+						// Clear pocket text
+						const pocketPlane = tshirtMesh.getObjectByName("frontPocketPlane");
+						if (pocketPlane) {
+							pocketPlane.material.opacity = 0;
+							pocketPlane.material.needsUpdate = true;
+						}
+					} else if (currentState.frontPlacement === "pocket") {
+						const pocketPlane = tshirtMesh.getObjectByName("frontPocketPlane");
+						if (pocketPlane) {
+							pocketPlane.material = new THREE.MeshBasicMaterial({
+								map: frontTexture,
+								transparent: true,
+								side: THREE.DoubleSide
+							});
+							pocketPlane.material.needsUpdate = true;
+						}
+						
+						// Clear center text
+						const frontPlane = tshirtMesh.getObjectByName("frontCenterPlane");
+						if (frontPlane) {
+							frontPlane.material.opacity = 0;
+							frontPlane.material.needsUpdate = true;
+						}
+					}
+				} else {
+					// No front text, clear all front planes
+					const frontPlane = tshirtMesh.getObjectByName("frontCenterPlane");
+					const pocketPlane = tshirtMesh.getObjectByName("frontPocketPlane");
+					
+					if (frontPlane) {
+						frontPlane.material.opacity = 0;
+						frontPlane.material.needsUpdate = true;
+					}
+					
+					if (pocketPlane) {
+						pocketPlane.material.opacity = 0;
+						pocketPlane.material.needsUpdate = true;
+					}
+				}
+				
+				// Create canvas for back text
+				if (currentState.backText) {
+					const backCanvas = document.createElement('canvas');
+					backCanvas.width = 512;
+					backCanvas.height = 512;
+					const backCtx = backCanvas.getContext('2d');
+					
+					// Clear canvas with transparent background
+					backCtx.clearRect(0, 0, backCanvas.width, backCanvas.height);
+					
+					// Set text properties
+					backCtx.fillStyle = currentState.backTextColor;
+					backCtx.font = `bold 60px ${currentState.backTextFont}`;
+					backCtx.textAlign = 'center';
+					backCtx.textBaseline = 'middle';
+					
+					// Handle multiline text
+					const backLines = currentState.backText.split('\n');
+					const lineHeight = 70;
+					
+					backLines.forEach((line, index) => {
+						const y = backCanvas.height / 2 - (backLines.length - 1) * lineHeight / 2 + index * lineHeight;
+						backCtx.fillText(line, backCanvas.width / 2, y);
+					});
+					
+					// Create texture
+					const backTexture = new THREE.CanvasTexture(backCanvas);
+					
+					// Apply texture to appropriate plane
+					if (currentState.backPlacement === "center") {
+						const backPlane = tshirtMesh.getObjectByName("backCenterPlane");
+						if (backPlane) {
+							backPlane.material = new THREE.MeshBasicMaterial({
+								map: backTexture,
+								transparent: true,
+								side: THREE.DoubleSide
+							});
+							backPlane.material.needsUpdate = true;
+						}
+						
+						// Clear other back planes
+						const topPlane = tshirtMesh.getObjectByName("backTopPlane");
+						const bottomPlane = tshirtMesh.getObjectByName("backBottomPlane");
+						
+						if (topPlane) {
+							topPlane.material.opacity = 0;
+							topPlane.material.needsUpdate = true;
+						}
+						
+						if (bottomPlane) {
+							bottomPlane.material.opacity = 0;
+							bottomPlane.material.needsUpdate = true;
+						}
+					} else if (currentState.backPlacement === "top") {
+						const topPlane = tshirtMesh.getObjectByName("backTopPlane");
+						if (topPlane) {
+							topPlane.material = new THREE.MeshBasicMaterial({
+								map: backTexture,
+								transparent: true,
+								side: THREE.DoubleSide
+							});
+							topPlane.material.needsUpdate = true;
+						}
+						
+						// Clear other back planes
+						const backPlane = tshirtMesh.getObjectByName("backCenterPlane");
+						const bottomPlane = tshirtMesh.getObjectByName("backBottomPlane");
+						
+						if (backPlane) {
+							backPlane.material.opacity = 0;
+							backPlane.material.needsUpdate = true;
+						}
+						
+						if (bottomPlane) {
+							bottomPlane.material.opacity = 0;
+							bottomPlane.material.needsUpdate = true;
+						}
+					} else if (currentState.backPlacement === "bottom") {
+						const bottomPlane = tshirtMesh.getObjectByName("backBottomPlane");
+						if (bottomPlane) {
+							bottomPlane.material = new THREE.MeshBasicMaterial({
+								map: backTexture,
+								transparent: true,
+								side: THREE.DoubleSide
+							});
+							bottomPlane.material.needsUpdate = true;
+						}
+						
+						// Clear other back planes
+						const backPlane = tshirtMesh.getObjectByName("backCenterPlane");
+						const topPlane = tshirtMesh.getObjectByName("backTopPlane");
+						
+						if (backPlane) {
+							backPlane.material.opacity = 0;
+							backPlane.material.needsUpdate = true;
+						}
+						
+						if (topPlane) {
+							topPlane.material.opacity = 0;
+							topPlane.material.needsUpdate = true;
+						}
+					}
+				} else {
+					// No back text, clear all back planes
+					const backPlane = tshirtMesh.getObjectByName("backCenterPlane");
+					const topPlane = tshirtMesh.getObjectByName("backTopPlane");
+					const bottomPlane = tshirtMesh.getObjectByName("backBottomPlane");
+					
+					if (backPlane) {
+						backPlane.material.opacity = 0;
+						backPlane.material.needsUpdate = true;
+					}
+					
+					if (topPlane) {
+						topPlane.material.opacity = 0;
+						topPlane.material.needsUpdate = true;
+					}
+					
+					if (bottomPlane) {
+						bottomPlane.material.opacity = 0;
+						bottomPlane.material.needsUpdate = true;
+					}
+				}
+				
+				// Force a render update
+				renderer.render(scene, camera);
+			}
             
             // Update shirt color
             function updateTShirtColor(color) {
@@ -1368,10 +1396,12 @@
             });
             
             // Front text input
-            document.getElementById('frontText').addEventListener('input', function() {
-                currentState.frontText = this.value;
-                updateTShirtText();
-            });
+			document.getElementById('frontText').addEventListener('input', function() {
+				currentState.frontText = this.value;
+				updateTShirtText();
+				// Force a render update
+				renderer.render(scene, camera);
+			});
             
             // Front text color
             document.getElementById('frontTextColor').addEventListener('input', function() {
