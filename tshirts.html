@@ -1143,6 +1143,16 @@
                 backBottomPlane.name = "backBottomPlane";
                 shirtGroup.add(backBottomPlane);
             }
+
+			function waitForTshirtModel(callback) {
+			  if (tshirtMesh) {
+				callback();
+			  } else {
+				setTimeout(function() {
+				  waitForTshirtModel(callback);
+				}, 100);
+			  }
+			}
             
 			// Update t-shirt text
 			function updateTShirtText() {
@@ -1598,41 +1608,38 @@
             
             // Front text input
 			document.getElementById('frontText').addEventListener('input', function() {
-				currentState.frontText = this.value;
+			  currentState.frontText = this.value;
+			  waitForTshirtModel(function() {
 				updateTShirtText();
 				// Force a render update
 				renderer.render(scene, camera);
+			  });
 			});
             
-            // Front text color
-            document.getElementById('frontTextColor').addEventListener('input', function() {
-                currentState.frontTextColor = this.value;
-                updateTShirtText();
-            });
-            
-            // Front text placement
-            document.getElementById('frontPlacement').addEventListener('change', function() {
-                currentState.frontPlacement = this.value;
-                updateTShirtText();
-            });
-            
-            // Back text input
-            document.getElementById('backText').addEventListener('input', function() {
-                currentState.backText = this.value;
-                updateTShirtText();
-            });
-            
-            // Back text color
-            document.getElementById('backTextColor').addEventListener('input', function() {
-                currentState.backTextColor = this.value;
-                updateTShirtText();
-            });
-            
-            // Back text placement
-            document.getElementById('backPlacement').addEventListener('change', function() {
-                currentState.backPlacement = this.value;
-                updateTShirtText();
-            });
+			document.getElementById('frontTextColor').addEventListener('input', function() {
+			  currentState.frontTextColor = this.value;
+			  waitForTshirtModel(updateTShirtText);
+			});
+
+			document.getElementById('frontPlacement').addEventListener('change', function() {
+			  currentState.frontPlacement = this.value;
+			  waitForTshirtModel(updateTShirtText);
+			});
+
+			document.getElementById('backText').addEventListener('input', function() {
+			  currentState.backText = this.value;
+			  waitForTshirtModel(updateTShirtText);
+			});
+
+			document.getElementById('backTextColor').addEventListener('input', function() {
+			  currentState.backTextColor = this.value;
+			  waitForTshirtModel(updateTShirtText);
+			});
+
+			document.getElementById('backPlacement').addEventListener('change', function() {
+			  currentState.backPlacement = this.value;
+			  waitForTshirtModel(updateTShirtText);
+			});
             
             // Size selection
             document.querySelectorAll('.size-option').forEach(sizeOption => {
