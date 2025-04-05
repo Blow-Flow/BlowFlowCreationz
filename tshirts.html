@@ -937,11 +937,15 @@
 							frontCenterText.innerHTML = currentState.frontText.replace(/\n/g, '<br>');
 							frontCenterText.style.color = currentState.frontTextColor;
 							frontCenterText.style.fontFamily = currentState.frontTextFont;
+							frontCenterText.style.fontSize = '24px';  // Add font size
+							frontCenterText.style.fontWeight = 'bold'; // Add font weight
 						} else if (currentState.frontPlacement === 'pocket') {
 							frontPocketText.style.display = 'block';
 							frontPocketText.innerHTML = currentState.frontText.replace(/\n/g, '<br>');
 							frontPocketText.style.color = currentState.frontTextColor;
 							frontPocketText.style.fontFamily = currentState.frontTextFont;
+							frontPocketText.style.fontSize = '16px';  // Add font size
+							frontPocketText.style.fontWeight = 'bold'; // Add font weight
 						}
 					}
 				} else if (currentState.view === 'back') {
@@ -950,6 +954,8 @@
 						frontCenterText.innerHTML = currentState.backText.replace(/\n/g, '<br>');
 						frontCenterText.style.color = currentState.backTextColor;
 						frontCenterText.style.fontFamily = currentState.backTextFont;
+						frontCenterText.style.fontSize = '24px';  // Add font size
+						frontCenterText.style.fontWeight = 'bold'; // Add font weight
 					}
 				}
 			}
@@ -1145,6 +1151,10 @@
 				});
 				
 				document.querySelectorAll('.view-btn').forEach(btn => {
+					if (btn.getAttribute('data-view') === 'rotate') {
+						btn.style.display = 'none'; // Hide the rotate button completely
+					}
+					// Keep your existing code for active class
 					if (btn.getAttribute('data-view') === 'front') {
 						btn.classList.add('active');
 					} else {
