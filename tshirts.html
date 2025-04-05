@@ -1050,9 +1050,12 @@
 								map: frontTexture,
 								transparent: true,
 								opacity: 1.0,
-								side: THREE.DoubleSide
+								side: THREE.DoubleSide,
+								depthTest: false,  // This prevents z-fighting with the shirt
+								depthWrite: false  // This ensures text is always visible
 							});
 							frontPlane.material.needsUpdate = true;
+							frontPlane.renderOrder = 1;  // This makes sure the text renders after the shirt
 						}
 						
 						// Clear pocket text
@@ -1072,9 +1075,12 @@
 								map: frontTexture,
 								transparent: true,
 								opacity: 1.0,
-								side: THREE.DoubleSide
+								side: THREE.DoubleSide,
+								depthTest: false,
+								depthWrite: false
 							});
 							pocketPlane.material.needsUpdate = true;
+							pocketPlane.renderOrder = 1;
 						}
 						
 						// Clear center text
@@ -1148,9 +1154,12 @@
 								map: backTexture,
 								transparent: true,
 								opacity: 1.0,
-								side: THREE.DoubleSide
+								side: THREE.DoubleSide,
+								depthTest: false,
+								depthWrite: false
 							});
 							backPlane.material.needsUpdate = true;
+							backPlane.renderOrder = 1;
 						}
 						
 						// Clear other back planes
@@ -1181,9 +1190,12 @@
 								map: backTexture,
 								transparent: true,
 								opacity: 1.0,
-								side: THREE.DoubleSide
+								side: THREE.DoubleSide,
+								depthTest: false,
+								depthWrite: false
 							});
 							topPlane.material.needsUpdate = true;
+							topPlane.renderOrder = 1;
 						}
 						
 						// Clear other back planes
@@ -1214,9 +1226,12 @@
 								map: backTexture,
 								transparent: true,
 								opacity: 1.0,
-								side: THREE.DoubleSide
+								side: THREE.DoubleSide,
+								depthTest: false,
+								depthWrite: false
 							});
 							bottomPlane.material.needsUpdate = true;
+							bottomPlane.renderOrder = 1;
 						}
 						
 						// Clear other back planes
