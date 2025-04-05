@@ -929,13 +929,12 @@
 				const frontCenterText = document.getElementById('front-center-text');
 				const frontPocketText = document.getElementById('front-pocket-text');
 				
-				// Reset all text displays
+				// Reset text displays
 				frontCenterText.innerHTML = '';
 				frontPocketText.innerHTML = '';
 				frontCenterText.style.display = 'none';
 				frontPocketText.style.display = 'none';
 				
-				// Check current view and show appropriate text
 				if (currentState.view === 'front') {
 					if (currentState.frontText) {
 						if (currentState.frontPlacement === 'center') {
@@ -952,20 +951,10 @@
 					}
 				} else if (currentState.view === 'back') {
 					if (currentState.backText) {
-						// For back text we'll reuse the center div with different positions
 						frontCenterText.style.display = 'block';
 						frontCenterText.innerHTML = currentState.backText.replace(/\n/g, '<br>');
 						frontCenterText.style.color = currentState.backTextColor;
 						frontCenterText.style.fontFamily = currentState.backTextFont;
-						
-						// Adjust position based on back placement
-						if (currentState.backPlacement === 'top') {
-							frontCenterText.style.top = '25%';
-						} else if (currentState.backPlacement === 'bottom') {
-							frontCenterText.style.top = '60%';
-						} else {
-							frontCenterText.style.top = '40%';
-						}
 					}
 				}
 			}
