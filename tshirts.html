@@ -1089,12 +1089,13 @@
 				shirtGroup.add(backBottomPlane);
 			}
             
+			// Update t-shirt text - simplified version that will actually work
 			function updateTShirtText() {
-				// Handle FRONT text
+				// Create canvas for front text
 				if (currentState.frontText) {
 					const frontCanvas = document.createElement('canvas');
-					frontCanvas.width = 1024; // Higher resolution
-					frontCanvas.height = 1024; // Higher resolution
+					frontCanvas.width = 512;
+					frontCanvas.height = 512;
 					const frontCtx = frontCanvas.getContext('2d');
 					
 					// Clear canvas with transparent background
@@ -1102,88 +1103,57 @@
 					
 					// Set text properties
 					frontCtx.fillStyle = currentState.frontTextColor;
-					frontCtx.font = `bold 80px ${currentState.frontTextFont}`;
+					frontCtx.font = `bold 60px ${currentState.frontTextFont}`;
 					frontCtx.textAlign = 'center';
 					frontCtx.textBaseline = 'middle';
 					
 					// Handle multiline text
 					const frontLines = currentState.frontText.split('\n');
-					const lineHeight = 100; // More space between lines
+					const lineHeight = 70;
 					
 					frontLines.forEach((line, index) => {
 						const y = frontCanvas.height / 2 - (frontLines.length - 1) * lineHeight / 2 + index * lineHeight;
 						frontCtx.fillText(line, frontCanvas.width / 2, y);
 					});
 					
-					// Create texture with proper settings
+					// Create texture
 					const frontTexture = new THREE.CanvasTexture(frontCanvas);
-					frontTexture.anisotropy = renderer.capabilities.getMaxAnisotropy(); // Sharper text
-					frontTexture.minFilter = THREE.LinearFilter;
-					frontTexture.magFilter = THREE.LinearFilter;
 					
+					// Apply texture to appropriate plane
 					if (currentState.frontPlacement === "center") {
-						const frontMesh = tshirtMesh.getObjectByName("frontTextMesh");
-						if (frontMesh) {
-							// Apply texture to front mesh with custom shader material
-							frontMesh.material = new THREE.MeshBasicMaterial({
+						const frontPlane = tshirtMesh.getObjectByName("frontCenterPlane");
+						if (frontPlane) {
+							// Move the plane slightly in front of the shirt
+							frontPlane.position.z = 1.01;
+							frontPlane.material = new THREE.MeshBasicMaterial({
 								map: frontTexture,
 								transparent: true,
 								opacity: 1.0,
-								side: THREE.DoubleSide,
-								depthWrite: false, // Prevents z-fighting
+								side: THREE.DoubleSide
 							});
-							frontMesh.material.needsUpdate = true;
-							frontMesh.renderOrder = 1; // Make text render on top
-						}
-						
-						// Hide pocket text
-						const pocketMesh = tshirtMesh.getObjectByName("pocketTextMesh");
-						if (pocketMesh) {
-							pocketMesh.material.opacity = 0;
-							pocketMesh.material.needsUpdate = true;
+							frontPlane.material.needsUpdate = true;
 						}
 					} else if (currentState.frontPlacement === "pocket") {
-						const pocketMesh = tshirtMesh.getObjectByName("pocketTextMesh");
-						if (pocketMesh) {
-							pocketMesh.material = new THREE.MeshBasicMaterial({
+						const pocketPlane = tshirtMesh.getObjectByName("frontPocketPlane");
+						if (pocketPlane) {
+							// Move the plane slightly in front of the shirt
+							pocketPlane.position.z = 1.01;
+							pocketPlane.material = new THREE.MeshBasicMaterial({
 								map: frontTexture,
 								transparent: true,
 								opacity: 1.0,
-								side: THREE.DoubleSide,
-								depthWrite: false,
+								side: THREE.DoubleSide
 							});
-							pocketMesh.material.needsUpdate = true;
-							pocketMesh.renderOrder = 1;
+							pocketPlane.material.needsUpdate = true;
 						}
-						
-						// Hide center text
-						const frontMesh = tshirtMesh.getObjectByName("frontTextMesh");
-						if (frontMesh) {
-							frontMesh.material.opacity = 0;
-							frontMesh.material.needsUpdate = true;
-						}
-					}
-				} else {
-					// No front text, clear all front meshes
-					const frontMesh = tshirtMesh.getObjectByName("frontTextMesh");
-					const pocketMesh = tshirtMesh.getObjectByName("pocketTextMesh");
-					
-					if (frontMesh) {
-						frontMesh.material.opacity = 0;
-						frontMesh.material.needsUpdate = true;
-					}
-					
-					if (pocketMesh) {
-						pocketMesh.material.opacity = 0;
-						pocketMesh.material.needsUpdate = true;
 					}
 				}
 				
-				// Handle BACK text - create canvas rotated correctly
+				// Create canvas for back text
 				if (currentState.backText) {
 					const backCanvas = document.createElement('canvas');
-					backCanvas.width = 1024;
-					backCanvas.height = 1024;
+					backCanvas.width = 512;
+					backCanvas.height = 512;
 					const backCtx = backCanvas.getContext('2d');
 					
 					// Clear canvas with transparent background
@@ -1191,44 +1161,67 @@
 					
 					// Set text properties
 					backCtx.fillStyle = currentState.backTextColor;
-					backCtx.font = `bold 80px ${currentState.backTextFont}`;
+					backCtx.font = `bold 60px ${currentState.backTextFont}`;
 					backCtx.textAlign = 'center';
 					backCtx.textBaseline = 'middle';
 					
-					// Handle multiline text - NOTE: we DON'T flip the text here
-					// The back text will display normally in the canvas
+					// For back text, we need to flip the canvas horizontally
+					// to counteract the rotation of the plane
+					backCtx.scale(-1, 1);
+					backCtx.translate(-backCanvas.width, 0);
+					
+					// Handle multiline text
 					const backLines = currentState.backText.split('\n');
-					const lineHeight = 100;
+					const lineHeight = 70;
 					
 					backLines.forEach((line, index) => {
 						const y = backCanvas.height / 2 - (backLines.length - 1) * lineHeight / 2 + index * lineHeight;
 						backCtx.fillText(line, backCanvas.width / 2, y);
 					});
 					
-					// Create texture with proper settings
+					// Create texture
 					const backTexture = new THREE.CanvasTexture(backCanvas);
-					backTexture.anisotropy = renderer.capabilities.getMaxAnisotropy();
-					backTexture.minFilter = THREE.LinearFilter;
-					backTexture.magFilter = THREE.LinearFilter;
 					
-					const backMesh = tshirtMesh.getObjectByName("backTextMesh");
-					if (backMesh) {
-						backMesh.material = new THREE.MeshBasicMaterial({
-							map: backTexture,
-							transparent: true,
-							opacity: 1.0,
-							side: THREE.DoubleSide,
-							depthWrite: false,
-						});
-						backMesh.material.needsUpdate = true;
-						backMesh.renderOrder = 1;
-					}
-				} else {
-					// No back text, clear back mesh
-					const backMesh = tshirtMesh.getObjectByName("backTextMesh");
-					if (backMesh) {
-						backMesh.material.opacity = 0;
-						backMesh.material.needsUpdate = true;
+					// Apply texture to appropriate plane based on placement
+					if (currentState.backPlacement === "center") {
+						const backPlane = tshirtMesh.getObjectByName("backCenterPlane");
+						if (backPlane) {
+							// Position slightly behind the shirt
+							backPlane.position.z = -1.01;
+							backPlane.material = new THREE.MeshBasicMaterial({
+								map: backTexture,
+								transparent: true,
+								opacity: 1.0,
+								side: THREE.DoubleSide
+							});
+							backPlane.material.needsUpdate = true;
+						}
+					} else if (currentState.backPlacement === "top") {
+						const topPlane = tshirtMesh.getObjectByName("backTopPlane");
+						if (topPlane) {
+							// Position slightly behind the shirt
+							topPlane.position.z = -1.01;
+							topPlane.material = new THREE.MeshBasicMaterial({
+								map: backTexture,
+								transparent: true,
+								opacity: 1.0,
+								side: THREE.DoubleSide
+							});
+							topPlane.material.needsUpdate = true;
+						}
+					} else if (currentState.backPlacement === "bottom") {
+						const bottomPlane = tshirtMesh.getObjectByName("backBottomPlane");
+						if (bottomPlane) {
+							// Position slightly behind the shirt
+							bottomPlane.position.z = -1.01;
+							bottomPlane.material = new THREE.MeshBasicMaterial({
+								map: backTexture,
+								transparent: true,
+								opacity: 1.0,
+								side: THREE.DoubleSide
+							});
+							bottomPlane.material.needsUpdate = true;
+						}
 					}
 				}
 				
