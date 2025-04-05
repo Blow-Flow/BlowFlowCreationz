@@ -896,59 +896,59 @@
                 backPlacement: "center"
             };
             
-            // Load t-shirt model (simplified shape)
-            function loadTShirtModel() {
-                // Create a simplified t-shirt shape
-                const geometry = new THREE.Group();
-                
-                // Body of the shirt (slightly curved cylinder)
-                const bodyGeometry = new THREE.CylinderGeometry(1.2, 1, 2, 32, 1, true);
-                const bodyMaterial = new THREE.MeshPhongMaterial({
-                    color: new THREE.Color(currentState.color),
-                    side: THREE.DoubleSide
-                });
-                const body = new THREE.Mesh(bodyGeometry, bodyMaterial);
-                body.position.y = -0.5;
-                geometry.add(body);
-                
-                // Left sleeve
-                const leftSleeveGeometry = new THREE.CylinderGeometry(0.3, 0.3, 0.8, 16, 1, true);
-                const leftSleeve = new THREE.Mesh(leftSleeveGeometry, bodyMaterial);
-                leftSleeve.position.set(-1.2, 0.2, 0);
-                leftSleeve.rotation.z = Math.PI / 2.5;
-                geometry.add(leftSleeve);
-                
-                // Right sleeve
-                const rightSleeveGeometry = new THREE.CylinderGeometry(0.3, 0.3, 0.8, 16, 1, true);
-                const rightSleeve = new THREE.Mesh(rightSleeveGeometry, bodyMaterial);
-                rightSleeve.position.set(1.2, 0.2, 0);
-                rightSleeve.rotation.z = -Math.PI / 2.5;
-                geometry.add(rightSleeve);
-                
-                // Neck hole
-                const neckGeometry = new THREE.CylinderGeometry(0.4, 0.4, 0.2, 32, 1, true);
-                const neckMaterial = new THREE.MeshBasicMaterial({
-                    color: 0x111111,
-                    side: THREE.DoubleSide
-                });
-                const neck = new THREE.Mesh(neckGeometry, neckMaterial);
-                neck.position.y = 0.5;
-                geometry.add(neck);
-                
-                // Create text planes
-                createTextPlanes(geometry);
-                
-                // Add the model to the scene
-                scene.add(geometry);
-                tshirtMesh = geometry;
-                
-                // Initial position
-                updateView(currentState.view);
-            }
+			function loadTShirtModel() {
+				// Create a simplified t-shirt shape - with flatter front and back
+				const geometry = new THREE.Group();
+				
+				// Body of the shirt (flattened cylinder with less curve)
+				const bodyGeometry = new THREE.CylinderGeometry(1.1, 1, 2, 32, 1, true);
+				const bodyMaterial = new THREE.MeshPhongMaterial({
+					color: new THREE.Color(currentState.color),
+					side: THREE.DoubleSide
+				});
+				const body = new THREE.Mesh(bodyGeometry, bodyMaterial);
+				body.position.y = -0.5;
+				body.scale.z = 0.7; // Flatten the shirt front-to-back
+				geometry.add(body);
+				
+				// Left sleeve
+				const leftSleeveGeometry = new THREE.CylinderGeometry(0.3, 0.3, 0.8, 16, 1, true);
+				const leftSleeve = new THREE.Mesh(leftSleeveGeometry, bodyMaterial);
+				leftSleeve.position.set(-1.2, 0.2, 0);
+				leftSleeve.rotation.z = Math.PI / 2.5;
+				geometry.add(leftSleeve);
+				
+				// Right sleeve
+				const rightSleeveGeometry = new THREE.CylinderGeometry(0.3, 0.3, 0.8, 16, 1, true);
+				const rightSleeve = new THREE.Mesh(rightSleeveGeometry, bodyMaterial);
+				rightSleeve.position.set(1.2, 0.2, 0);
+				rightSleeve.rotation.z = -Math.PI / 2.5;
+				geometry.add(rightSleeve);
+				
+				// Neck hole
+				const neckGeometry = new THREE.CylinderGeometry(0.4, 0.4, 0.2, 32, 1, true);
+				const neckMaterial = new THREE.MeshBasicMaterial({
+					color: 0x111111,
+					side: THREE.DoubleSide
+				});
+				const neck = new THREE.Mesh(neckGeometry, neckMaterial);
+				neck.position.y = 0.5;
+				geometry.add(neck);
+				
+				// Create text planes
+				createTextPlanes(geometry);
+				
+				// Add the model to the scene
+				scene.add(geometry);
+				tshirtMesh = geometry;
+				
+				// Initial position
+				updateView(currentState.view);
+			}
             
 			// Create text planes for front and back
 			function createTextPlanes(shirtGroup) {
-				// Front center text plane
+				// Front center text plane - raised significantly above the shirt
 				const frontCenterGeometry = new THREE.PlaneGeometry(1.8, 1.2);
 				const frontCenterMaterial = new THREE.MeshBasicMaterial({
 					transparent: true,
@@ -956,7 +956,7 @@
 					side: THREE.DoubleSide
 				});
 				const frontCenterPlane = new THREE.Mesh(frontCenterGeometry, frontCenterMaterial);
-				frontCenterPlane.position.set(0, -0.3, 1.05); // Slightly in front of shirt
+				frontCenterPlane.position.set(0, -0.3, 1.2); // Further in front of shirt
 				frontCenterPlane.name = "frontCenterPlane";
 				shirtGroup.add(frontCenterPlane);
 				
@@ -968,7 +968,7 @@
 					side: THREE.DoubleSide
 				});
 				const frontPocketPlane = new THREE.Mesh(frontPocketGeometry, frontPocketMaterial);
-				frontPocketPlane.position.set(0.5, 0.1, 1.05); // Slightly in front of shirt
+				frontPocketPlane.position.set(0.5, 0.1, 1.2); // Further in front of shirt
 				frontPocketPlane.name = "frontPocketPlane";
 				shirtGroup.add(frontPocketPlane);
 				
@@ -980,7 +980,7 @@
 					side: THREE.DoubleSide
 				});
 				const backCenterPlane = new THREE.Mesh(backCenterGeometry, backCenterMaterial);
-				backCenterPlane.position.set(0, -0.3, -1.05); // Slightly in front of back of shirt
+				backCenterPlane.position.set(0, -0.3, -1.2); // Further in front of back
 				backCenterPlane.rotation.y = Math.PI;
 				backCenterPlane.name = "backCenterPlane";
 				shirtGroup.add(backCenterPlane);
@@ -993,7 +993,7 @@
 					side: THREE.DoubleSide
 				});
 				const backTopPlane = new THREE.Mesh(backTopGeometry, backTopMaterial);
-				backTopPlane.position.set(0, 0.3, -1.05); // Slightly in front of back of shirt
+				backTopPlane.position.set(0, 0.3, -1.2); // Further in front of back
 				backTopPlane.rotation.y = Math.PI;
 				backTopPlane.name = "backTopPlane";
 				shirtGroup.add(backTopPlane);
@@ -1006,7 +1006,7 @@
 					side: THREE.DoubleSide
 				});
 				const backBottomPlane = new THREE.Mesh(backBottomGeometry, backBottomMaterial);
-				backBottomPlane.position.set(0, -0.9, -1.05); // Slightly in front of back of shirt
+				backBottomPlane.position.set(0, -0.9, -1.2); // Further in front of back
 				backBottomPlane.rotation.y = Math.PI;
 				backBottomPlane.name = "backBottomPlane";
 				shirtGroup.add(backBottomPlane);
@@ -1046,14 +1046,12 @@
 					if (currentState.frontPlacement === "center") {
 						const frontPlane = tshirtMesh.getObjectByName("frontCenterPlane");
 						if (frontPlane) {
-							// Position the plane slightly in front of the shirt
-							frontPlane.position.z = 1.05;
-							
 							frontPlane.material = new THREE.MeshBasicMaterial({
 								map: frontTexture,
 								transparent: true,
 								opacity: 1.0,
-								side: THREE.DoubleSide
+								side: THREE.DoubleSide,
+								depthTest: false  // Always render on top
 							});
 							frontPlane.material.needsUpdate = true;
 						}
@@ -1071,14 +1069,12 @@
 					} else if (currentState.frontPlacement === "pocket") {
 						const pocketPlane = tshirtMesh.getObjectByName("frontPocketPlane");
 						if (pocketPlane) {
-							// Position the plane slightly in front of the shirt
-							pocketPlane.position.z = 1.05;
-							
 							pocketPlane.material = new THREE.MeshBasicMaterial({
 								map: frontTexture,
 								transparent: true,
 								opacity: 1.0,
-								side: THREE.DoubleSide
+								side: THREE.DoubleSide,
+								depthTest: false  // Always render on top
 							});
 							pocketPlane.material.needsUpdate = true;
 						}
@@ -1150,14 +1146,12 @@
 					if (currentState.backPlacement === "center") {
 						const backPlane = tshirtMesh.getObjectByName("backCenterPlane");
 						if (backPlane) {
-							// Position the plane slightly in front of the shirt back
-							backPlane.position.z = -1.05;
-							
 							backPlane.material = new THREE.MeshBasicMaterial({
 								map: backTexture,
 								transparent: true,
 								opacity: 1.0,
-								side: THREE.DoubleSide
+								side: THREE.DoubleSide,
+								depthTest: false  // Always render on top
 							});
 							backPlane.material.needsUpdate = true;
 						}
@@ -1186,14 +1180,12 @@
 					} else if (currentState.backPlacement === "top") {
 						const topPlane = tshirtMesh.getObjectByName("backTopPlane");
 						if (topPlane) {
-							// Position the plane slightly in front of the shirt back
-							topPlane.position.z = -1.05;
-							
 							topPlane.material = new THREE.MeshBasicMaterial({
 								map: backTexture,
 								transparent: true,
 								opacity: 1.0,
-								side: THREE.DoubleSide
+								side: THREE.DoubleSide,
+								depthTest: false  // Always render on top
 							});
 							topPlane.material.needsUpdate = true;
 						}
@@ -1222,14 +1214,12 @@
 					} else if (currentState.backPlacement === "bottom") {
 						const bottomPlane = tshirtMesh.getObjectByName("backBottomPlane");
 						if (bottomPlane) {
-							// Position the plane slightly in front of the shirt back
-							bottomPlane.position.z = -1.05;
-							
 							bottomPlane.material = new THREE.MeshBasicMaterial({
 								map: backTexture,
 								transparent: true,
 								opacity: 1.0,
-								side: THREE.DoubleSide
+								side: THREE.DoubleSide,
+								depthTest: false  // Always render on top
 							});
 							bottomPlane.material.needsUpdate = true;
 						}
