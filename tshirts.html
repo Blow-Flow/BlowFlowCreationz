@@ -1426,47 +1426,27 @@
 			
 			// Copy to Clipboard button
 			document.getElementById('copyToClipboardBtn').addEventListener('click', function() {
-				// Get the current view canvas
+				// Get the current view container
 				const container = document.getElementById('shirt-3d-container');
 				
 				// Use html2canvas to capture the current view
 				html2canvas(container).then(canvas => {
 					// Convert the canvas to a data URL
-					const imageURL = canvas.toDataURL('image/png');
-					
-					// Create a temporary canvas to make sure we have a clean, properly sized image
-					const tempCanvas = document.createElement('canvas');
-					const ctx = tempCanvas.getContext('2d');
-					tempCanvas.width = canvas.width;
-					tempCanvas.height = canvas.height;
-					
-					// Draw a clean background
-					ctx.fillStyle = '#111';
-					ctx.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
-					
-					// Draw the captured image on top
-					const img = new Image();
-					img.onload = function() {
-						ctx.drawImage(img, 0, 0);
-						
-						// Try to copy to clipboard
-						tempCanvas.toBlob(function(blob) {
-							try {
-								// Modern clipboard API
-								const clipboardItem = new ClipboardItem({ 'image/png': blob });
-								navigator.clipboard.write([clipboardItem]).then(function() {
-									alert('Design copied to clipboard! You can now paste it in Discord or other applications.');
-								}, function(err) {
-									// Fallback for browsers that don't support ClipboardItem
-									fallbackCopyToClipboard(imageURL);
-								});
-							} catch (e) {
+					canvas.toBlob(function(blob) {
+						try {
+							// Modern clipboard API
+							const clipboardItem = new ClipboardItem({ 'image/png': blob });
+							navigator.clipboard.write([clipboardItem]).then(function() {
+								alert('Design copied to clipboard! You can now paste it in Discord or other applications.');
+							}, function(err) {
 								// Fallback for browsers that don't support ClipboardItem
-								fallbackCopyToClipboard(imageURL);
-							}
-						});
-					};
-					img.src = imageURL;
+								fallbackCopyToClipboard(canvas.toDataURL());
+							});
+						} catch (e) {
+							// Fallback for browsers that don't support ClipboardItem
+							fallbackCopyToClipboard(canvas.toDataURL());
+						}
+					});
 				});
 			});
 
