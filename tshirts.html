@@ -837,1110 +837,639 @@
     </footer>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Initialize Three.js scene
-            const container = document.getElementById('shirt-3d-container');
-            const width = container.clientWidth;
-            const height = container.clientHeight;
-            
-            // Create scene
-            const scene = new THREE.Scene();
-            scene.background = new THREE.Color(0x111111);
-            
-            // Create camera
-            const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
-            camera.position.z = 5;
-            
-            // Create renderer
-            const renderer = new THREE.WebGLRenderer({ antialias: true });
-            renderer.setSize(width, height);
-            container.appendChild(renderer.domElement);
-            
-            // Add orbit controls for rotation
-            const controls = new THREE.OrbitControls(camera, renderer.domElement);
-            controls.enableDamping = true;
-            controls.dampingFactor = 0.25;
-            controls.enableZoom = true;
-            controls.autoRotate = false;
-            controls.autoRotateSpeed = 0.5;
-            controls.enabled = false; // Initially disabled
-            
-            // Add lighting
-            const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-            scene.add(ambientLight);
-            
-            const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
-            directionalLight.position.set(1, 1, 1);
-            scene.add(directionalLight);
-            
-            const backLight = new THREE.DirectionalLight(0xffffff, 0.3);
-            backLight.position.set(-1, 1, -1);
-            scene.add(backLight);
-            
-            // T-shirt model variables
-            let tshirtMesh;
-            let textureLoader = new THREE.TextureLoader();
-            
-            // Current design state
-            let currentState = {
-                color: "#ffffff",
-                size: "M",
-                view: "front",
-                frontText: "",
-                frontTextColor: "#000000",
-                frontTextFont: "Arial",
-                frontPlacement: "center",
-                backText: "",
-                backTextColor: "#000000",
-                backTextFont: "Arial",
-                backPlacement: "center"
-            };
-            
-			function setupSimple2DShirt() {
-				// Get the container that was holding the 3D model
-				const container = document.getElementById('shirt-3d-container');
-				container.innerHTML = '';
-				
-				// Create a simple 2D display with front/back toggle
-				const shirtDisplay = document.createElement('div');
-				shirtDisplay.style.width = '100%';
-				shirtDisplay.style.height = '100%';
-				shirtDisplay.style.position = 'relative';
-				shirtDisplay.style.display = 'flex';
-				shirtDisplay.style.justifyContent = 'center';
-				shirtDisplay.style.alignItems = 'center';
-				
-				// Create shirt image element
-				const shirtImg = document.createElement('img');
-				shirtImg.id = 'shirt-preview-img';
-				shirtImg.style.maxWidth = '80%';
-				shirtImg.style.maxHeight = '80%';
-				shirtImg.src = '/img/tshirt-front-white.png'; // You'll need these placeholder images
-				shirtImg.alt = 'T-shirt preview';
-				
-				// Create text overlay divs for different placements
-				const centerTextDiv = document.createElement('div');
-				centerTextDiv.id = 'front-center-text';
-				centerTextDiv.style.position = 'absolute';
-				centerTextDiv.style.top = '40%';
-				centerTextDiv.style.left = '50%';
-				centerTextDiv.style.transform = 'translate(-50%, -50%)';
-				centerTextDiv.style.maxWidth = '60%';
-				centerTextDiv.style.textAlign = 'center';
-				
-				const pocketTextDiv = document.createElement('div');
-				pocketTextDiv.id = 'front-pocket-text';
-				pocketTextDiv.style.position = 'absolute';
-				pocketTextDiv.style.top = '25%';
-				pocketTextDiv.style.left = '65%';
-				pocketTextDiv.style.transform = 'translate(-50%, -50%)';
-				pocketTextDiv.style.maxWidth = '20%';
-				pocketTextDiv.style.textAlign = 'center';
-				pocketTextDiv.style.display = 'none'; // Hidden by default
-				
-				// Add elements to the container
-				shirtDisplay.appendChild(shirtImg);
-				shirtDisplay.appendChild(centerTextDiv);
-				shirtDisplay.appendChild(pocketTextDiv);
-				container.appendChild(shirtDisplay);
-				
-				// Update the view functions
-				window.updateView = function(view) {
-					const shirtImg = document.getElementById('shirt-preview-img');
-					
-					if (view === "front") {
-						shirtImg.src = `/img/tshirt-front-${currentState.color.substring(1)}.png`;
-						document.getElementById('frontTextSection').style.display = 'block';
-						document.getElementById('backTextSection').style.display = 'none';
-						
-						// Show appropriate text divs
-						updateTextDisplay();
-						
-					} else if (view === "back") {
-						shirtImg.src = `/img/tshirt-back-${currentState.color.substring(1)}.png`;
-						document.getElementById('frontTextSection').style.display = 'none';
-						document.getElementById('backTextSection').style.display = 'block';
-						
-						// Show appropriate text divs
-						updateTextDisplay();
-						
-					} else if (view === "rotate") {
-						// No rotation in 2D mode, just show front
-						shirtImg.src = `/img/tshirt-front-${currentState.color.substring(1)}.png`;
-						document.getElementById('frontTextSection').style.display = 'block';
-						document.getElementById('backTextSection').style.display = 'block';
-					}
-				};
-				
-				// Update the text display function
-				window.updateTextDisplay = function() {
-					const frontCenterText = document.getElementById('front-center-text');
-					const frontPocketText = document.getElementById('front-pocket-text');
-					
-					// Reset all text displays
-					frontCenterText.innerHTML = '';
-					frontPocketText.innerHTML = '';
-					frontCenterText.style.display = 'none';
-					frontPocketText.style.display = 'none';
-					
-					// Check current view and show appropriate text
-					if (currentState.view === 'front') {
-						if (currentState.frontText) {
-							if (currentState.frontPlacement === 'center') {
-								frontCenterText.style.display = 'block';
-								frontCenterText.innerHTML = currentState.frontText.replace(/\n/g, '<br>');
-								frontCenterText.style.color = currentState.frontTextColor;
-								frontCenterText.style.fontFamily = currentState.frontTextFont;
-							} else if (currentState.frontPlacement === 'pocket') {
-								frontPocketText.style.display = 'block';
-								frontPocketText.innerHTML = currentState.frontText.replace(/\n/g, '<br>');
-								frontPocketText.style.color = currentState.frontTextColor;
-								frontPocketText.style.fontFamily = currentState.frontTextFont;
-							}
-						}
-					} else if (currentState.view === 'back') {
-						if (currentState.backText) {
-							// Similar logic for back text with different positions
-							frontCenterText.style.display = 'block';
-							frontCenterText.innerHTML = currentState.backText.replace(/\n/g, '<br>');
-							frontCenterText.style.color = currentState.backTextColor;
-							frontCenterText.style.fontFamily = currentState.backTextFont;
-							
-							// Adjust position based on back placement
-							if (currentState.backPlacement === 'top') {
-								frontCenterText.style.top = '25%';
-							} else if (currentState.backPlacement === 'bottom') {
-								frontCenterText.style.top = '60%';
-							} else {
-								frontCenterText.style.top = '40%';
-							}
-						}
-					}
-				};
-				
-				// Update shirt color function
-				window.updateTShirtColor = function(color) {
-					currentState.color = color;
-					const colorCode = color.substring(1); // Remove the # from hex
-					const shirtImg = document.getElementById('shirt-preview-img');
-					
-					if (currentState.view === 'front') {
-						shirtImg.src = `/img/tshirt-front-${colorCode}.png`;
-					} else {
-						shirtImg.src = `/img/tshirt-back-${colorCode}.png`;
-					}
-				};
-				
-				// Replace the 3D text update function
-				window.updateTShirtText = function() {
-					updateTextDisplay();
-				};
-				
-				// Capture view as image function (for cart/preview)
-				window.captureView = function(side) {
-					// Create a canvas to capture the current view
-					const canvas = document.createElement('canvas');
-					const shirtContainer = document.getElementById('shirt-3d-container');
-					canvas.width = shirtContainer.clientWidth;
-					canvas.height = shirtContainer.clientHeight;
-					
-					const ctx = canvas.getContext('2d');
-					ctx.fillStyle = '#111111';
-					ctx.fillRect(0, 0, canvas.width, canvas.height);
-					
-					// Save current view
-					const currentView = currentState.view;
-					
-					// Temporarily switch to requested side if needed
-					if (side !== currentView) {
-						const tempView = currentState.view;
-						currentState.view = side;
-						updateView(side);
-						
-						// Get HTML content and render it to canvas
-						html2canvas(shirtContainer).then(canvas => {
-							// Restore original view
-							currentState.view = tempView;
-							updateView(tempView);
-							return canvas.toDataURL('image/png');
-						});
-					} else {
-						return html2canvas(shirtContainer).then(canvas => {
-							return canvas.toDataURL('image/png');
-						});
-					}
-					
-					// Fallback if html2canvas isn't available
-					return '/img/tshirt-' + side + '-' + currentState.color.substring(1) + '.png';
-				};
-				
-				// Initial setup
-				updateView('front');
-			}
-            
-            // Create text planes for front and back
-            function createTextPlanes(shirtGroup) {
-                // Front center text plane
-                const frontCenterGeometry = new THREE.PlaneGeometry(1.8, 1.2);
-                const frontCenterMaterial = new THREE.MeshBasicMaterial({
-                    transparent: true,
-                    opacity: 0,
-                    side: THREE.DoubleSide
-                });
-                const frontCenterPlane = new THREE.Mesh(frontCenterGeometry, frontCenterMaterial);
-                frontCenterPlane.position.set(0, -0.3, 1.01);
-                frontCenterPlane.name = "frontCenterPlane";
-                shirtGroup.add(frontCenterPlane);
-                
-                // Front pocket text plane
-                const frontPocketGeometry = new THREE.PlaneGeometry(0.7, 0.5);
-                const frontPocketMaterial = new THREE.MeshBasicMaterial({
-                    transparent: true,
-                    opacity: 0,
-                    side: THREE.DoubleSide
-                });
-                const frontPocketPlane = new THREE.Mesh(frontPocketGeometry, frontPocketMaterial);
-                frontPocketPlane.position.set(0.5, 0.1, 1.01);
-                frontPocketPlane.name = "frontPocketPlane";
-                shirtGroup.add(frontPocketPlane);
-                
-                // Back center text plane
-                const backCenterGeometry = new THREE.PlaneGeometry(1.8, 1.2);
-                const backCenterMaterial = new THREE.MeshBasicMaterial({
-                    transparent: true,
-                    opacity: 0,
-                    side: THREE.DoubleSide
-                });
-                const backCenterPlane = new THREE.Mesh(backCenterGeometry, backCenterMaterial);
-                backCenterPlane.position.set(0, -0.3, -1.01);
-                backCenterPlane.rotation.y = Math.PI;
-                backCenterPlane.name = "backCenterPlane";
-                shirtGroup.add(backCenterPlane);
-                
-                // Back top text plane
-                const backTopGeometry = new THREE.PlaneGeometry(1.8, 0.6);
-                const backTopMaterial = new THREE.MeshBasicMaterial({
-                    transparent: true,
-                    opacity: 0,
-                    side: THREE.DoubleSide
-                });
-                const backTopPlane = new THREE.Mesh(backTopGeometry, backTopMaterial);
-                backTopPlane.position.set(0, 0.3, -1.01);
-                backTopPlane.rotation.y = Math.PI;
-                backTopPlane.name = "backTopPlane";
-                shirtGroup.add(backTopPlane);
-                
-                // Back bottom text plane
-                const backBottomGeometry = new THREE.PlaneGeometry(1.8, 0.6);
-                const backBottomMaterial = new THREE.MeshBasicMaterial({
-                    transparent: true,
-                    opacity: 0,
-                    side: THREE.DoubleSide
-                });
-                const backBottomPlane = new THREE.Mesh(backBottomGeometry, backBottomMaterial);
-                backBottomPlane.position.set(0, -0.9, -1.01);
-                backBottomPlane.rotation.y = Math.PI;
-                backBottomPlane.name = "backBottomPlane";
-                shirtGroup.add(backBottomPlane);
-            }
-
-			function waitForTshirtModel(callback) {
-			  if (tshirtMesh) {
-				callback();
-			  } else {
-				setTimeout(function() {
-				  waitForTshirtModel(callback);
-				}, 100);
-			  }
-			}
-            
-			// Update t-shirt text
-			function updateTShirtText() {
-				if (!tshirtMesh) return; // Guard against undefined
-				
-				// Create canvas for front text
-				if (currentState.frontText) {
-					const frontCanvas = document.createElement('canvas');
-					frontCanvas.width = 512;
-					frontCanvas.height = 512;
-					const frontCtx = frontCanvas.getContext('2d');
-					
-					// Clear canvas with transparent background
-					frontCtx.clearRect(0, 0, frontCanvas.width, frontCanvas.height);
-					
-					// Set text properties - make text larger and bolder
-					frontCtx.fillStyle = currentState.frontTextColor;
-					frontCtx.font = `bold 80px ${currentState.frontTextFont}`; // Increased from 60px
-					frontCtx.textAlign = 'center';
-					frontCtx.textBaseline = 'middle';
-					
-					// Handle multiline text
-					const frontLines = currentState.frontText.split('\n');
-					const lineHeight = 90; // Increased line height
-					
-					frontLines.forEach((line, index) => {
-						const y = frontCanvas.height / 2 - (frontLines.length - 1) * lineHeight / 2 + index * lineHeight;
-						frontCtx.fillText(line, frontCanvas.width / 2, y);
-					});
-					
-					// Create texture
-					const frontTexture = new THREE.CanvasTexture(frontCanvas);
-					
-					// Apply texture to appropriate plane with increased opacity
-					if (currentState.frontPlacement === "center") {
-						const frontPlane = tshirtMesh.getObjectByName("frontCenterPlane");
-						if (frontPlane) {
-							frontPlane.visible = currentState.view === "front";
-							frontPlane.material = new THREE.MeshBasicMaterial({
-								map: frontTexture,
-								transparent: true,
-								opacity: 1.0, // Maximum opacity
-								side: THREE.DoubleSide,
-								depthTest: false,
-								depthWrite: false
-							});
-							frontPlane.material.needsUpdate = true;
-							frontPlane.renderOrder = 1;
-						}
-						
-						// Clear pocket text
-						const pocketPlane = tshirtMesh.getObjectByName("frontPocketPlane");
-						if (pocketPlane) {
-							pocketPlane.visible = false;
-						}
-					} else if (currentState.frontPlacement === "pocket") {
-						const pocketPlane = tshirtMesh.getObjectByName("frontPocketPlane");
-						if (pocketPlane) {
-							pocketPlane.visible = currentState.view === "front";
-							pocketPlane.material = new THREE.MeshBasicMaterial({
-								map: frontTexture,
-								transparent: true,
-								opacity: 1.0, // Maximum opacity
-								side: THREE.DoubleSide,
-								depthTest: false,
-								depthWrite: false
-							});
-							pocketPlane.material.needsUpdate = true;
-							pocketPlane.renderOrder = 1;
-						}
-						
-						// Clear center text
-						const frontPlane = tshirtMesh.getObjectByName("frontCenterPlane");
-						if (frontPlane) {
-							frontPlane.visible = false;
-						}
-					}
-				} else {
-					// No front text, clear all front planes
-					tshirtMesh.children.forEach(child => {
-						if (child.name && child.name.startsWith('front')) {
-							child.visible = false;
-						}
-					});
-				}
-				
-				// Create canvas for back text with similar improvements
-				if (currentState.backText) {
-					const backCanvas = document.createElement('canvas');
-					backCanvas.width = 512;
-					backCanvas.height = 512;
-					const backCtx = backCanvas.getContext('2d');
-					
-					// Clear canvas with transparent background
-					backCtx.clearRect(0, 0, backCanvas.width, backCanvas.height);
-					
-					// Set text properties with larger, bolder text
-					backCtx.fillStyle = currentState.backTextColor;
-					backCtx.font = `bold 80px ${currentState.backTextFont}`; // Increased size
-					backCtx.textAlign = 'center';
-					backCtx.textBaseline = 'middle';
-					
-					// Handle multiline text
-					const backLines = currentState.backText.split('\n');
-					const lineHeight = 90; // Increased line height
-					
-					backLines.forEach((line, index) => {
-						const y = backCanvas.height / 2 - (backLines.length - 1) * lineHeight / 2 + index * lineHeight;
-						backCtx.fillText(line, backCanvas.width / 2, y);
-					});
-					
-					// Create texture
-					const backTexture = new THREE.CanvasTexture(backCanvas);
-					
-					// Apply texture to appropriate plane with improved visibility
-					if (currentState.backPlacement === "center") {
-						const backPlane = tshirtMesh.getObjectByName("backCenterPlane");
-						if (backPlane) {
-							backPlane.visible = currentState.view === "back";
-							backPlane.material = new THREE.MeshBasicMaterial({
-								map: backTexture,
-								transparent: true,
-								opacity: 1.0, // Maximum opacity
-								side: THREE.DoubleSide,
-								depthTest: false,
-								depthWrite: false
-							});
-							backPlane.material.needsUpdate = true;
-							backPlane.renderOrder = 1;
-						}
-						
-						// Clear other back planes
-						["backTopPlane", "backBottomPlane"].forEach(name => {
-							const plane = tshirtMesh.getObjectByName(name);
-							if (plane) plane.visible = false;
-						});
-					} else if (currentState.backPlacement === "top") {
-						const topPlane = tshirtMesh.getObjectByName("backTopPlane");
-						if (topPlane) {
-							topPlane.visible = currentState.view === "back";
-							topPlane.material = new THREE.MeshBasicMaterial({
-								map: backTexture,
-								transparent: true,
-								opacity: 1.0, // Maximum opacity
-								side: THREE.DoubleSide,
-								depthTest: false,
-								depthWrite: false
-							});
-							topPlane.material.needsUpdate = true;
-							topPlane.renderOrder = 1;
-						}
-						
-						// Clear other back planes
-						["backCenterPlane", "backBottomPlane"].forEach(name => {
-							const plane = tshirtMesh.getObjectByName(name);
-							if (plane) plane.visible = false;
-						});
-					} else if (currentState.backPlacement === "bottom") {
-						const bottomPlane = tshirtMesh.getObjectByName("backBottomPlane");
-						if (bottomPlane) {
-							bottomPlane.visible = currentState.view === "back";
-							bottomPlane.material = new THREE.MeshBasicMaterial({
-								map: backTexture,
-								transparent: true,
-								opacity: 1.0, // Maximum opacity
-								side: THREE.DoubleSide,
-								depthTest: false,
-								depthWrite: false
-							});
-							bottomPlane.material.needsUpdate = true;
-							bottomPlane.renderOrder = 1;
-						}
-						
-						// Clear other back planes
-						["backCenterPlane", "backTopPlane"].forEach(name => {
-							const plane = tshirtMesh.getObjectByName(name);
-							if (plane) plane.visible = false;
-						});
-					}
-				} else {
-					// No back text, clear all back planes
-					tshirtMesh.children.forEach(child => {
-						if (child.name && child.name.startsWith('back')) {
-							child.visible = false;
-						}
-					});
-				}
-				
-				// Force a render update
-				renderer.render(scene, camera);
-			}
-            
-            // Update shirt color
-            function updateTShirtColor(color) {
-                if (tshirtMesh) {
-                    // Update all child meshes except the neck
-                    tshirtMesh.children.forEach(child => {
-                        if (child.material && child.material.color && child.name !== "neck") {
-                            child.material.color.set(color);
-                            child.material.needsUpdate = true;
-                        }
-                    });
-                }
-            }
-            
-            // Change the view (front, back, rotate)
+		document.addEventListener('DOMContentLoaded', function() {
+			// Current design state
+			let currentState = {
+				color: "#ffffff",
+				size: "M",
+				view: "front",
+				frontText: "",
+				frontTextColor: "#000000",
+				frontTextFont: "Arial",
+				frontPlacement: "center",
+				backText: "",
+				backTextColor: "#000000",
+				backTextFont: "Arial",
+				backPlacement: "center"
+			};
+			
+			// Initialize the container
+			const container = document.getElementById('shirt-3d-container');
+			container.innerHTML = '';
+			
+			// Create a simple 2D display with front/back toggle
+			const shirtDisplay = document.createElement('div');
+			shirtDisplay.style.width = '100%';
+			shirtDisplay.style.height = '100%';
+			shirtDisplay.style.position = 'relative';
+			shirtDisplay.style.display = 'flex';
+			shirtDisplay.style.justifyContent = 'center';
+			shirtDisplay.style.alignItems = 'center';
+			
+			// Create shirt image element
+			const shirtImg = document.createElement('img');
+			shirtImg.id = 'shirt-preview-img';
+			shirtImg.style.maxWidth = '80%';
+			shirtImg.style.maxHeight = '80%';
+			shirtImg.src = '/img/tshirt-front-white.png'; // Replace with your image path
+			shirtImg.alt = 'T-shirt preview';
+			
+			// Create text overlay divs for different placements
+			const centerTextDiv = document.createElement('div');
+			centerTextDiv.id = 'front-center-text';
+			centerTextDiv.style.position = 'absolute';
+			centerTextDiv.style.top = '40%';
+			centerTextDiv.style.left = '50%';
+			centerTextDiv.style.transform = 'translate(-50%, -50%)';
+			centerTextDiv.style.maxWidth = '60%';
+			centerTextDiv.style.textAlign = 'center';
+			
+			const pocketTextDiv = document.createElement('div');
+			pocketTextDiv.id = 'front-pocket-text';
+			pocketTextDiv.style.position = 'absolute';
+			pocketTextDiv.style.top = '25%';
+			pocketTextDiv.style.left = '65%';
+			pocketTextDiv.style.transform = 'translate(-50%, -50%)';
+			pocketTextDiv.style.maxWidth = '20%';
+			pocketTextDiv.style.textAlign = 'center';
+			pocketTextDiv.style.display = 'none'; // Hidden by default
+			
+			// Add elements to the container
+			shirtDisplay.appendChild(shirtImg);
+			shirtDisplay.appendChild(centerTextDiv);
+			shirtDisplay.appendChild(pocketTextDiv);
+			container.appendChild(shirtDisplay);
+			
+			// Function to update view (front or back)
 			function updateView(view) {
-				// Update view state
+				const shirtImg = document.getElementById('shirt-preview-img');
+				
 				currentState.view = view;
 				
-				// Get shirt body element
-				const body = tshirtMesh.children.find(child => child.position.y === -0.5);
-				
 				if (view === "front") {
-					// Show front view
-					camera.position.set(0, 0, 5);
-					
-					// Show front text controls, hide back text controls
+					shirtImg.src = `/img/tshirt-front-${currentState.color.substring(1)}.png`;
 					document.getElementById('frontTextSection').style.display = 'block';
 					document.getElementById('backTextSection').style.display = 'none';
-					
-					// Make front planes visible, back planes invisible
-					tshirtMesh.children.forEach(child => {
-						if (child.name && child.name.startsWith('front')) {
-							child.visible = true;
-						} else if (child.name && child.name.startsWith('back')) {
-							child.visible = false;
-						}
-					});
+					updateTextDisplay();
 				} else if (view === "back") {
-					// Show back view
-					camera.position.set(0, 0, -5);
-					
-					// Show back text controls, hide front text controls
+					shirtImg.src = `/img/tshirt-back-${currentState.color.substring(1)}.png`;
 					document.getElementById('frontTextSection').style.display = 'none';
 					document.getElementById('backTextSection').style.display = 'block';
-					
-					// Make back planes visible, front planes invisible
-					tshirtMesh.children.forEach(child => {
-						if (child.name && child.name.startsWith('back')) {
-							child.visible = true;
-						} else if (child.name && child.name.startsWith('front')) {
-							child.visible = false;
-						}
-					});
+					updateTextDisplay();
+				} else if (view === "rotate") {
+					// In 2D mode, just show front
+					shirtImg.src = `/img/tshirt-front-${currentState.color.substring(1)}.png`;
+					document.getElementById('frontTextSection').style.display = 'block';
+					document.getElementById('backTextSection').style.display = 'block';
 				}
-				
-				// Update camera
-				camera.lookAt(scene.position);
-				
-				// Force text update
-				updateTShirtText();
-				
-				// Force render
-				renderer.render(scene, camera);
 			}
-            
-            // Animation loop
-			function animate() {
-				requestAnimationFrame(animate);
-				// Remove rotation updates
-				renderer.render(scene, camera);
+			
+			// Function to update text display
+			function updateTextDisplay() {
+				const frontCenterText = document.getElementById('front-center-text');
+				const frontPocketText = document.getElementById('front-pocket-text');
+				
+				// Reset all text displays
+				frontCenterText.innerHTML = '';
+				frontPocketText.innerHTML = '';
+				frontCenterText.style.display = 'none';
+				frontPocketText.style.display = 'none';
+				
+				// Check current view and show appropriate text
+				if (currentState.view === 'front') {
+					if (currentState.frontText) {
+						if (currentState.frontPlacement === 'center') {
+							frontCenterText.style.display = 'block';
+							frontCenterText.innerHTML = currentState.frontText.replace(/\n/g, '<br>');
+							frontCenterText.style.color = currentState.frontTextColor;
+							frontCenterText.style.fontFamily = currentState.frontTextFont;
+						} else if (currentState.frontPlacement === 'pocket') {
+							frontPocketText.style.display = 'block';
+							frontPocketText.innerHTML = currentState.frontText.replace(/\n/g, '<br>');
+							frontPocketText.style.color = currentState.frontTextColor;
+							frontPocketText.style.fontFamily = currentState.frontTextFont;
+						}
+					}
+				} else if (currentState.view === 'back') {
+					if (currentState.backText) {
+						// For back text we'll reuse the center div with different positions
+						frontCenterText.style.display = 'block';
+						frontCenterText.innerHTML = currentState.backText.replace(/\n/g, '<br>');
+						frontCenterText.style.color = currentState.backTextColor;
+						frontCenterText.style.fontFamily = currentState.backTextFont;
+						
+						// Adjust position based on back placement
+						if (currentState.backPlacement === 'top') {
+							frontCenterText.style.top = '25%';
+						} else if (currentState.backPlacement === 'bottom') {
+							frontCenterText.style.top = '60%';
+						} else {
+							frontCenterText.style.top = '40%';
+						}
+					}
+				}
 			}
-            
-            // Handle window resize
-            function onWindowResize() {
-                const width = container.clientWidth;
-                const height = container.clientHeight;
-                
-                camera.aspect = width / height;
-                camera.updateProjectionMatrix();
-                
-                renderer.setSize(width, height);
-            }
-            
-            // Capture the current view as an image
-            function captureView(side) {
-                const tempView = currentState.view;
-                
-                // Set camera to requested side
-                if (side === 'front') {
-                    updateView('front');
-                } else if (side === 'back') {
-                    updateView('back');
-                }
-                
-                // Let the render complete
-                renderer.render(scene, camera);
-                
-                // Capture the image
-                const dataURL = renderer.domElement.toDataURL('image/png');
-                
-                // Restore original view if needed
-                if (tempView !== side) {
-                    updateView(tempView);
-                }
-                
-                return dataURL;
-            }
-            
-            // Initialize everything
-            setupSimple2DShirt();
-
-            // ---- Event handlers ----
-            
-            // Color selection
-            document.querySelectorAll('.color-option').forEach(option => {
-                option.addEventListener('click', function() {
-                    const color = this.getAttribute('data-color');
-                    
-                    // Update UI
-                    document.querySelectorAll('.color-option').forEach(opt => opt.classList.remove('active'));
-                    this.classList.add('active');
-                    
-                    // Update current state
-                    currentState.color = color;
-                    
-                    // Update 3D model
-                    updateTShirtColor(color);
-                });
-            });
-            
-            // View buttons
-            document.querySelectorAll('.view-btn').forEach(button => {
-                button.addEventListener('click', function() {
-                    const view = this.getAttribute('data-view');
-                    
-                    // Update UI
-                    document.querySelectorAll('.view-btn').forEach(btn => btn.classList.remove('active'));
-                    this.classList.add('active');
-                    
-                    // Update current state
-                    currentState.view = view;
-                    
-                    // Update 3D model view
-                    updateView(view);
-                });
-            });
-            
-            // Font selection
-            document.querySelectorAll('#frontTextSection .font-sample').forEach(fontSample => {
-                fontSample.addEventListener('click', function() {
-                    const font = this.getAttribute('data-font');
-                    
-                    // Update UI
-                    document.querySelectorAll('#frontTextSection .font-sample').forEach(sample => sample.classList.remove('active'));
-                    this.classList.add('active');
-                    
-                    // Update current state
-                    currentState.frontTextFont = font;
-                    document.getElementById('frontTextFont').value = font;
-                    
-                    // Update 3D model
-                    updateTShirtText();
-                });
-            });
-            
-            document.querySelectorAll('#backTextSection .font-sample').forEach(fontSample => {
-                fontSample.addEventListener('click', function() {
-                    const font = this.getAttribute('data-font');
-                    
-                    // Update UI
-                    document.querySelectorAll('#backTextSection .font-sample').forEach(sample => sample.classList.remove('active'));
-                    this.classList.add('active');
-                    
-                    // Update current state
-                    currentState.backTextFont = font;
-                    document.getElementById('backTextFont').value = font;
-                    
-                    // Update 3D model
-                    updateTShirtText();
-                });
-            });
-            
-            // Front text input
+			
+			// Function to update shirt color
+			function updateTShirtColor(color) {
+				currentState.color = color;
+				const colorCode = color.substring(1); // Remove the # from hex
+				const shirtImg = document.getElementById('shirt-preview-img');
+				
+				if (currentState.view === 'front') {
+					shirtImg.src = `/img/tshirt-front-${colorCode}.png`;
+				} else {
+					shirtImg.src = `/img/tshirt-back-${colorCode}.png`;
+				}
+			}
+			
+			// Function to capture view as image
+			function captureView(side) {
+				// In a real implementation, this would use html2canvas or similar
+				// For now, just return the path to the appropriate shirt image
+				return `/img/tshirt-${side}-${currentState.color.substring(1)}.png`;
+			}
+			
+			// Color selection
+			document.querySelectorAll('.color-option').forEach(option => {
+				option.addEventListener('click', function() {
+					const color = this.getAttribute('data-color');
+					
+					// Update UI
+					document.querySelectorAll('.color-option').forEach(opt => opt.classList.remove('active'));
+					this.classList.add('active');
+					
+					// Update current state and display
+					currentState.color = color;
+					updateTShirtColor(color);
+				});
+			});
+			
+			// View buttons
+			document.querySelectorAll('.view-btn').forEach(button => {
+				button.addEventListener('click', function() {
+					const view = this.getAttribute('data-view');
+					
+					// Update UI
+					document.querySelectorAll('.view-btn').forEach(btn => btn.classList.remove('active'));
+					this.classList.add('active');
+					
+					// Update view
+					updateView(view);
+				});
+			});
+			
+			// Front text input
 			document.getElementById('frontText').addEventListener('input', function() {
-			  currentState.frontText = this.value;
-			  updateTShirtText();
+				currentState.frontText = this.value;
+				updateTextDisplay();
 			});
-            
+			
 			document.getElementById('frontTextColor').addEventListener('input', function() {
-			  currentState.frontTextColor = this.value;
-			  waitForTshirtModel(updateTShirtText);
+				currentState.frontTextColor = this.value;
+				updateTextDisplay();
 			});
-
+			
 			document.getElementById('frontPlacement').addEventListener('change', function() {
-			  currentState.frontPlacement = this.value;
-			  waitForTshirtModel(updateTShirtText);
+				currentState.frontPlacement = this.value;
+				updateTextDisplay();
 			});
-
+			
+			// Back text input
 			document.getElementById('backText').addEventListener('input', function() {
-			  currentState.backText = this.value;
-			  waitForTshirtModel(updateTShirtText);
+				currentState.backText = this.value;
+				updateTextDisplay();
 			});
-
+			
 			document.getElementById('backTextColor').addEventListener('input', function() {
-			  currentState.backTextColor = this.value;
-			  waitForTshirtModel(updateTShirtText);
+				currentState.backTextColor = this.value;
+				updateTextDisplay();
 			});
-
+			
 			document.getElementById('backPlacement').addEventListener('change', function() {
-			  currentState.backPlacement = this.value;
-			  waitForTshirtModel(updateTShirtText);
+				currentState.backPlacement = this.value;
+				updateTextDisplay();
 			});
-            
-            // Size selection
-            document.querySelectorAll('.size-option').forEach(sizeOption => {
-                sizeOption.addEventListener('click', function() {
-                    const size = this.getAttribute('data-size');
-                    
-                    // Update UI
-                    document.querySelectorAll('.size-option').forEach(opt => opt.classList.remove('active'));
-                    this.classList.add('active');
-                    
-                    // Update current state
-                    currentState.size = size;
-                    
-                    // Update price
-                    let price = 24.99;
-                    if (size === 'XL') {
-                        price = 26.99;
-                    } else if (size === 'XXL') {
-                        price = 28.99;
-                    }
-                    
-                    document.getElementById('price-amount').textContent = '$' + price.toFixed(2);
-                });
-            });
-            
-            // Reset design button
-            document.getElementById('resetDesignBtn').addEventListener('click', function() {
-                // Reset current state
-                currentState = {
-                    color: "#ffffff",
-                    size: "M",
-                    view: "front",
-                    frontText: "",
-                    frontTextColor: "#000000",
-                    frontTextFont: "Arial",
-                    frontPlacement: "center",
-                    backText: "",
-                    backTextColor: "#000000",
-                    backTextFont: "Arial",
-                    backPlacement: "center"
-                };
-                
-                // Reset UI
-                document.getElementById('frontText').value = "";
-                document.getElementById('backText').value = "";
-                document.getElementById('frontTextColor').value = "#000000";
-                document.getElementById('backTextColor').value = "#000000";
-                document.getElementById('frontPlacement').value = "center";
-                document.getElementById('backPlacement').value = "center";
-                
-                document.querySelectorAll('.color-option').forEach(opt => {
-                    if (opt.getAttribute('data-color') === "#ffffff") {
-                        opt.classList.add('active');
-                    } else {
-                        opt.classList.remove('active');
-                    }
-                });
-                
-                document.querySelectorAll('.size-option').forEach(opt => {
-                    if (opt.getAttribute('data-size') === "M") {
-                        opt.classList.add('active');
-                    } else {
-                        opt.classList.remove('active');
-                    }
-                });
-                
-                document.querySelectorAll('.font-sample').forEach(sample => {
-                    if (sample.getAttribute('data-font') === "Arial") {
-                        sample.classList.add('active');
-                    } else {
-                        sample.classList.remove('active');
-                    }
-                });
-                
-				document.querySelectorAll('.view-buttons .view-btn').forEach(btn => {
-					if (btn.getAttribute('data-view') === 'rotate') {
-						btn.style.display = 'none';
+			
+			// Font selection - front
+			document.querySelectorAll('#frontTextSection .font-sample').forEach(fontSample => {
+				fontSample.addEventListener('click', function() {
+					const font = this.getAttribute('data-font');
+					
+					// Update UI
+					document.querySelectorAll('#frontTextSection .font-sample').forEach(sample => 
+						sample.classList.remove('active'));
+					this.classList.add('active');
+					
+					// Update current state
+					currentState.frontTextFont = font;
+					document.getElementById('frontTextFont').value = font;
+					
+					updateTextDisplay();
+				});
+			});
+			
+			// Font selection - back
+			document.querySelectorAll('#backTextSection .font-sample').forEach(fontSample => {
+				fontSample.addEventListener('click', function() {
+					const font = this.getAttribute('data-font');
+					
+					// Update UI
+					document.querySelectorAll('#backTextSection .font-sample').forEach(sample => 
+						sample.classList.remove('active'));
+					this.classList.add('active');
+					
+					// Update current state
+					currentState.backTextFont = font;
+					document.getElementById('backTextFont').value = font;
+					
+					updateTextDisplay();
+				});
+			});
+			
+			// Size selection
+			document.querySelectorAll('.size-option').forEach(sizeOption => {
+				sizeOption.addEventListener('click', function() {
+					const size = this.getAttribute('data-size');
+					
+					// Update UI
+					document.querySelectorAll('.size-option').forEach(opt => opt.classList.remove('active'));
+					this.classList.add('active');
+					
+					// Update current state
+					currentState.size = size;
+					
+					// Update price
+					let price = 24.99;
+					if (size === 'XL') {
+						price = 26.99;
+					} else if (size === 'XXL') {
+						price = 28.99;
+					}
+					
+					document.getElementById('price-amount').textContent = '$' + price.toFixed(2);
+				});
+			});
+			
+			// Reset design button
+			document.getElementById('resetDesignBtn').addEventListener('click', function() {
+				// Reset current state
+				currentState = {
+					color: "#ffffff",
+					size: "M",
+					view: "front",
+					frontText: "",
+					frontTextColor: "#000000",
+					frontTextFont: "Arial",
+					frontPlacement: "center",
+					backText: "",
+					backTextColor: "#000000",
+					backTextFont: "Arial",
+					backPlacement: "center"
+				};
+				
+				// Reset UI
+				document.getElementById('frontText').value = "";
+				document.getElementById('backText').value = "";
+				document.getElementById('frontTextColor').value = "#000000";
+				document.getElementById('backTextColor').value = "#000000";
+				document.getElementById('frontPlacement').value = "center";
+				document.getElementById('backPlacement').value = "center";
+				
+				document.querySelectorAll('.color-option').forEach(opt => {
+					if (opt.getAttribute('data-color') === "#ffffff") {
+						opt.classList.add('active');
+					} else {
+						opt.classList.remove('active');
 					}
 				});
-                
-                // Reset price
-                document.getElementById('price-amount').textContent = '$24.99';
-                
-                // Update 3D model
-                updateTShirtColor("#ffffff");
-                updateTShirtText();
-                updateView("front");
-            });
-            
-            // Add to cart button
-            document.getElementById('addToCartBtn').addEventListener('click', function() {
-                // Capture front and back views
-                const frontImage = captureView('front');
-                const backImage = captureView('back');
-                
-                // Display design summary
-                document.getElementById('frontPreviewImg').src = frontImage;
-                document.getElementById('backPreviewImg').src = backImage;
-                
-                // Update summary details
-                document.getElementById('summaryColor').textContent = document.querySelector('.color-option.active').getAttribute('data-color');
-                document.getElementById('summarySize').textContent = currentState.size;
-                document.getElementById('summaryFrontText').textContent = currentState.frontText || '-';
-                document.getElementById('summaryBackText').textContent = currentState.backText || '-';
-                document.getElementById('summaryPrice').textContent = document.getElementById('price-amount').textContent;
-                
-                // Show summary modal
-                document.getElementById('designSummaryModal').style.display = 'block';
-            });
-            
-            // Confirm add to cart
-            document.getElementById('confirmAddToCartBtn').addEventListener('click', function() {
-                // Get t-shirt details
-                const color = currentState.color;
-                const size = currentState.size;
-                const priceText = document.getElementById('price-amount').textContent;
-                const price = parseFloat(priceText.replace('$', ''));
-                
-                // Capture images
-                const frontImage = captureView('front');
-                const backImage = captureView('back');
-                
-                // Get existing cart
-                let cart = JSON.parse(localStorage.getItem('blowflowCart')) || [];
-                
-                // Add item to cart
-                const cartItem = {
-                    id: 'custom-tshirt-' + new Date().getTime(),
-                    name: 'Custom T-Shirt - ' + size,
-                    image: frontImage,
+				
+				document.querySelectorAll('.size-option').forEach(opt => {
+					if (opt.getAttribute('data-size') === "M") {
+						opt.classList.add('active');
+					} else {
+						opt.classList.remove('active');
+					}
+				});
+				
+				document.querySelectorAll('.font-sample').forEach(sample => {
+					if (sample.getAttribute('data-font') === "Arial") {
+						sample.classList.add('active');
+					} else {
+						sample.classList.remove('active');
+					}
+				});
+				
+				document.querySelectorAll('.view-btn').forEach(btn => {
+					if (btn.getAttribute('data-view') === 'front') {
+						btn.classList.add('active');
+					} else {
+						btn.classList.remove('active');
+					}
+				});
+				
+				// Reset price
+				document.getElementById('price-amount').textContent = '$24.99';
+				
+				// Update display
+				updateTShirtColor("#ffffff");
+				updateView("front");
+			});
+			
+			// Add to cart button
+			document.getElementById('addToCartBtn').addEventListener('click', function() {
+				// Show design summary
+				document.getElementById('frontPreviewImg').src = captureView('front');
+				document.getElementById('backPreviewImg').src = captureView('back');
+				
+				// Update summary details
+				document.getElementById('summaryColor').textContent = document.querySelector('.color-option.active').getAttribute('data-color');
+				document.getElementById('summarySize').textContent = currentState.size;
+				document.getElementById('summaryFrontText').textContent = currentState.frontText || '-';
+				document.getElementById('summaryBackText').textContent = currentState.backText || '-';
+				document.getElementById('summaryPrice').textContent = document.getElementById('price-amount').textContent;
+				
+				// Show summary modal
+				document.getElementById('designSummaryModal').style.display = 'block';
+			});
+			
+			// Confirm add to cart
+			document.getElementById('confirmAddToCartBtn').addEventListener('click', function() {
+				// Get t-shirt details
+				const color = currentState.color;
+				const size = currentState.size;
+				const priceText = document.getElementById('price-amount').textContent;
+				const price = parseFloat(priceText.replace('$', ''));
+				
+				// Capture images
+				const frontImage = captureView('front');
+				const backImage = captureView('back');
+				
+				// Get existing cart
+				let cart = JSON.parse(localStorage.getItem('blowflowCart')) || [];
+				
+				// Add item to cart
+				const cartItem = {
+					id: 'custom-tshirt-' + new Date().getTime(),
+					name: 'Custom T-Shirt - ' + size,
+					image: frontImage,
 					price: price,
-                    type: 'Custom T-Shirt Design',
-                    category: 'customTshirt',
-                    designData: JSON.stringify(currentState),
-                    frontImage: frontImage,
-                    backImage: backImage,
-                    tshirtColor: color,
-                    tshirtSize: size,
-                    quantity: 1
-                };
-                
-                cart.push(cartItem);
-                
-                // Save cart to localStorage
-                localStorage.setItem('blowflowCart', JSON.stringify(cart));
-                
-                // Update cart count
-                updateCartCount();
-                
-                // Close design summary modal
-                document.getElementById('designSummaryModal').style.display = 'none';
-                
-                // Show confirmation and open cart
-                alert('Your custom t-shirt has been added to the cart!');
-                openCartModal();
-            });
-            
-            // Save design button
-            document.getElementById('saveDesignBtn').addEventListener('click', function() {
-                // Generate a unique code for the design
-                const designCode = 'BFC-' + Math.random().toString(36).substring(2, 10).toUpperCase();
-                
-                // Save design to localStorage
-                const designData = {
-                    code: designCode,
-                    state: JSON.stringify(currentState),
-                    frontPreview: captureView('front'),
-                    backPreview: captureView('back'),
-                    timestamp: new Date().getTime()
-                };
-                
-                // Get existing saved designs
-                let savedDesigns = JSON.parse(localStorage.getItem('blowflowSavedDesigns')) || [];
-                savedDesigns.push(designData);
-                
-                // Limit to last 10 designs
-                if (savedDesigns.length > 10) {
-                    savedDesigns = savedDesigns.slice(-10);
-                }
-                
-                localStorage.setItem('blowflowSavedDesigns', JSON.stringify(savedDesigns));
-                
-                // Show confirmation
-                alert('Your design has been saved! You can access it later using code: ' + designCode);
-            });
-            
-            // Initialize cart count
-            function updateCartCount() {
-                const cart = JSON.parse(localStorage.getItem('blowflowCart')) || [];
-                const count = cart.reduce((total, item) => total + item.quantity, 0);
-                document.getElementById('cart-count').textContent = count;
-            }
-            
-            // Call initially to set cart count
-            updateCartCount();
-            
-            // Open cart modal
-            document.getElementById('cart-link').addEventListener('click', function(e) {
-                e.preventDefault();
-                openCartModal();
-            });
-            
-            // Function to open cart modal
-            function openCartModal() {
-                // Get cart items
-                const cart = JSON.parse(localStorage.getItem('blowflowCart')) || [];
-                
-                // Clear cart items
-                const cartItemsEl = document.getElementById('cartItems');
-                cartItemsEl.innerHTML = '';
-                
-                // Show/hide empty cart message
-                const cartEmptyEl = document.getElementById('cartEmpty');
-                const cartTotalEl = document.getElementById('cartTotal');
-                const checkoutBtn = document.getElementById('checkoutBtn');
-                
-                if (cart.length === 0) {
-                    cartEmptyEl.style.display = 'block';
-                    cartTotalEl.style.display = 'none';
-                    checkoutBtn.disabled = true;
-                    checkoutBtn.style.opacity = '0.5';
-                } else {
-                    cartEmptyEl.style.display = 'none';
-                    cartTotalEl.style.display = 'flex';
-                    checkoutBtn.disabled = false;
-                    checkoutBtn.style.opacity = '1';
-                    
-                    // Add cart items
-                    let total = 0;
-                    
-                    cart.forEach((item, index) => {
-                        const itemTotal = item.quantity * item.price;
-                        total += itemTotal;
-                        
-                        const cartItemEl = document.createElement('div');
-                        cartItemEl.style.display = 'grid';
-                        cartItemEl.style.gridTemplateColumns = '80px 1fr auto auto';
-                        cartItemEl.style.gap = '15px';
-                        cartItemEl.style.alignItems = 'center';
-                        cartItemEl.style.marginBottom = '15px';
-                        cartItemEl.style.paddingBottom = '15px';
-                        cartItemEl.style.borderBottom = '1px solid rgba(255, 255, 255, 0.1)';
-                        
-                        cartItemEl.innerHTML = `
-                            <img src="${item.image || item.frontImage}" alt="${item.name}" style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px;">
-                            <div>
-                                <h4 style="color: white; margin-bottom: 5px;">${item.name}</h4>
-                                <div style="font-size: 0.8rem; color: #aaa;">${item.type || ''}</div>
-                                <div style="font-size: 0.8rem; color: #aaa;">Color: ${item.tshirtColor || ''}, Size: ${item.tshirtSize || ''}</div>
-                            </div>
-                            <div style="display: flex; align-items: center;">
-                                <button class="quantity-btn decrease" data-index="${index}" style="background: rgba(0, 188, 212, 0.3); color: white; border: none; width: 25px; height: 25px; display: flex; align-items: center; justify-content: center; cursor: pointer;">-</button>
-                                <span style="width: 30px; text-align: center; background: transparent; border: none; color: white; font-size: 1rem;">${item.quantity}</span>
-                                <button class="quantity-btn increase" data-index="${index}" style="background: rgba(0, 188, 212, 0.3); color: white; border: none; width: 25px; height: 25px; display: flex; align-items: center; justify-content: center; cursor: pointer;">+</button>
-                            </div>
-                            <div style="display: flex; gap: 10px; align-items: center;">
-                                <div style="color: var(--orange); font-weight: bold;">$${itemTotal.toFixed(2)}</div>
-                                <button class="cart-item-remove" data-index="${index}" style="background: rgba(233, 30, 99, 0.3); color: white; border: none; border-radius: 50%; width: 30px; height: 30px; cursor: pointer; display: flex; align-items: center; justify-content: center;">&times;</button>
-                            </div>
-                        `;
-                        
-                        cartItemsEl.appendChild(cartItemEl);
-                    });
-                    
-                    // Update total
-                    document.getElementById('totalAmount').textContent = `$${total.toFixed(2)}`;
-                    
-                    // Add event listeners to quantity buttons and remove buttons
-                    addCartItemEventListeners();
-                }
-                
-                // Show cart modal
-                document.getElementById('cartModal').style.display = 'block';
-            }
-            
-            // Add event listeners to cart item controls
-            function addCartItemEventListeners() {
-                // Quantity decrease buttons
-                document.querySelectorAll('.quantity-btn.decrease').forEach(button => {
-                    button.addEventListener('click', function() {
-                        const index = parseInt(this.getAttribute('data-index'));
-                        let cart = JSON.parse(localStorage.getItem('blowflowCart')) || [];
-                        
-                        if (cart[index].quantity > 1) {
-                            cart[index].quantity -= 1;
-                            localStorage.setItem('blowflowCart', JSON.stringify(cart));
-                            updateCartCount();
-                            openCartModal(); // Refresh cart modal
-                        }
-                    });
-                });
-                
-                // Quantity increase buttons
-                document.querySelectorAll('.quantity-btn.increase').forEach(button => {
-                    button.addEventListener('click', function() {
-                        const index = parseInt(this.getAttribute('data-index'));
-                        let cart = JSON.parse(localStorage.getItem('blowflowCart')) || [];
-                        
-                        cart[index].quantity += 1;
-                        localStorage.setItem('blowflowCart', JSON.stringify(cart));
-                        updateCartCount();
-                        openCartModal(); // Refresh cart modal
-                    });
-                });
-                
-                // Remove buttons
-                document.querySelectorAll('.cart-item-remove').forEach(button => {
-                    button.addEventListener('click', function() {
-                        const index = parseInt(this.getAttribute('data-index'));
-                        let cart = JSON.parse(localStorage.getItem('blowflowCart')) || [];
-                        
-                        cart.splice(index, 1);
-                        localStorage.setItem('blowflowCart', JSON.stringify(cart));
-                        updateCartCount();
-                        openCartModal(); // Refresh cart modal
-                    });
-                });
-            }
-            
-            // Close cart modal
-            document.getElementById('closeCart').addEventListener('click', function() {
-                document.getElementById('cartModal').style.display = 'none';
-            });
-            
-            // Close design summary modal
-            document.getElementById('closeDesignSummary').addEventListener('click', function() {
-                document.getElementById('designSummaryModal').style.display = 'none';
-            });
-            
-            // Continue shopping button
-            document.getElementById('continueShoppingBtn').addEventListener('click', function() {
-                document.getElementById('cartModal').style.display = 'none';
-            });
-            
-            // Checkout button
-            document.getElementById('checkoutBtn').addEventListener('click', function() {
-                // Prepare order details for email
-                const cart = JSON.parse(localStorage.getItem('blowflowCart')) || [];
-                if (cart.length === 0) return;
-                
-                let orderDetails = 'Order Items:\n\n';
-                let total = 0;
-                
-                cart.forEach(item => {
-                    const itemTotal = item.quantity * item.price;
-                    total += itemTotal;
-                    
-                    let itemDetails = `- ${item.quantity}x ${item.name} ($${item.price.toFixed(2)} each): $${itemTotal.toFixed(2)}\n`;
-                    
-                    // Add details for custom t-shirts
-                    if (item.category === 'customTshirt') {
-                        itemDetails += `  Color: ${item.tshirtColor}, Size: ${item.tshirtSize}\n`;
-                        if (item.designData) {
-                            const design = JSON.parse(item.designData);
-                            if (design.frontText) {
-                                itemDetails += `  Front Text: "${design.frontText}"\n`;
-                            }
-                            if (design.backText) {
-                                itemDetails += `  Back Text: "${design.backText}"\n`;
-                            }
-                        }
-                    }
-                    
-                    orderDetails += itemDetails;
-                });
-                
-                orderDetails += `\nTotal: $${total.toFixed(2)}`;
-                
-                // Redirect to checkout page or open mailto link
-                const mailtoLink = `mailto:Blowflowllc@gmail.com?subject=Custom T-Shirt Order&body=${encodeURIComponent('I would like to order the following custom t-shirt design:\n\n' + orderDetails + '\n\nPlease contact me to complete this order.')}`;
-                
-                window.location.href = mailtoLink;
-            });
-            
-            // Close modals when clicking outside
-            window.addEventListener('click', function(event) {
-                if (event.target === document.getElementById('cartModal')) {
-                    document.getElementById('cartModal').style.display = 'none';
-                }
-                if (event.target === document.getElementById('designSummaryModal')) {
-                    document.getElementById('designSummaryModal').style.display = 'none';
-                }
-            });
-        });
+					type: 'Custom T-Shirt Design',
+					category: 'customTshirt',
+					designData: JSON.stringify(currentState),
+					frontImage: frontImage,
+					backImage: backImage,
+					tshirtColor: color,
+					tshirtSize: size,
+					quantity: 1
+				};
+				
+				cart.push(cartItem);
+				
+				// Save cart to localStorage
+				localStorage.setItem('blowflowCart', JSON.stringify(cart));
+				
+				// Update cart count
+				updateCartCount();
+				
+				// Close design summary modal
+				document.getElementById('designSummaryModal').style.display = 'none';
+				
+				// Show confirmation and open cart
+				alert('Your custom t-shirt has been added to the cart!');
+				openCartModal();
+			});
+			
+			// Save design button
+			document.getElementById('saveDesignBtn').addEventListener('click', function() {
+				// Generate a unique code for the design
+				const designCode = 'BFC-' + Math.random().toString(36).substring(2, 10).toUpperCase();
+				
+				// Save design to localStorage
+				const designData = {
+					code: designCode,
+					state: JSON.stringify(currentState),
+					frontPreview: captureView('front'),
+					backPreview: captureView('back'),
+					timestamp: new Date().getTime()
+				};
+				
+				// Get existing saved designs
+				let savedDesigns = JSON.parse(localStorage.getItem('blowflowSavedDesigns')) || [];
+				savedDesigns.push(designData);
+				
+				// Limit to last 10 designs
+				if (savedDesigns.length > 10) {
+					savedDesigns = savedDesigns.slice(-10);
+				}
+				
+				localStorage.setItem('blowflowSavedDesigns', JSON.stringify(savedDesigns));
+				
+				// Show confirmation
+				alert('Your design has been saved! You can access it later using code: ' + designCode);
+			});
+			
+			// Initialize cart count
+			function updateCartCount() {
+				const cart = JSON.parse(localStorage.getItem('blowflowCart')) || [];
+				const count = cart.reduce((total, item) => total + item.quantity, 0);
+				document.getElementById('cart-count').textContent = count;
+			}
+			
+			// Call initially to set cart count
+			updateCartCount();
+			
+			// Open cart modal
+			document.getElementById('cart-link').addEventListener('click', function(e) {
+				e.preventDefault();
+				openCartModal();
+			});
+			
+			// Function to open cart modal
+			function openCartModal() {
+				// Get cart items
+				const cart = JSON.parse(localStorage.getItem('blowflowCart')) || [];
+				
+				// Clear cart items
+				const cartItemsEl = document.getElementById('cartItems');
+				cartItemsEl.innerHTML = '';
+				
+				// Show/hide empty cart message
+				const cartEmptyEl = document.getElementById('cartEmpty');
+				const cartTotalEl = document.getElementById('cartTotal');
+				const checkoutBtn = document.getElementById('checkoutBtn');
+				
+				if (cart.length === 0) {
+					cartEmptyEl.style.display = 'block';
+					cartTotalEl.style.display = 'none';
+					checkoutBtn.disabled = true;
+					checkoutBtn.style.opacity = '0.5';
+				} else {
+					cartEmptyEl.style.display = 'none';
+					cartTotalEl.style.display = 'flex';
+					checkoutBtn.disabled = false;
+					checkoutBtn.style.opacity = '1';
+					
+					// Add cart items
+					let total = 0;
+					
+					cart.forEach((item, index) => {
+						const itemTotal = item.quantity * item.price;
+						total += itemTotal;
+						
+						const cartItemEl = document.createElement('div');
+						cartItemEl.style.display = 'grid';
+						cartItemEl.style.gridTemplateColumns = '80px 1fr auto auto';
+						cartItemEl.style.gap = '15px';
+						cartItemEl.style.alignItems = 'center';
+						cartItemEl.style.marginBottom = '15px';
+						cartItemEl.style.paddingBottom = '15px';
+						cartItemEl.style.borderBottom = '1px solid rgba(255, 255, 255, 0.1)';
+						
+						cartItemEl.innerHTML = `
+							<img src="${item.image || item.frontImage}" alt="${item.name}" style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px;">
+							<div>
+								<h4 style="color: white; margin-bottom: 5px;">${item.name}</h4>
+								<div style="font-size: 0.8rem; color: #aaa;">${item.type || ''}</div>
+								<div style="font-size: 0.8rem; color: #aaa;">Color: ${item.tshirtColor || ''}, Size: ${item.tshirtSize || ''}</div>
+							</div>
+							<div style="display: flex; align-items: center;">
+								<button class="quantity-btn decrease" data-index="${index}" style="background: rgba(0, 188, 212, 0.3); color: white; border: none; width: 25px; height: 25px; display: flex; align-items: center; justify-content: center; cursor: pointer;">-</button>
+								<span style="width: 30px; text-align: center; background: transparent; border: none; color: white; font-size: 1rem;">${item.quantity}</span>
+								<button class="quantity-btn increase" data-index="${index}" style="background: rgba(0, 188, 212, 0.3); color: white; border: none; width: 25px; height: 25px; display: flex; align-items: center; justify-content: center; cursor: pointer;">+</button>
+							</div>
+							<div style="display: flex; gap: 10px; align-items: center;">
+								<div style="color: var(--orange); font-weight: bold;">$${itemTotal.toFixed(2)}</div>
+								<button class="cart-item-remove" data-index="${index}" style="background: rgba(233, 30, 99, 0.3); color: white; border: none; border-radius: 50%; width: 30px; height: 30px; cursor: pointer; display: flex; align-items: center; justify-content: center;">&times;</button>
+							</div>
+						`;
+						
+						cartItemsEl.appendChild(cartItemEl);
+					});
+					
+					// Update total
+					document.getElementById('totalAmount').textContent = `$${total.toFixed(2)}`;
+					
+					// Add event listeners to quantity buttons and remove buttons
+					addCartItemEventListeners();
+				}
+				
+				// Show cart modal
+				document.getElementById('cartModal').style.display = 'block';
+			}
+			
+			// Add event listeners to cart item controls
+			function addCartItemEventListeners() {
+				// Quantity decrease buttons
+				document.querySelectorAll('.quantity-btn.decrease').forEach(button => {
+					button.addEventListener('click', function() {
+						const index = parseInt(this.getAttribute('data-index'));
+						let cart = JSON.parse(localStorage.getItem('blowflowCart')) || [];
+						
+						if (cart[index].quantity > 1) {
+							cart[index].quantity -= 1;
+							localStorage.setItem('blowflowCart', JSON.stringify(cart));
+							updateCartCount();
+							openCartModal(); // Refresh cart modal
+						}
+					});
+				});
+				
+				// Quantity increase buttons
+				document.querySelectorAll('.quantity-btn.increase').forEach(button => {
+					button.addEventListener('click', function() {
+						const index = parseInt(this.getAttribute('data-index'));
+						let cart = JSON.parse(localStorage.getItem('blowflowCart')) || [];
+						
+						cart[index].quantity += 1;
+						localStorage.setItem('blowflowCart', JSON.stringify(cart));
+						updateCartCount();
+						openCartModal(); // Refresh cart modal
+					});
+				});
+				
+				// Remove buttons
+				document.querySelectorAll('.cart-item-remove').forEach(button => {
+					button.addEventListener('click', function() {
+						const index = parseInt(this.getAttribute('data-index'));
+						let cart = JSON.parse(localStorage.getItem('blowflowCart')) || [];
+						
+						cart.splice(index, 1);
+						localStorage.setItem('blowflowCart', JSON.stringify(cart));
+						updateCartCount();
+						openCartModal(); // Refresh cart modal
+					});
+				});
+			}
+			
+			// Close cart modal
+			document.getElementById('closeCart').addEventListener('click', function() {
+				document.getElementById('cartModal').style.display = 'none';
+			});
+			
+			// Close design summary modal
+			document.getElementById('closeDesignSummary').addEventListener('click', function() {
+				document.getElementById('designSummaryModal').style.display = 'none';
+			});
+			
+			// Continue shopping button
+			document.getElementById('continueShoppingBtn').addEventListener('click', function() {
+				document.getElementById('cartModal').style.display = 'none';
+			});
+			
+			// Checkout button
+			document.getElementById('checkoutBtn').addEventListener('click', function() {
+				// Prepare order details for email
+				const cart = JSON.parse(localStorage.getItem('blowflowCart')) || [];
+				if (cart.length === 0) return;
+				
+				let orderDetails = 'Order Items:\n\n';
+				let total = 0;
+				
+				cart.forEach(item => {
+					const itemTotal = item.quantity * item.price;
+					total += itemTotal;
+					
+					let itemDetails = `- ${item.quantity}x ${item.name} ($${item.price.toFixed(2)} each): $${itemTotal.toFixed(2)}\n`;
+					
+					// Add details for custom t-shirts
+					if (item.category === 'customTshirt') {
+						itemDetails += `  Color: ${item.tshirtColor}, Size: ${item.tshirtSize}\n`;
+						if (item.designData) {
+							const design = JSON.parse(item.designData);
+							if (design.frontText) {
+								itemDetails += `  Front Text: "${design.frontText}"\n`;
+							}
+							if (design.backText) {
+								itemDetails += `  Back Text: "${design.backText}"\n`;
+							}
+						}
+					}
+					
+					orderDetails += itemDetails;
+				});
+				
+				orderDetails += `\nTotal: $${total.toFixed(2)}`;
+				
+				// Redirect to checkout page or open mailto link
+				const mailtoLink = `mailto:Blowflowllc@gmail.com?subject=Custom T-Shirt Order&body=${encodeURIComponent('I would like to order the following custom t-shirt design:\n\n' + orderDetails + '\n\nPlease contact me to complete this order.')}`;
+				
+				window.location.href = mailtoLink;
+			});
+			
+			// Close modals when clicking outside
+			window.addEventListener('click', function(event) {
+				if (event.target === document.getElementById('cartModal')) {
+					document.getElementById('cartModal').style.display = 'none';
+				}
+				if (event.target === document.getElementById('designSummaryModal')) {
+					document.getElementById('designSummaryModal').style.display = 'none';
+				}
+			});
+			
+			// Initial setup
+			updateView('front');
+		});
     </script>
 </body>
 </html>
