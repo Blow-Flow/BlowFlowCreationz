@@ -1156,6 +1156,8 @@
             
 			// Update t-shirt text
 			function updateTShirtText() {
+				if (!tshirtMesh) return; // Guard against undefined
+				
 				// Create canvas for front text
 				if (currentState.frontText) {
 					const frontCanvas = document.createElement('canvas');
@@ -1166,15 +1168,15 @@
 					// Clear canvas with transparent background
 					frontCtx.clearRect(0, 0, frontCanvas.width, frontCanvas.height);
 					
-					// Set text properties
+					// Set text properties - make text larger and bolder
 					frontCtx.fillStyle = currentState.frontTextColor;
-					frontCtx.font = `bold 60px ${currentState.frontTextFont}`;
+					frontCtx.font = `bold 80px ${currentState.frontTextFont}`; // Increased from 60px
 					frontCtx.textAlign = 'center';
 					frontCtx.textBaseline = 'middle';
 					
 					// Handle multiline text
 					const frontLines = currentState.frontText.split('\n');
-					const lineHeight = 70;
+					const lineHeight = 90; // Increased line height
 					
 					frontLines.forEach((line, index) => {
 						const y = frontCanvas.height / 2 - (frontLines.length - 1) * lineHeight / 2 + index * lineHeight;
@@ -1184,39 +1186,36 @@
 					// Create texture
 					const frontTexture = new THREE.CanvasTexture(frontCanvas);
 					
-					// Apply texture to appropriate plane
+					// Apply texture to appropriate plane with increased opacity
 					if (currentState.frontPlacement === "center") {
 						const frontPlane = tshirtMesh.getObjectByName("frontCenterPlane");
 						if (frontPlane) {
+							frontPlane.visible = currentState.view === "front";
 							frontPlane.material = new THREE.MeshBasicMaterial({
 								map: frontTexture,
 								transparent: true,
-								opacity: 1.0,
+								opacity: 1.0, // Maximum opacity
 								side: THREE.DoubleSide,
-								depthTest: false,  // This prevents z-fighting with the shirt
-								depthWrite: false  // This ensures text is always visible
+								depthTest: false,
+								depthWrite: false
 							});
 							frontPlane.material.needsUpdate = true;
-							frontPlane.renderOrder = 1;  // This makes sure the text renders after the shirt
+							frontPlane.renderOrder = 1;
 						}
 						
 						// Clear pocket text
 						const pocketPlane = tshirtMesh.getObjectByName("frontPocketPlane");
 						if (pocketPlane) {
-							pocketPlane.material = new THREE.MeshBasicMaterial({
-								transparent: true,
-								opacity: 0,
-								side: THREE.DoubleSide
-							});
-							pocketPlane.material.needsUpdate = true;
+							pocketPlane.visible = false;
 						}
 					} else if (currentState.frontPlacement === "pocket") {
 						const pocketPlane = tshirtMesh.getObjectByName("frontPocketPlane");
 						if (pocketPlane) {
+							pocketPlane.visible = currentState.view === "front";
 							pocketPlane.material = new THREE.MeshBasicMaterial({
 								map: frontTexture,
 								transparent: true,
-								opacity: 1.0,
+								opacity: 1.0, // Maximum opacity
 								side: THREE.DoubleSide,
 								depthTest: false,
 								depthWrite: false
@@ -1228,39 +1227,19 @@
 						// Clear center text
 						const frontPlane = tshirtMesh.getObjectByName("frontCenterPlane");
 						if (frontPlane) {
-							frontPlane.material = new THREE.MeshBasicMaterial({
-								transparent: true,
-								opacity: 0,
-								side: THREE.DoubleSide
-							});
-							frontPlane.material.needsUpdate = true;
+							frontPlane.visible = false;
 						}
 					}
 				} else {
 					// No front text, clear all front planes
-					const frontPlane = tshirtMesh.getObjectByName("frontCenterPlane");
-					const pocketPlane = tshirtMesh.getObjectByName("frontPocketPlane");
-					
-					if (frontPlane) {
-						frontPlane.material = new THREE.MeshBasicMaterial({
-							transparent: true,
-							opacity: 0,
-							side: THREE.DoubleSide
-						});
-						frontPlane.material.needsUpdate = true;
-					}
-					
-					if (pocketPlane) {
-						pocketPlane.material = new THREE.MeshBasicMaterial({
-							transparent: true,
-							opacity: 0,
-							side: THREE.DoubleSide
-						});
-						pocketPlane.material.needsUpdate = true;
-					}
+					tshirtMesh.children.forEach(child => {
+						if (child.name && child.name.startsWith('front')) {
+							child.visible = false;
+						}
+					});
 				}
 				
-				// Create canvas for back text
+				// Create canvas for back text with similar improvements
 				if (currentState.backText) {
 					const backCanvas = document.createElement('canvas');
 					backCanvas.width = 512;
@@ -1270,15 +1249,15 @@
 					// Clear canvas with transparent background
 					backCtx.clearRect(0, 0, backCanvas.width, backCanvas.height);
 					
-					// Set text properties
+					// Set text properties with larger, bolder text
 					backCtx.fillStyle = currentState.backTextColor;
-					backCtx.font = `bold 60px ${currentState.backTextFont}`;
+					backCtx.font = `bold 80px ${currentState.backTextFont}`; // Increased size
 					backCtx.textAlign = 'center';
 					backCtx.textBaseline = 'middle';
 					
 					// Handle multiline text
 					const backLines = currentState.backText.split('\n');
-					const lineHeight = 70;
+					const lineHeight = 90; // Increased line height
 					
 					backLines.forEach((line, index) => {
 						const y = backCanvas.height / 2 - (backLines.length - 1) * lineHeight / 2 + index * lineHeight;
@@ -1288,14 +1267,15 @@
 					// Create texture
 					const backTexture = new THREE.CanvasTexture(backCanvas);
 					
-					// Apply texture to appropriate plane
+					// Apply texture to appropriate plane with improved visibility
 					if (currentState.backPlacement === "center") {
 						const backPlane = tshirtMesh.getObjectByName("backCenterPlane");
 						if (backPlane) {
+							backPlane.visible = currentState.view === "back";
 							backPlane.material = new THREE.MeshBasicMaterial({
 								map: backTexture,
 								transparent: true,
-								opacity: 1.0,
+								opacity: 1.0, // Maximum opacity
 								side: THREE.DoubleSide,
 								depthTest: false,
 								depthWrite: false
@@ -1305,33 +1285,18 @@
 						}
 						
 						// Clear other back planes
-						const topPlane = tshirtMesh.getObjectByName("backTopPlane");
-						const bottomPlane = tshirtMesh.getObjectByName("backBottomPlane");
-						
-						if (topPlane) {
-							topPlane.material = new THREE.MeshBasicMaterial({
-								transparent: true,
-								opacity: 0,
-								side: THREE.DoubleSide
-							});
-							topPlane.material.needsUpdate = true;
-						}
-						
-						if (bottomPlane) {
-							bottomPlane.material = new THREE.MeshBasicMaterial({
-								transparent: true,
-								opacity: 0,
-								side: THREE.DoubleSide
-							});
-							bottomPlane.material.needsUpdate = true;
-						}
+						["backTopPlane", "backBottomPlane"].forEach(name => {
+							const plane = tshirtMesh.getObjectByName(name);
+							if (plane) plane.visible = false;
+						});
 					} else if (currentState.backPlacement === "top") {
 						const topPlane = tshirtMesh.getObjectByName("backTopPlane");
 						if (topPlane) {
+							topPlane.visible = currentState.view === "back";
 							topPlane.material = new THREE.MeshBasicMaterial({
 								map: backTexture,
 								transparent: true,
-								opacity: 1.0,
+								opacity: 1.0, // Maximum opacity
 								side: THREE.DoubleSide,
 								depthTest: false,
 								depthWrite: false
@@ -1341,33 +1306,18 @@
 						}
 						
 						// Clear other back planes
-						const backPlane = tshirtMesh.getObjectByName("backCenterPlane");
-						const bottomPlane = tshirtMesh.getObjectByName("backBottomPlane");
-						
-						if (backPlane) {
-							backPlane.material = new THREE.MeshBasicMaterial({
-								transparent: true,
-								opacity: 0,
-								side: THREE.DoubleSide
-							});
-							backPlane.material.needsUpdate = true;
-						}
-						
-						if (bottomPlane) {
-							bottomPlane.material = new THREE.MeshBasicMaterial({
-								transparent: true,
-								opacity: 0,
-								side: THREE.DoubleSide
-							});
-							bottomPlane.material.needsUpdate = true;
-						}
+						["backCenterPlane", "backBottomPlane"].forEach(name => {
+							const plane = tshirtMesh.getObjectByName(name);
+							if (plane) plane.visible = false;
+						});
 					} else if (currentState.backPlacement === "bottom") {
 						const bottomPlane = tshirtMesh.getObjectByName("backBottomPlane");
 						if (bottomPlane) {
+							bottomPlane.visible = currentState.view === "back";
 							bottomPlane.material = new THREE.MeshBasicMaterial({
 								map: backTexture,
 								transparent: true,
-								opacity: 1.0,
+								opacity: 1.0, // Maximum opacity
 								side: THREE.DoubleSide,
 								depthTest: false,
 								depthWrite: false
@@ -1377,59 +1327,18 @@
 						}
 						
 						// Clear other back planes
-						const backPlane = tshirtMesh.getObjectByName("backCenterPlane");
-						const topPlane = tshirtMesh.getObjectByName("backTopPlane");
-						
-						if (backPlane) {
-							backPlane.material = new THREE.MeshBasicMaterial({
-								transparent: true,
-								opacity: 0,
-								side: THREE.DoubleSide
-							});
-							backPlane.material.needsUpdate = true;
-						}
-						
-						if (topPlane) {
-							topPlane.material = new THREE.MeshBasicMaterial({
-								transparent: true, 
-								opacity: 0,
-								side: THREE.DoubleSide
-							});
-							topPlane.material.needsUpdate = true;
-						}
+						["backCenterPlane", "backTopPlane"].forEach(name => {
+							const plane = tshirtMesh.getObjectByName(name);
+							if (plane) plane.visible = false;
+						});
 					}
 				} else {
 					// No back text, clear all back planes
-					const backPlane = tshirtMesh.getObjectByName("backCenterPlane");
-					const topPlane = tshirtMesh.getObjectByName("backTopPlane");
-					const bottomPlane = tshirtMesh.getObjectByName("backBottomPlane");
-					
-					if (backPlane) {
-						backPlane.material = new THREE.MeshBasicMaterial({
-							transparent: true,
-							opacity: 0,
-							side: THREE.DoubleSide
-						});
-						backPlane.material.needsUpdate = true;
-					}
-					
-					if (topPlane) {
-						topPlane.material = new THREE.MeshBasicMaterial({
-							transparent: true,
-							opacity: 0,
-							side: THREE.DoubleSide
-						});
-						topPlane.material.needsUpdate = true;
-					}
-					
-					if (bottomPlane) {
-						bottomPlane.material = new THREE.MeshBasicMaterial({
-							transparent: true,
-							opacity: 0,
-							side: THREE.DoubleSide
-						});
-						bottomPlane.material.needsUpdate = true;
-					}
+					tshirtMesh.children.forEach(child => {
+						if (child.name && child.name.startsWith('back')) {
+							child.visible = false;
+						}
+					});
 				}
 				
 				// Force a render update
@@ -1451,42 +1360,54 @@
             
             // Change the view (front, back, rotate)
 			function updateView(view) {
-				// Reset camera position
-				if (controls) controls.reset();
+				// Update view state
+				currentState.view = view;
 				
-				// Update based on view (simplified 2D views instead of 3D)
+				// Get shirt body element
+				const body = tshirtMesh.children.find(child => child.position.y === -0.5);
+				
 				if (view === "front") {
-					// Set to static front view
+					// Show front view
 					camera.position.set(0, 0, 5);
-					controls.enabled = false;
-					controls.autoRotate = false;
 					
 					// Show front text controls, hide back text controls
 					document.getElementById('frontTextSection').style.display = 'block';
 					document.getElementById('backTextSection').style.display = 'none';
+					
+					// Make front planes visible, back planes invisible
+					tshirtMesh.children.forEach(child => {
+						if (child.name && child.name.startsWith('front')) {
+							child.visible = true;
+						} else if (child.name && child.name.startsWith('back')) {
+							child.visible = false;
+						}
+					});
 				} else if (view === "back") {
-					// Set to static back view
+					// Show back view
 					camera.position.set(0, 0, -5);
-					controls.enabled = false;
-					controls.autoRotate = false;
 					
 					// Show back text controls, hide front text controls
 					document.getElementById('frontTextSection').style.display = 'none';
 					document.getElementById('backTextSection').style.display = 'block';
-				} else if (view === "rotate") {
-					// Instead of 3D rotation, just show front view
-					camera.position.set(0, 0, 5);
-					controls.enabled = false; // Disable rotation
-					controls.autoRotate = false;
 					
-					// Show both front and back text controls
-					document.getElementById('frontTextSection').style.display = 'block';
-					document.getElementById('backTextSection').style.display = 'block';
+					// Make back planes visible, front planes invisible
+					tshirtMesh.children.forEach(child => {
+						if (child.name && child.name.startsWith('back')) {
+							child.visible = true;
+						} else if (child.name && child.name.startsWith('front')) {
+							child.visible = false;
+						}
+					});
 				}
 				
 				// Update camera
 				camera.lookAt(scene.position);
-				if (controls) controls.update();
+				
+				// Force text update
+				updateTShirtText();
+				
+				// Force render
+				renderer.render(scene, camera);
 			}
             
             // Animation loop
@@ -1714,13 +1635,11 @@
                     }
                 });
                 
-                document.querySelectorAll('.view-btn').forEach(btn => {
-                    if (btn.getAttribute('data-view') === "front") {
-                        btn.classList.add('active');
-                    } else {
-                        btn.classList.remove('active');
-                    }
-                });
+				document.querySelectorAll('.view-buttons .view-btn').forEach(btn => {
+					if (btn.getAttribute('data-view') === 'rotate') {
+						btn.style.display = 'none';
+					}
+				});
                 
                 // Reset price
                 document.getElementById('price-amount').textContent = '$24.99';
