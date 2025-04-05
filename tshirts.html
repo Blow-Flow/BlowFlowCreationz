@@ -1049,6 +1049,7 @@
 							frontPlane.material = new THREE.MeshBasicMaterial({
 								map: frontTexture,
 								transparent: true,
+								opacity: 1.0,
 								side: THREE.DoubleSide
 							});
 							frontPlane.material.needsUpdate = true;
@@ -1057,7 +1058,11 @@
 						// Clear pocket text
 						const pocketPlane = tshirtMesh.getObjectByName("frontPocketPlane");
 						if (pocketPlane) {
-							pocketPlane.material.opacity = 0;
+							pocketPlane.material = new THREE.MeshBasicMaterial({
+								transparent: true,
+								opacity: 0,
+								side: THREE.DoubleSide
+							});
 							pocketPlane.material.needsUpdate = true;
 						}
 					} else if (currentState.frontPlacement === "pocket") {
@@ -1066,6 +1071,7 @@
 							pocketPlane.material = new THREE.MeshBasicMaterial({
 								map: frontTexture,
 								transparent: true,
+								opacity: 1.0,
 								side: THREE.DoubleSide
 							});
 							pocketPlane.material.needsUpdate = true;
@@ -1074,7 +1080,11 @@
 						// Clear center text
 						const frontPlane = tshirtMesh.getObjectByName("frontCenterPlane");
 						if (frontPlane) {
-							frontPlane.material.opacity = 0;
+							frontPlane.material = new THREE.MeshBasicMaterial({
+								transparent: true,
+								opacity: 0,
+								side: THREE.DoubleSide
+							});
 							frontPlane.material.needsUpdate = true;
 						}
 					}
@@ -1084,12 +1094,20 @@
 					const pocketPlane = tshirtMesh.getObjectByName("frontPocketPlane");
 					
 					if (frontPlane) {
-						frontPlane.material.opacity = 0;
+						frontPlane.material = new THREE.MeshBasicMaterial({
+							transparent: true,
+							opacity: 0,
+							side: THREE.DoubleSide
+						});
 						frontPlane.material.needsUpdate = true;
 					}
 					
 					if (pocketPlane) {
-						pocketPlane.material.opacity = 0;
+						pocketPlane.material = new THREE.MeshBasicMaterial({
+							transparent: true,
+							opacity: 0,
+							side: THREE.DoubleSide
+						});
 						pocketPlane.material.needsUpdate = true;
 					}
 				}
@@ -1129,6 +1147,7 @@
 							backPlane.material = new THREE.MeshBasicMaterial({
 								map: backTexture,
 								transparent: true,
+								opacity: 1.0,
 								side: THREE.DoubleSide
 							});
 							backPlane.material.needsUpdate = true;
@@ -1139,12 +1158,20 @@
 						const bottomPlane = tshirtMesh.getObjectByName("backBottomPlane");
 						
 						if (topPlane) {
-							topPlane.material.opacity = 0;
+							topPlane.material = new THREE.MeshBasicMaterial({
+								transparent: true,
+								opacity: 0,
+								side: THREE.DoubleSide
+							});
 							topPlane.material.needsUpdate = true;
 						}
 						
 						if (bottomPlane) {
-							bottomPlane.material.opacity = 0;
+							bottomPlane.material = new THREE.MeshBasicMaterial({
+								transparent: true,
+								opacity: 0,
+								side: THREE.DoubleSide
+							});
 							bottomPlane.material.needsUpdate = true;
 						}
 					} else if (currentState.backPlacement === "top") {
@@ -1153,6 +1180,7 @@
 							topPlane.material = new THREE.MeshBasicMaterial({
 								map: backTexture,
 								transparent: true,
+								opacity: 1.0,
 								side: THREE.DoubleSide
 							});
 							topPlane.material.needsUpdate = true;
@@ -1163,12 +1191,20 @@
 						const bottomPlane = tshirtMesh.getObjectByName("backBottomPlane");
 						
 						if (backPlane) {
-							backPlane.material.opacity = 0;
+							backPlane.material = new THREE.MeshBasicMaterial({
+								transparent: true,
+								opacity: 0,
+								side: THREE.DoubleSide
+							});
 							backPlane.material.needsUpdate = true;
 						}
 						
 						if (bottomPlane) {
-							bottomPlane.material.opacity = 0;
+							bottomPlane.material = new THREE.MeshBasicMaterial({
+								transparent: true,
+								opacity: 0,
+								side: THREE.DoubleSide
+							});
 							bottomPlane.material.needsUpdate = true;
 						}
 					} else if (currentState.backPlacement === "bottom") {
@@ -1177,6 +1213,7 @@
 							bottomPlane.material = new THREE.MeshBasicMaterial({
 								map: backTexture,
 								transparent: true,
+								opacity: 1.0,
 								side: THREE.DoubleSide
 							});
 							bottomPlane.material.needsUpdate = true;
@@ -1187,12 +1224,20 @@
 						const topPlane = tshirtMesh.getObjectByName("backTopPlane");
 						
 						if (backPlane) {
-							backPlane.material.opacity = 0;
+							backPlane.material = new THREE.MeshBasicMaterial({
+								transparent: true,
+								opacity: 0,
+								side: THREE.DoubleSide
+							});
 							backPlane.material.needsUpdate = true;
 						}
 						
 						if (topPlane) {
-							topPlane.material.opacity = 0;
+							topPlane.material = new THREE.MeshBasicMaterial({
+								transparent: true, 
+								opacity: 0,
+								side: THREE.DoubleSide
+							});
 							topPlane.material.needsUpdate = true;
 						}
 					}
@@ -1203,17 +1248,29 @@
 					const bottomPlane = tshirtMesh.getObjectByName("backBottomPlane");
 					
 					if (backPlane) {
-						backPlane.material.opacity = 0;
+						backPlane.material = new THREE.MeshBasicMaterial({
+							transparent: true,
+							opacity: 0,
+							side: THREE.DoubleSide
+						});
 						backPlane.material.needsUpdate = true;
 					}
 					
 					if (topPlane) {
-						topPlane.material.opacity = 0;
+						topPlane.material = new THREE.MeshBasicMaterial({
+							transparent: true,
+							opacity: 0,
+							side: THREE.DoubleSide
+						});
 						topPlane.material.needsUpdate = true;
 					}
 					
 					if (bottomPlane) {
-						bottomPlane.material.opacity = 0;
+						bottomPlane.material = new THREE.MeshBasicMaterial({
+							transparent: true,
+							opacity: 0,
+							side: THREE.DoubleSide
+						});
 						bottomPlane.material.needsUpdate = true;
 					}
 				}
