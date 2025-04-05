@@ -896,55 +896,187 @@
                 backPlacement: "center"
             };
             
-            // Load t-shirt model (simplified shape)
-            function loadTShirtModel() {
-                // Create a simplified t-shirt shape
-                const geometry = new THREE.Group();
-                
-                // Body of the shirt (slightly curved cylinder)
-                const bodyGeometry = new THREE.CylinderGeometry(1.2, 1, 2, 32, 1, true);
-                const bodyMaterial = new THREE.MeshPhongMaterial({
-                    color: new THREE.Color(currentState.color),
-                    side: THREE.DoubleSide
-                });
-                const body = new THREE.Mesh(bodyGeometry, bodyMaterial);
-                body.position.y = -0.5;
-                geometry.add(body);
-                
-                // Left sleeve
-                const leftSleeveGeometry = new THREE.CylinderGeometry(0.3, 0.3, 0.8, 16, 1, true);
-                const leftSleeve = new THREE.Mesh(leftSleeveGeometry, bodyMaterial);
-                leftSleeve.position.set(-1.2, 0.2, 0);
-                leftSleeve.rotation.z = Math.PI / 2.5;
-                geometry.add(leftSleeve);
-                
-                // Right sleeve
-                const rightSleeveGeometry = new THREE.CylinderGeometry(0.3, 0.3, 0.8, 16, 1, true);
-                const rightSleeve = new THREE.Mesh(rightSleeveGeometry, bodyMaterial);
-                rightSleeve.position.set(1.2, 0.2, 0);
-                rightSleeve.rotation.z = -Math.PI / 2.5;
-                geometry.add(rightSleeve);
-                
-                // Neck hole
-                const neckGeometry = new THREE.CylinderGeometry(0.4, 0.4, 0.2, 32, 1, true);
-                const neckMaterial = new THREE.MeshBasicMaterial({
-                    color: 0x111111,
-                    side: THREE.DoubleSide
-                });
-                const neck = new THREE.Mesh(neckGeometry, neckMaterial);
-                neck.position.y = 0.5;
-                geometry.add(neck);
-                
-                // Create text planes
-                createTextPlanes(geometry);
-                
-                // Add the model to the scene
-                scene.add(geometry);
-                tshirtMesh = geometry;
-                
-                // Initial position
-                updateView(currentState.view);
-            }
+			function setupSimple2DShirt() {
+				// Get the container that was holding the 3D model
+				const container = document.getElementById('shirt-3d-container');
+				container.innerHTML = '';
+				
+				// Create a simple 2D display with front/back toggle
+				const shirtDisplay = document.createElement('div');
+				shirtDisplay.style.width = '100%';
+				shirtDisplay.style.height = '100%';
+				shirtDisplay.style.position = 'relative';
+				shirtDisplay.style.display = 'flex';
+				shirtDisplay.style.justifyContent = 'center';
+				shirtDisplay.style.alignItems = 'center';
+				
+				// Create shirt image element
+				const shirtImg = document.createElement('img');
+				shirtImg.id = 'shirt-preview-img';
+				shirtImg.style.maxWidth = '80%';
+				shirtImg.style.maxHeight = '80%';
+				shirtImg.src = '/img/tshirt-front-white.png'; // You'll need these placeholder images
+				shirtImg.alt = 'T-shirt preview';
+				
+				// Create text overlay divs for different placements
+				const centerTextDiv = document.createElement('div');
+				centerTextDiv.id = 'front-center-text';
+				centerTextDiv.style.position = 'absolute';
+				centerTextDiv.style.top = '40%';
+				centerTextDiv.style.left = '50%';
+				centerTextDiv.style.transform = 'translate(-50%, -50%)';
+				centerTextDiv.style.maxWidth = '60%';
+				centerTextDiv.style.textAlign = 'center';
+				
+				const pocketTextDiv = document.createElement('div');
+				pocketTextDiv.id = 'front-pocket-text';
+				pocketTextDiv.style.position = 'absolute';
+				pocketTextDiv.style.top = '25%';
+				pocketTextDiv.style.left = '65%';
+				pocketTextDiv.style.transform = 'translate(-50%, -50%)';
+				pocketTextDiv.style.maxWidth = '20%';
+				pocketTextDiv.style.textAlign = 'center';
+				pocketTextDiv.style.display = 'none'; // Hidden by default
+				
+				// Add elements to the container
+				shirtDisplay.appendChild(shirtImg);
+				shirtDisplay.appendChild(centerTextDiv);
+				shirtDisplay.appendChild(pocketTextDiv);
+				container.appendChild(shirtDisplay);
+				
+				// Update the view functions
+				window.updateView = function(view) {
+					const shirtImg = document.getElementById('shirt-preview-img');
+					
+					if (view === "front") {
+						shirtImg.src = `/img/tshirt-front-${currentState.color.substring(1)}.png`;
+						document.getElementById('frontTextSection').style.display = 'block';
+						document.getElementById('backTextSection').style.display = 'none';
+						
+						// Show appropriate text divs
+						updateTextDisplay();
+						
+					} else if (view === "back") {
+						shirtImg.src = `/img/tshirt-back-${currentState.color.substring(1)}.png`;
+						document.getElementById('frontTextSection').style.display = 'none';
+						document.getElementById('backTextSection').style.display = 'block';
+						
+						// Show appropriate text divs
+						updateTextDisplay();
+						
+					} else if (view === "rotate") {
+						// No rotation in 2D mode, just show front
+						shirtImg.src = `/img/tshirt-front-${currentState.color.substring(1)}.png`;
+						document.getElementById('frontTextSection').style.display = 'block';
+						document.getElementById('backTextSection').style.display = 'block';
+					}
+				};
+				
+				// Update the text display function
+				window.updateTextDisplay = function() {
+					const frontCenterText = document.getElementById('front-center-text');
+					const frontPocketText = document.getElementById('front-pocket-text');
+					
+					// Reset all text displays
+					frontCenterText.innerHTML = '';
+					frontPocketText.innerHTML = '';
+					frontCenterText.style.display = 'none';
+					frontPocketText.style.display = 'none';
+					
+					// Check current view and show appropriate text
+					if (currentState.view === 'front') {
+						if (currentState.frontText) {
+							if (currentState.frontPlacement === 'center') {
+								frontCenterText.style.display = 'block';
+								frontCenterText.innerHTML = currentState.frontText.replace(/\n/g, '<br>');
+								frontCenterText.style.color = currentState.frontTextColor;
+								frontCenterText.style.fontFamily = currentState.frontTextFont;
+							} else if (currentState.frontPlacement === 'pocket') {
+								frontPocketText.style.display = 'block';
+								frontPocketText.innerHTML = currentState.frontText.replace(/\n/g, '<br>');
+								frontPocketText.style.color = currentState.frontTextColor;
+								frontPocketText.style.fontFamily = currentState.frontTextFont;
+							}
+						}
+					} else if (currentState.view === 'back') {
+						if (currentState.backText) {
+							// Similar logic for back text with different positions
+							frontCenterText.style.display = 'block';
+							frontCenterText.innerHTML = currentState.backText.replace(/\n/g, '<br>');
+							frontCenterText.style.color = currentState.backTextColor;
+							frontCenterText.style.fontFamily = currentState.backTextFont;
+							
+							// Adjust position based on back placement
+							if (currentState.backPlacement === 'top') {
+								frontCenterText.style.top = '25%';
+							} else if (currentState.backPlacement === 'bottom') {
+								frontCenterText.style.top = '60%';
+							} else {
+								frontCenterText.style.top = '40%';
+							}
+						}
+					}
+				};
+				
+				// Update shirt color function
+				window.updateTShirtColor = function(color) {
+					currentState.color = color;
+					const colorCode = color.substring(1); // Remove the # from hex
+					const shirtImg = document.getElementById('shirt-preview-img');
+					
+					if (currentState.view === 'front') {
+						shirtImg.src = `/img/tshirt-front-${colorCode}.png`;
+					} else {
+						shirtImg.src = `/img/tshirt-back-${colorCode}.png`;
+					}
+				};
+				
+				// Replace the 3D text update function
+				window.updateTShirtText = function() {
+					updateTextDisplay();
+				};
+				
+				// Capture view as image function (for cart/preview)
+				window.captureView = function(side) {
+					// Create a canvas to capture the current view
+					const canvas = document.createElement('canvas');
+					const shirtContainer = document.getElementById('shirt-3d-container');
+					canvas.width = shirtContainer.clientWidth;
+					canvas.height = shirtContainer.clientHeight;
+					
+					const ctx = canvas.getContext('2d');
+					ctx.fillStyle = '#111111';
+					ctx.fillRect(0, 0, canvas.width, canvas.height);
+					
+					// Save current view
+					const currentView = currentState.view;
+					
+					// Temporarily switch to requested side if needed
+					if (side !== currentView) {
+						const tempView = currentState.view;
+						currentState.view = side;
+						updateView(side);
+						
+						// Get HTML content and render it to canvas
+						html2canvas(shirtContainer).then(canvas => {
+							// Restore original view
+							currentState.view = tempView;
+							updateView(tempView);
+							return canvas.toDataURL('image/png');
+						});
+					} else {
+						return html2canvas(shirtContainer).then(canvas => {
+							return canvas.toDataURL('image/png');
+						});
+					}
+					
+					// Fallback if html2canvas isn't available
+					return '/img/tshirt-' + side + '-' + currentState.color.substring(1) + '.png';
+				};
+				
+				// Initial setup
+				updateView('front');
+			}
             
             // Create text planes for front and back
             function createTextPlanes(shirtGroup) {
@@ -1392,10 +1524,8 @@
             }
             
             // Initialize everything
-            loadTShirtModel();
-            animate();
-            window.addEventListener('resize', onWindowResize, false);
-            
+            setupSimple2DShirt();
+
             // ---- Event handlers ----
             
             // Color selection
