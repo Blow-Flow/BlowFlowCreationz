@@ -609,7 +609,6 @@
                         <div class="view-buttons">
                             <div class="view-btn active" data-view="front">Front</div>
                             <div class="view-btn" data-view="back">Back</div>
-                            <div class="view-btn" data-view="rotate">3D Rotate</div>
                         </div>
                         <p class="instructions">Click and drag to rotate the 3D view. Use mouse wheel to zoom.</p>
                     </div>
@@ -888,11 +887,13 @@
 			pocketTextDiv.id = 'front-pocket-text';
 			pocketTextDiv.style.position = 'absolute';
 			pocketTextDiv.style.top = '25%';
-			pocketTextDiv.style.left = '65%';
+			pocketTextDiv.style.left = '25%'; // Change from 65% to 25%
 			pocketTextDiv.style.transform = 'translate(-50%, -50%)';
 			pocketTextDiv.style.maxWidth = '20%';
 			pocketTextDiv.style.textAlign = 'center';
-			pocketTextDiv.style.display = 'none'; // Hidden by default
+			pocketTextDiv.style.fontSize = '18px';
+			pocketTextDiv.style.fontWeight = 'bold';
+			pocketTextDiv.style.display = 'none';
 			
 			// Add elements to the container
 			shirtDisplay.appendChild(shirtImg);
@@ -1039,6 +1040,18 @@
 			document.getElementById('backPlacement').addEventListener('change', function() {
 				currentState.backPlacement = this.value;
 				updateTextDisplay();
+			});
+
+			document.getElementById('frontText').addEventListener('focus', function() {
+				if (currentState.frontText) {
+					updateTextDisplay();
+				}
+			});
+
+			document.getElementById('backText').addEventListener('focus', function() {
+				if (currentState.backText) {
+					updateTextDisplay();
+				}
 			});
 			
 			// Font selection - front
