@@ -620,35 +620,36 @@
                     document.getElementById('modalGrowingTips').textContent = strain.growingTips;
                     document.getElementById('modalEffects').textContent = strain.effects;
                     
-                    // Populate thumbnails
-                    const thumbnailsContainer = document.getElementById('modalThumbnails');
-                    thumbnailsContainer.innerHTML = '';
-                    
-                    if (strain.images && strain.images.length > 0) {
-                        strain.images.forEach((imgSrc, index) => {
-                            const thumbnail = document.createElement('img');
-                            thumbnail.src = imgSrc;
-                            thumbnail.alt = `${strain.name} - image ${index + 1}`;
-                            thumbnail.className = 'modal-thumbnail';
-                            if (index === 0) {
-                                thumbnail.classList.add('active');
-                                document.getElementById('modalImage').src = imgSrc;
-                            }
-                            
-                            thumbnail.addEventListener('click', function() {
-                                // Update main image
-                                document.getElementById('modalImage').src = this.src;
-                                
-                                // Update active state
-                                document.querySelectorAll('.modal-thumbnail').forEach(thumb => {
-                                    thumb.classList.remove('active');
-                                });
-                                this.classList.add('active');
-                            });
-                            
-                            thumbnailsContainer.appendChild(thumbnail);
-                        });
-                    }
+					// Populate thumbnails
+					const thumbnailsContainer = document.getElementById('modalThumbnails');
+					thumbnailsContainer.innerHTML = '';
+
+					if (strain.images && strain.images.length > 0) {
+						strain.images.forEach((imgSrc, index) => {
+							const thumbnail = document.createElement('img');
+							thumbnail.src = imgSrc;
+							thumbnail.alt = `${strain.name} - image ${index + 1}`;
+							thumbnail.className = 'modal-thumbnail';
+							if (index === 0) {
+								thumbnail.classList.add('active');
+								document.getElementById('modalImage').src = imgSrc;
+							}
+							
+							// Fix: Use a proper function declaration here
+							thumbnail.addEventListener('click', function() {
+								// Update main image
+								document.getElementById('modalImage').src = this.src;
+								
+								// Update active state
+								document.querySelectorAll('.modal-thumbnail').forEach(thumb => {
+									thumb.classList.remove('active');
+								});
+								this.classList.add('active');
+							});
+							
+							thumbnailsContainer.appendChild(thumbnail);
+						});
+					}
                     
                     document.getElementById('strainModal').style.display = 'block';
                     
