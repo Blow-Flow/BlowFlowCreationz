@@ -445,541 +445,599 @@
     
     <!-- Collectables-specific JavaScript -->
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Initialize cart
-            let cart = JSON.parse(localStorage.getItem('blowflowCart')) || [];
-            updateCartCount();
-            
-            // Strain data
-            const strainData = {
-                'tyson-punch': {
-                    id: 'tyson-punch',
-                    name: 'Tyson Punch Pie',
-                    type: 'Indica Dominant (90% Indica / 10% Sativa)',
-                    image: '/img/strain1-placeholder.jpg',
-                    cardImage: '/img/strain1-square.jpg',
-                    thc: '22-24%',
-                    cbd: '0.1%',
-                    flowering: '8-9 Weeks',
-                    yield: 'Moderate - Benefits from multi-topping',
-                    seeds: 'Feminized',
-                    description: 'Tyson Punch Pie is our flagship strain, created from Purple Punch x Purple Kush genetics. It delivers a powerful knockout effect with a complex terpene profile featuring strong pineapple, sweet kushy gas, citrus, lime, and light cherry notes. The buds develop beautiful purple hues when properly cultivated.',
-                    growingTips: 'This strain thrives in both soil and hydroponic setups. Keep humidity around 55-60% during vegetative stage and lower to 40-45% during flowering. Responds well to LST (Low Stress Training) and can handle moderate nutrient levels. Watch for humidity during the later flowering stages to prevent mold issues.',
-                    effects: 'Heavy indica effects make this perfect for evening use, providing full-body relaxation and mental calm. Great for stress relief, insomnia, and pain management. Expect a euphoric mood lift followed by deep relaxation and potential sedation at higher doses.',
-                    images: [
-                        '/img/strain1-plant1.jpg',
-                        '/img/strain1-plant2.jpg',
-                        '/img/strain1-bud1.jpg',
-                        '/img/strain1-bud2.jpg'
-                    ],
-                    packOptions: [
-                        { id: 'tyson-punch-3', size: '3 Pack', regularPrice: 35, salePrice: 30 },
-                        { id: 'tyson-punch-5', size: '5 Pack', regularPrice: 50, salePrice: 45 },
-                        { id: 'tyson-punch-10', size: '10 Pack', regularPrice: 95, salePrice: 80 }
-                    ]
-                },
-                'dabzy-cut': {
-                    id: 'dabzy-cut',
-                    name: 'Dabzy Cut',
-                    type: 'Hybrid (French Toast x White Truffle)',
-                    image: '/img/strain2-placeholder.jpg',
-                    cardImage: '/img/strain2-square.jpg',
-                    thc: '24-26%',
-                    cbd: '0.3-0.8%',
-                    flowering: '9-10 Weeks',
-                    yield: 'Indoor: 450-550g/m² | Outdoor: 600-800g/plant',
-                    seeds: 'Feminized',
-                    description: 'Dabzy Cut is a premium hybrid cross of French Toast and White Truffle. This exceptional strain offers a complex flavor profile featuring red fruit, earthy undertones, minty notes, and a distinct OG Kush punch. The stem rub reveals incredible lime and banana aromas with sweet cotton candy.',
-                    growingTips: 'Requires moderate to high nutrient levels and thrives in both indoor and outdoor environments. Prefers slightly acidic soil pH (6.0-6.5) and moderate humidity. Regular pruning recommended to improve airflow and light penetration. Heavy feeder during mid-flowering with increased phosphorus demand.',
-                    effects: 'Offers a balanced hybrid experience with initial cerebral stimulation followed by physical relaxation. Provides creative energy and focus without sedation, making it suitable for daytime use. May help with mood enhancement, mild pain relief, and appetite stimulation.',
-                    images: [
-                        '/img/strain2-plant1.jpg',
-                        '/img/strain2-plant2.jpg',
-                        '/img/strain2-bud1.jpg',
-                        '/img/strain2-bud2.jpg'
-                    ],
-                    packOptions: [
-                        { id: 'dabzy-cut-3', size: '3 Pack', regularPrice: 35, salePrice: 30 },
-                        { id: 'dabzy-cut-5', size: '5 Pack', regularPrice: 50, salePrice: 45 },
-                        { id: 'dabzy-cut-10', size: '10 Pack', regularPrice: 95, salePrice: 80 }
-                    ]
-                },
-                'blue-dream-haze': {
-                    id: 'blue-dream-haze',
-                    name: 'Blue Dream Haze',
-                    type: 'Sativa Dominant (70% Sativa / 30% Indica)',
-                    image: '/img/strain3-placeholder.jpg',
-                    cardImage: '/img/strain3-square.jpg',
-                    thc: '20-22%',
-                    cbd: '0.5-1.0%',
-                    flowering: '9-10 Weeks',
-                    yield: 'Indoor: 500-600g/m² | Outdoor: 650-850g/plant',
-                    seeds: 'Feminized',
-                    description: 'Blue Dream Haze combines the legendary Blue Dream and Haze genetics to create a sativa-dominant hybrid with extraordinary flavor and effects. The buds develop a light blue tint with vibrant orange hairs and a thick coating of trichomes. Aroma combines sweet berry notes with citrus and earthy undertones.',
-                    growingTips: 'Grows quite tall, so training techniques like SCROG are recommended for indoor cultivation. Benefits from higher nitrogen levels during vegetative stage. Can be sensitive to overfeeding, so start with 75% of recommended nutrient strength. Performs exceptionally well in warm climates with low humidity.',
-                    effects: 'Provides energizing and uplifting effects perfect for daytime use. Promotes creativity, focus, and sociability without anxiety. Excellent for stress relief, depression, fatigue, and mild to moderate pain. The cerebral stimulation gradually transitions to a gentle body relaxation.',
-                    images: [
-                        '/img/strain3-plant1.jpg',
-                        '/img/strain3-plant2.jpg',
-                        '/img/strain3-bud1.jpg',
-                        '/img/strain3-bud2.jpg'
-                    ],
-                    packOptions: [
-                        { id: 'blue-dream-haze-3', size: '3 Pack', regularPrice: 35, salePrice: 30 },
-                        { id: 'blue-dream-haze-5', size: '5 Pack', regularPrice: 50, salePrice: 45 },
-                        { id: 'blue-dream-haze-10', size: '10 Pack', regularPrice: 95, salePrice: 80 }
-                    ]
-                },
-                'northern-frost': {
-                    id: 'northern-frost',
-                    name: 'Northern Frost',
-                    type: 'Indica Dominant (85% Indica / 15% Sativa)',
-                    image: '/img/strain4-placeholder.jpg',
-                    cardImage: '/img/strain4-square.jpg',
-                    thc: '18-20%',
-                    cbd: '0.2-0.4%',
-                    flowering: '7-8 Weeks',
-                    yield: 'Indoor: 400-450g/m² | Outdoor: 500-600g/plant',
-                    seeds: 'Feminized',
-                    description: 'Northern Frost is our take on a classic indica strain with added cold resistance. This strain features dense, resin-covered buds with a complex aroma of pine, earth, and subtle sweet notes. Developed for fast flowering and resilience, it's ideal for beginner growers and those in northern climates.',
-                    growingTips: 'Extremely resilient and forgiving for new growers. Compact plants that don't require much height. Resistant to temperature fluctuations and common pests. Works well in SOG (Sea of Green) setups. Benefits from supplemental calcium and magnesium during flowering for optimal resin production.',
-                    effects: 'Delivers a heavy-hitting body high that promotes deep relaxation and sleep. Excellent for insomnia, chronic pain, muscle spasms, and anxiety. The mental effects are subtle but pleasant, offering a gentle euphoria and sense of tranquility without racing thoughts.',
-                    images: [
-                        '/img/strain4-plant1.jpg',
-                        '/img/strain4-plant2.jpg',
-                        '/img/strain4-bud1.jpg',
-                        '/img/strain4-bud2.jpg'
-                    ],
-                    packOptions: [
-                        { id: 'northern-frost-3', size: '3 Pack', regularPrice: 35, salePrice: 30 },
-                        { id: 'northern-frost-5', size: '5 Pack', regularPrice: 50, salePrice: 45 },
-                        { id: 'northern-frost-10', size: '10 Pack', regularPrice: 95, salePrice: 80 }
-                    ]
-                }
-            };
-            
-            // Combine all product data for easier access
-            const allProducts = {};
-            
-            // Add strain pack options to allProducts
-            Object.values(strainData).forEach(strain => {
-                if (strain.packOptions) {
-                    strain.packOptions.forEach(pack => {
-                        allProducts[pack.id] = {
-                            id: pack.id,
-                            strainId: strain.id,
-                            name: `${strain.name} - ${pack.size}`,
-                            image: strain.cardImage,
-                            price: pack.salePrice,
-                            regularPrice: pack.regularPrice,
-                            type: strain.type,
-                            category: 'strain'
-                        };
-                    });
-                }
-            });
-            
-            // Filter functionality
-            const filterButtons = document.querySelectorAll('.filter-button');
-            const strainCards = document.querySelectorAll('.strain-card');
-            
-            filterButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    // Remove active class from all buttons
-                    filterButtons.forEach(btn => btn.classList.remove('active'));
-                    
-                    // Add active class to clicked button
-                    this.classList.add('active');
-                    
-                    // Get filter value
-                    const filter = this.getAttribute('data-filter');
-                    
-                    // Show/hide strain cards based on filter
-                    strainCards.forEach(card => {
-                        if (filter === 'all' || card.getAttribute('data-type') === filter) {
-                            card.style.display = 'block';
-                        } else {
-                            card.style.display = 'none';
-                        }
-                    });
-                });
-            });
-            
-            // Open strain modal
-            strainCards.forEach(card => {
-                card.addEventListener('click', function() {
-                    const strainId = this.getAttribute('data-strain');
-                    const strain = strainData[strainId];
-                    
-                    document.getElementById('modalTitle').textContent = strain.name;
-                    document.getElementById('modalImage').src = strain.image;
-                    document.getElementById('modalImage').alt = strain.name;
-                    document.getElementById('modalType').textContent = strain.type;
-                    document.getElementById('modalTHC').textContent = strain.thc;
-                    document.getElementById('modalCBD').textContent = strain.cbd;
-                    document.getElementById('modalFlowering').textContent = strain.flowering;
-                    document.getElementById('modalYield').textContent = strain.yield;
-                    document.getElementById('modalSeeds').textContent = strain.seeds;
-                    document.getElementById('modalDescription').textContent = strain.description;
-                    document.getElementById('modalGrowingTips').textContent = strain.growingTips;
-                    document.getElementById('modalEffects').textContent = strain.effects;
-                    
-                    // Populate thumbnails
-                    const thumbnailsContainer = document.getElementById('modalThumbnails');
-                    thumbnailsContainer.innerHTML = '';
+		// This should replace the existing script in collectables.html
+		document.addEventListener('DOMContentLoaded', function() {
+			// Initialize cart
+			let cart = JSON.parse(localStorage.getItem('blowflowCart')) || [];
+			updateCartCount();
+			
+			// Strain data
+			const strainData = {
+				'tyson-punch': {
+					id: 'tyson-punch',
+					name: 'Tyson Punch Pie',
+					type: 'Indica Dominant (90% Indica / 10% Sativa)',
+					image: '/img/strain1-placeholder.jpg',
+					cardImage: '/img/strain1-square.jpg',
+					thc: '22-24%',
+					cbd: '0.1%',
+					flowering: '8-9 Weeks',
+					yield: 'Moderate - Benefits from multi-topping',
+					seeds: 'Feminized',
+					description: 'Tyson Punch Pie is our flagship strain, created from Purple Punch x Purple Kush genetics. It delivers a powerful knockout effect with a complex terpene profile featuring strong pineapple, sweet kushy gas, citrus, lime, and light cherry notes. The buds develop beautiful purple hues when properly cultivated.',
+					growingTips: 'This strain thrives in both soil and hydroponic setups. Keep humidity around 55-60% during vegetative stage and lower to 40-45% during flowering. Responds well to LST (Low Stress Training) and can handle moderate nutrient levels. Watch for humidity during the later flowering stages to prevent mold issues.',
+					effects: 'Heavy indica effects make this perfect for evening use, providing full-body relaxation and mental calm. Great for stress relief, insomnia, and pain management. Expect a euphoric mood lift followed by deep relaxation and potential sedation at higher doses.',
+					images: [
+						'/img/strain1-plant1.jpg',
+						'/img/strain1-plant2.jpg',
+						'/img/strain1-bud1.jpg',
+						'/img/strain1-bud2.jpg'
+					],
+					packOptions: [
+						{ id: 'tyson-punch-3', size: '3 Pack', regularPrice: 35, salePrice: 30 },
+						{ id: 'tyson-punch-5', size: '5 Pack', regularPrice: 50, salePrice: 45 },
+						{ id: 'tyson-punch-10', size: '10 Pack', regularPrice: 95, salePrice: 80 }
+					]
+				},
+				'dabzy-cut': {
+					id: 'dabzy-cut',
+					name: 'Dabzy Cut',
+					type: 'Hybrid (French Toast x White Truffle)',
+					image: '/img/strain2-placeholder.jpg',
+					cardImage: '/img/strain2-square.jpg',
+					thc: '24-26%',
+					cbd: '0.3-0.8%',
+					flowering: '9-10 Weeks',
+					yield: 'Indoor: 450-550g/m² | Outdoor: 600-800g/plant',
+					seeds: 'Feminized',
+					description: 'Dabzy Cut is a premium hybrid cross of French Toast and White Truffle. This exceptional strain offers a complex flavor profile featuring red fruit, earthy undertones, minty notes, and a distinct OG Kush punch. The stem rub reveals incredible lime and banana aromas with sweet cotton candy.',
+					growingTips: 'Requires moderate to high nutrient levels and thrives in both indoor and outdoor environments. Prefers slightly acidic soil pH (6.0-6.5) and moderate humidity. Regular pruning recommended to improve airflow and light penetration. Heavy feeder during mid-flowering with increased phosphorus demand.',
+					effects: 'Offers a balanced hybrid experience with initial cerebral stimulation followed by physical relaxation. Provides creative energy and focus without sedation, making it suitable for daytime use. May help with mood enhancement, mild pain relief, and appetite stimulation.',
+					images: [
+						'/img/strain2-plant1.jpg',
+						'/img/strain2-plant2.jpg',
+						'/img/strain2-bud1.jpg',
+						'/img/strain2-bud2.jpg'
+					],
+					packOptions: [
+						{ id: 'dabzy-cut-3', size: '3 Pack', regularPrice: 35, salePrice: 30 },
+						{ id: 'dabzy-cut-5', size: '5 Pack', regularPrice: 50, salePrice: 45 },
+						{ id: 'dabzy-cut-10', size: '10 Pack', regularPrice: 95, salePrice: 80 }
+					]
+				},
+				'blue-dream-haze': {
+					id: 'blue-dream-haze',
+					name: 'Blue Dream Haze',
+					type: 'Sativa Dominant (70% Sativa / 30% Indica)',
+					image: '/img/strain3-placeholder.jpg',
+					cardImage: '/img/strain3-square.jpg',
+					thc: '20-22%',
+					cbd: '0.5-1.0%',
+					flowering: '9-10 Weeks',
+					yield: 'Indoor: 500-600g/m² | Outdoor: 650-850g/plant',
+					seeds: 'Feminized',
+					description: 'Blue Dream Haze combines the legendary Blue Dream and Haze genetics to create a sativa-dominant hybrid with extraordinary flavor and effects. The buds develop a light blue tint with vibrant orange hairs and a thick coating of trichomes. Aroma combines sweet berry notes with citrus and earthy undertones.',
+					growingTips: 'Grows quite tall, so training techniques like SCROG are recommended for indoor cultivation. Benefits from higher nitrogen levels during vegetative stage. Can be sensitive to overfeeding, so start with 75% of recommended nutrient strength. Performs exceptionally well in warm climates with low humidity.',
+					effects: 'Provides energizing and uplifting effects perfect for daytime use. Promotes creativity, focus, and sociability without anxiety. Excellent for stress relief, depression, fatigue, and mild to moderate pain. The cerebral stimulation gradually transitions to a gentle body relaxation.',
+					images: [
+						'/img/strain3-plant1.jpg',
+						'/img/strain3-plant2.jpg',
+						'/img/strain3-bud1.jpg',
+						'/img/strain3-bud2.jpg'
+					],
+					packOptions: [
+						{ id: 'blue-dream-haze-3', size: '3 Pack', regularPrice: 35, salePrice: 30 },
+						{ id: 'blue-dream-haze-5', size: '5 Pack', regularPrice: 50, salePrice: 45 },
+						{ id: 'blue-dream-haze-10', size: '10 Pack', regularPrice: 95, salePrice: 80 }
+					]
+				},
+				'northern-frost': {
+					id: 'northern-frost',
+					name: 'Northern Frost',
+					type: 'Indica Dominant (85% Indica / 15% Sativa)',
+					image: '/img/strain4-placeholder.jpg',
+					cardImage: '/img/strain4-square.jpg',
+					thc: '18-20%',
+					cbd: '0.2-0.4%',
+					flowering: '7-8 Weeks',
+					yield: 'Indoor: 400-450g/m² | Outdoor: 500-600g/plant',
+					seeds: 'Feminized',
+					description: 'Northern Frost is our take on a classic indica strain with added cold resistance. This strain features dense, resin-covered buds with a complex aroma of pine, earth, and subtle sweet notes. Developed for fast flowering and resilience, it's ideal for beginner growers and those in northern climates.',
+					growingTips: 'Extremely resilient and forgiving for new growers. Compact plants that don't require much height. Resistant to temperature fluctuations and common pests. Works well in SOG (Sea of Green) setups. Benefits from supplemental calcium and magnesium during flowering for optimal resin production.',
+					effects: 'Delivers a heavy-hitting body high that promotes deep relaxation and sleep. Excellent for insomnia, chronic pain, muscle spasms, and anxiety. The mental effects are subtle but pleasant, offering a gentle euphoria and sense of tranquility without racing thoughts.',
+					images: [
+						'/img/strain4-plant1.jpg',
+						'/img/strain4-plant2.jpg',
+						'/img/strain4-bud1.jpg',
+						'/img/strain4-bud2.jpg'
+					],
+					packOptions: [
+						{ id: 'northern-frost-3', size: '3 Pack', regularPrice: 35, salePrice: 30 },
+						{ id: 'northern-frost-5', size: '5 Pack', regularPrice: 50, salePrice: 45 },
+						{ id: 'northern-frost-10', size: '10 Pack', regularPrice: 95, salePrice: 80 }
+					]
+				}
+			};
+			
+			// Combine all product data for easier access
+			const allProducts = {};
+			
+			// Add strain pack options to allProducts
+			Object.values(strainData).forEach(strain => {
+				if (strain.packOptions) {
+					strain.packOptions.forEach(pack => {
+						allProducts[pack.id] = {
+							id: pack.id,
+							strainId: strain.id,
+							name: `${strain.name} - ${pack.size}`,
+							image: strain.cardImage,
+							price: pack.salePrice,
+							regularPrice: pack.regularPrice,
+							type: strain.type,
+							category: 'strain'
+						};
+					});
+				}
+			});
+			
+			// Filter functionality
+			const filterButtons = document.querySelectorAll('.filter-button');
+			const strainCards = document.querySelectorAll('.strain-card');
+			
+			filterButtons.forEach(button => {
+				button.addEventListener('click', function() {
+					// Remove active class from all buttons
+					filterButtons.forEach(btn => btn.classList.remove('active'));
+					
+					// Add active class to clicked button
+					this.classList.add('active');
+					
+					// Get filter value
+					const filter = this.getAttribute('data-filter');
+					
+					// Show/hide strain cards based on filter
+					strainCards.forEach(card => {
+						if (filter === 'all' || card.getAttribute('data-type') === filter) {
+							card.style.display = 'block';
+						} else {
+							card.style.display = 'none';
+						}
+					});
+				});
+			});
+			
+			// Open strain modal
+			const strainModal = document.getElementById('strainModal');
+			
+			strainCards.forEach(card => {
+				card.addEventListener('click', function() {
+					const strainId = this.getAttribute('data-strain');
+					const strain = strainData[strainId];
+					
+					document.getElementById('modalTitle').textContent = strain.name;
+					document.getElementById('modalImage').src = strain.image;
+					document.getElementById('modalImage').alt = strain.name;
+					document.getElementById('modalType').textContent = strain.type;
+					document.getElementById('modalTHC').textContent = strain.thc;
+					document.getElementById('modalCBD').textContent = strain.cbd;
+					document.getElementById('modalFlowering').textContent = strain.flowering;
+					document.getElementById('modalYield').textContent = strain.yield;
+					document.getElementById('modalSeeds').textContent = strain.seeds;
+					document.getElementById('modalDescription').textContent = strain.description;
+					document.getElementById('modalGrowingTips').textContent = strain.growingTips;
+					document.getElementById('modalEffects').textContent = strain.effects;
+					
+					// Populate thumbnails
+					const thumbnailsContainer = document.getElementById('modalThumbnails');
+					thumbnailsContainer.innerHTML = '';
 
-                    if (strain.images && strain.images.length > 0) {
-                        strain.images.forEach((imgSrc, index) => {
-                            const thumbnail = document.createElement('img');
-                            thumbnail.src = imgSrc;
-                            thumbnail.alt = `${strain.name} - image ${index + 1}`;
-                            thumbnail.className = 'modal-thumbnail';
-                            if (index === 0) {
-                                thumbnail.classList.add('active');
-                                document.getElementById('modalImage').src = imgSrc;
-                            }
-                            
-                            thumbnail.addEventListener('click', function() {
-                                // Update main image
-                                document.getElementById('modalImage').src = this.src;
-                                
-                                // Update active state
-                                document.querySelectorAll('.modal-thumbnail').forEach(thumb => {
-                                    thumb.classList.remove('active');
-                                });
-                                this.classList.add('active');
-                            });
-                            
-                            thumbnailsContainer.appendChild(thumbnail);
-                        });
-                    }
-                    
-                    document.getElementById('strainModal').style.display = 'block';
-                    
-                    // Tab functionality
-                    document.querySelectorAll('.grow-tab').forEach(tab => {
-                        tab.addEventListener('click', function() {
-                            // Remove active class from all tabs
-                            document.querySelectorAll('.grow-tab').forEach(t => {
-                                t.classList.remove('active');
-                            });
-                            
-                            // Add active class to clicked tab
-                            this.classList.add('active');
-                            
-                            // Hide all tab content
-                            document.querySelectorAll('.grow-tab-content').forEach(content => {
-                                content.classList.remove('active');
-                            });
-                            
-                            // Show selected tab content
-                            const tabId = this.getAttribute('data-tab');
-                            document.getElementById(`${tabId}Tab`).classList.add('active');
-                        });
-                    });
-                    
-                    // Pack options
-                    const packOptionsContainer = document.getElementById('packOptionButtons');
-                    packOptionsContainer.innerHTML = '';
-                    
-                    if (strain.packOptions && strain.packOptions.length > 0) {
-                        strain.packOptions.forEach(pack => {
-                            const button = document.createElement('div');
-                            button.className = 'pack-option-button';
-                            button.setAttribute('data-pack-id', pack.id);
-                            button.innerHTML = `
-                                <span class="pack-size">${pack.size}</span>
-                                <div class="pack-price">
-                                    <span class="regular-price">$${pack.regularPrice.toFixed(2)}</span>
-                                    <span class="sale-price">$${pack.salePrice.toFixed(2)}</span>
-                                </div>
-                            `;
-                            
-                            button.addEventListener('click', function() {
-                                // Remove 'selected' class from all buttons
-                                document.querySelectorAll('.pack-option-button').forEach(btn => {
-                                    btn.classList.remove('selected');
-                                });
-                                
-                                // Add 'selected' class to clicked button
-                                this.classList.add('selected');
-                            });
-                            
-                            packOptionsContainer.appendChild(button);
-                        });
-                        
-                        // Add to cart button
-                        const addButton = document.createElement('button');
-                        addButton.className = 'cta-button';
-                        addButton.id = 'addStrainToCartBtn';
-                        addButton.textContent = 'Add to Cart';
-                        addButton.style.marginTop = '20px';
-                        addButton.style.width = '100%';
-                        
-                        addButton.addEventListener('click', function() {
-                            const selectedPack = document.querySelector('.pack-option-button.selected');
-                            
-                            if (!selectedPack) {
-                                alert('Please select a pack size');
-                                return;
-                            }
-                            
-                            const packId = selectedPack.getAttribute('data-pack-id');
-                            addPackToCart(packId, strain);
-                        });
-                        
-                        packOptionsContainer.appendChild(addButton);
-                        
-                        // Select the first option by default
-                        if (packOptionsContainer.querySelector('.pack-option-button')) {
-                            packOptionsContainer.querySelector('.pack-option-button').classList.add('selected');
-                        }
-                    }
-                });
-            });
-            
-            // Close modal on X click
-            document.querySelectorAll('.close-modal').forEach(closeBtn => {
-                closeBtn.addEventListener('click', function() {
-                    const modal = this.closest('.modal');
-                    if (modal) {
-                        modal.style.display = 'none';
-                    }
-                });
-            });
-            
-            // Close modal when clicking outside
-            window.addEventListener('click', function(event) {
-                if (event.target.classList.contains('modal')) {
-                    event.target.style.display = 'none';
-                }
-            });
-            
-            // Function to add pack to cart
-            function addPackToCart(packId, strain) {
-                const packOption = strain.packOptions.find(pack => pack.id === packId);
-                
-                if (!packOption) {
-                    console.error('Pack option not found:', packId);
-                    return;
-                }
-                
-                // Define the item to add to cart
-                const cartItem = {
-                    id: packId,
-                    strainId: strain.id,
-                    name: `${strain.name} - ${packOption.size}`,
-                    image: strain.cardImage,
-                    price: packOption.salePrice,
-                    regularPrice: packOption.regularPrice,
-                    type: strain.type,
-                    category: 'strain',
-                    quantity: 1
-                };
-                
-                // Check if this exact pack is already in cart
-                const existingItemIndex = cart.findIndex(item => item.id === packId);
-                
-                if (existingItemIndex !== -1) {
-                    // Increment quantity
-                    cart[existingItemIndex].quantity += 1;
-                } else {
-                    // Add new item
-                    cart.push(cartItem);
-                }
-                
-                // Save cart to localStorage
-                localStorage.setItem('blowflowCart', JSON.stringify(cart));
-                
-                // Update cart count
-                updateCartCount();
-                
-                // Close modal
-                document.getElementById('strainModal').style.display = 'none';
-                
-                // Show cart modal
-                openCartModal();
-            }
-            
-            // Open cart modal
-            document.getElementById('cart-link').addEventListener('click', function(e) {
-                e.preventDefault();
-                openCartModal();
-            });
-            
-            // Close cart modal
-            document.getElementById('closeCart').addEventListener('click', function() {
-                document.getElementById('cartModal').style.display = 'none';
-            });
-            
-            // Continue shopping button
-            document.getElementById('continueShoppingBtn').addEventListener('click', function() {
-                document.getElementById('cartModal').style.display = 'none';
-            });
-            
-            // Checkout button
-            document.getElementById('checkoutBtn').addEventListener('click', function() {
-                if (cart.length > 0) {
-                    document.getElementById('cartModal').style.display = 'none';
-                    document.getElementById('checkoutModal').style.display = 'block';
-                }
-            });
-            
-            // Close checkout modal
-            document.getElementById('closeCheckout').addEventListener('click', function() {
-                document.getElementById('checkoutModal').style.display = 'none';
-            });
-            
-            // Submit checkout form
-            document.getElementById('checkoutForm').addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                const name = document.getElementById('name').value;
-                const email = document.getElementById('email').value;
-                const phone = document.getElementById('phone').value;
-                const message = document.getElementById('message').value;
-                
-                // Prepare order details
-                let orderDetails = 'Order Items:\n\n';
-                let total = 0;
-                
-                cart.forEach(item => {
-                    const itemTotal = item.quantity * item.price;
-                    total += itemTotal;
-                    
-                    orderDetails += `- ${item.quantity}x ${item.name} ($${item.price.toFixed(2)} each): $${itemTotal.toFixed(2)}\n`;
-                });
-                
-                orderDetails += `\nTotal: $${total.toFixed(2)}`;
-                
-                // Prepare email body
-                const emailBody = `
-                Name: ${name}
-                Email: ${email}
-                Phone: ${phone}
+					if (strain.images && strain.images.length > 0) {
+						strain.images.forEach((imgSrc, index) => {
+							const thumbnail = document.createElement('img');
+							thumbnail.src = imgSrc;
+							thumbnail.alt = `${strain.name} - image ${index + 1}`;
+							thumbnail.className = 'modal-thumbnail';
+							if (index === 0) {
+								thumbnail.classList.add('active');
+								document.getElementById('modalImage').src = imgSrc;
+							}
+							
+							thumbnail.addEventListener('click', function() {
+								// Update main image
+								document.getElementById('modalImage').src = this.src;
+								
+								// Update active state
+								document.querySelectorAll('.modal-thumbnail').forEach(thumb => {
+									thumb.classList.remove('active');
+								});
+								this.classList.add('active');
+							});
+							
+							thumbnailsContainer.appendChild(thumbnail);
+						});
+					}
+					
+					strainModal.style.display = 'block';
+					
+					// Tab functionality
+					document.querySelectorAll('.grow-tab').forEach(tab => {
+						tab.addEventListener('click', function() {
+							// Remove active class from all tabs
+							document.querySelectorAll('.grow-tab').forEach(t => {
+								t.classList.remove('active');
+							});
+							
+							// Add active class to clicked tab
+							this.classList.add('active');
+							
+							// Hide all tab content
+							document.querySelectorAll('.grow-tab-content').forEach(content => {
+								content.classList.remove('active');
+							});
+							
+							// Show selected tab content
+							const tabId = this.getAttribute('data-tab');
+							document.getElementById(`${tabId}Tab`).classList.add('active');
+						});
+					});
+					
+					// Pack options
+					const packOptionsContainer = document.getElementById('packOptionButtons');
+					packOptionsContainer.innerHTML = '';
+					
+					if (strain.packOptions && strain.packOptions.length > 0) {
+						strain.packOptions.forEach(pack => {
+							const button = document.createElement('div');
+							button.className = 'pack-option-button';
+							button.setAttribute('data-pack-id', pack.id);
+							button.innerHTML = `
+								<span class="pack-size">${pack.size}</span>
+								<div class="pack-price">
+									<span class="regular-price">$${pack.regularPrice.toFixed(2)}</span>
+									<span class="sale-price">$${pack.salePrice.toFixed(2)}</span>
+								</div>
+							`;
+							
+							button.addEventListener('click', function() {
+								// Remove 'selected' class from all buttons
+								document.querySelectorAll('.pack-option-button').forEach(btn => {
+									btn.classList.remove('selected');
+								});
+								
+								// Add 'selected' class to clicked button
+								this.classList.add('selected');
+							});
+							
+							packOptionsContainer.appendChild(button);
+						});
+						
+						// Add to cart button
+						const addButton = document.createElement('button');
+						addButton.className = 'cta-button';
+						addButton.id = 'addStrainToCartBtn';
+						addButton.textContent = 'Add to Cart';
+						addButton.style.marginTop = '20px';
+						addButton.style.width = '100%';
+						
+						addButton.addEventListener('click', function() {
+							const selectedPack = document.querySelector('.pack-option-button.selected');
+							
+							if (!selectedPack) {
+								alert('Please select a pack size');
+								return;
+							}
+							
+							const packId = selectedPack.getAttribute('data-pack-id');
+							addPackToCart(packId, strain);
+						});
+						
+						packOptionsContainer.appendChild(addButton);
+						
+						// Select the first option by default
+						if (packOptionsContainer.querySelector('.pack-option-button')) {
+							packOptionsContainer.querySelector('.pack-option-button').classList.add('selected');
+						}
+					}
+				});
+			});
+			
+			// Close modal on X click
+			document.querySelectorAll('.close-modal').forEach(closeBtn => {
+				closeBtn.addEventListener('click', function() {
+					const modal = this.closest('.modal');
+					if (modal) {
+						modal.style.display = 'none';
+					}
+				});
+			});
+			
+			// Close modal when clicking outside
+			window.addEventListener('click', function(event) {
+				if (event.target.classList.contains('modal')) {
+					event.target.style.display = 'none';
+				}
+			});
+			
+			// Function to add pack to cart
+			function addPackToCart(packId, strain) {
+				const packOption = strain.packOptions.find(pack => pack.id === packId);
+				
+				if (!packOption) {
+					console.error('Pack option not found:', packId);
+					return;
+				}
+				
+				// Define the item to add to cart
+				const cartItem = {
+					id: packId,
+					strainId: strain.id,
+					name: `${strain.name} - ${packOption.size}`,
+					image: strain.cardImage,
+					price: packOption.salePrice,
+					regularPrice: packOption.regularPrice,
+					type: strain.type,
+					category: 'strain',
+					quantity: 1
+				};
+				
+				// Check if this exact pack is already in cart
+				const existingItemIndex = cart.findIndex(item => item.id === packId);
+				
+				if (existingItemIndex !== -1) {
+					// Increment quantity
+					cart[existingItemIndex].quantity += 1;
+				} else {
+					// Add new item
+					cart.push(cartItem);
+				}
+				
+				// Save cart to localStorage
+				localStorage.setItem('blowflowCart', JSON.stringify(cart));
+				
+				// Update cart count
+				updateCartCount();
+				
+				// Close modal
+				strainModal.style.display = 'none';
+				
+				// Show cart modal
+				openCartModal();
+			}
+			
+			// Open cart modal
+			document.getElementById('cart-link').addEventListener('click', function(e) {
+				e.preventDefault();
+				openCartModal();
+			});
+			
+			// Close cart modal
+			document.getElementById('closeCart').addEventListener('click', function() {
+				document.getElementById('cartModal').style.display = 'none';
+			});
+			
+			// Continue shopping button
+			document.getElementById('continueShoppingBtn').addEventListener('click', function() {
+				document.getElementById('cartModal').style.display = 'none';
+			});
+			
+			// Checkout button
+			document.getElementById('checkoutBtn').addEventListener('click', function() {
+				if (cart.length > 0) {
+					document.getElementById('cartModal').style.display = 'none';
+					document.getElementById('checkoutModal').style.display = 'block';
+				}
+			});
+			
+			// Close checkout modal
+			document.getElementById('closeCheckout').addEventListener('click', function() {
+				document.getElementById('checkoutModal').style.display = 'none';
+			});
+			
+			// Submit checkout form
+			document.getElementById('checkoutForm').addEventListener('submit', function(e) {
+				e.preventDefault();
+				
+				const name = document.getElementById('name').value;
+				const email = document.getElementById('email').value;
+				const phone = document.getElementById('phone').value;
+				const message = document.getElementById('message').value;
+				
+				// Prepare order details
+				let orderDetails = 'Order Items:\n\n';
+				let total = 0;
+				
+				cart.forEach(item => {
+					const itemTotal = item.quantity * item.price;
+					total += itemTotal;
+					
+					orderDetails += `- ${item.quantity}x ${item.name} ($${item.price.toFixed(2)} each): $${itemTotal.toFixed(2)}\n`;
+				});
+				
+				orderDetails += `\nTotal: $${total.toFixed(2)}`;
+				
+				// Prepare email body
+				const emailBody = `
+				Name: ${name}
+				Email: ${email}
+				Phone: ${phone}
 
-                ${orderDetails}
+				${orderDetails}
 
-                Additional Notes:
-                ${message}
-                `;
-                
-                // Create mailto link
-                const mailtoLink = `mailto:Blowflowllc@gmail.com?subject=New Order from ${name}&body=${encodeURIComponent(emailBody)}`;
-                
-                // Open email client
-                window.location.href = mailtoLink;
-                
-                // Clear cart
-                cart = [];
-                localStorage.setItem('blowflowCart', JSON.stringify(cart));
-                updateCartCount();
-                
-                // Close checkout modal
-                document.getElementById('checkoutModal').style.display = 'none';
-                
-                // Show thank you message
-                alert('Thank you for your order! Your email client has been opened with your order details. Please send the email to complete your order.');
-            });
-            
-            // Function to update cart count
-            function updateCartCount() {
-                const count = cart.reduce((total, item) => total + item.quantity, 0);
-                document.getElementById('cart-count').textContent = count;
-            }
-            
-            // Function to open cart modal
-            function openCartModal() {
-                // Clear cart items
-                const cartItemsEl = document.getElementById('cartItems');
-                cartItemsEl.innerHTML = '';
-                
-                // Show/hide empty cart message
-                const cartEmptyEl = document.getElementById('cartEmpty');
-                const cartTotalEl = document.getElementById('cartTotal');
-                const checkoutBtn = document.getElementById('checkoutBtn');
-                
-                if (cart.length === 0) {
-                    cartEmptyEl.style.display = 'block';
-                    cartTotalEl.style.display = 'none';
-                    checkoutBtn.disabled = true;
-                    checkoutBtn.style.opacity = '0.5';
-                } else {
-                    cartEmptyEl.style.display = 'none';
-                    cartTotalEl.style.display = 'flex';
-                    checkoutBtn.disabled = false;
-                    checkoutBtn.style.opacity = '1';
-                    
-                    // Add cart items
-                    let total = 0;
-                    
-                    cart.forEach((item, index) => {
-                        const itemPrice = item.price || 0;
-                        const itemTotal = item.quantity * itemPrice;
-                        total += itemTotal;
-                        
-                        const cartItemEl = document.createElement('div');
-                        cartItemEl.className = 'cart-item';
-                        cartItemEl.innerHTML = `
-                            <img src="${item.image}" alt="${item.name}" class="cart-item-img">
-                            <div class="cart-item-info">
-                                <h4>${item.name}</h4>
-                                <div class="cart-item-type">${item.type || ''}</div>
-                            </div>
-                            <div class="quantity-selector">
-                                <button class="quantity-btn decrease" data-index="${index}">-</button>
-                                <span class="quantity-value">${item.quantity}</span>
-                                <button class="quantity-btn increase" data-index="${index}">+</button>
-                            </div>
-                            <div class="cart-item-price">$${itemTotal.toFixed(2)}</div>
-                            <button class="cart-item-remove" data-index="${index}">&times;</button>
-                        `;
-                        
-                        cartItemsEl.appendChild(cartItemEl);
-                    });
-                    
-                    // Update total
-                    document.getElementById('totalAmount').textContent = `$${total.toFixed(2)}`;
-                    
-                    // Add event listeners to quantity buttons
-                    document.querySelectorAll('.quantity-btn.decrease').forEach(button => {
-                        button.addEventListener('click', function() {
-                            const index = parseInt(this.getAttribute('data-index'));
-                            if (cart[index].quantity > 1) {
-                                cart[index].quantity -= 1;
-                                localStorage.setItem('blowflowCart', JSON.stringify(cart));
-                                updateCartCount();
-                                openCartModal(); // Refresh cart modal
-                            }
-                        });
-                    });
-                    
-                    document.querySelectorAll('.quantity-btn.increase').forEach(button => {
-                        button.addEventListener('click', function() {
-                            const index = parseInt(this.getAttribute('data-index'));
-                            cart[index].quantity += 1;
-                            localStorage.setItem('blowflowCart', JSON.stringify(cart));
-                            updateCartCount();
-                            openCartModal(); // Refresh cart modal
-                        });
-                    });
-                    
-                    // Add event listeners to remove buttons
-                    document.querySelectorAll('.cart-item-remove').forEach(button => {
-                        button.addEventListener('click', function() {
-                            const index = parseInt(this.getAttribute('data-index'));
-                            cart.splice(index, 1);
-                            localStorage.setItem('blowflowCart', JSON.stringify(cart));
-                            updateCartCount();
-                            openCartModal(); // Refresh cart modal
-                        });
-                    });
-                }
-                
-                // Show cart modal
-                document.getElementById('cartModal').style.display = 'block';
-            }
-        });
+				Additional Notes:
+				${message}
+				`;
+				
+				// Create mailto link
+				const mailtoLink = `mailto:Blowflowllc@gmail.com?subject=New Order from ${name}&body=${encodeURIComponent(emailBody)}`;
+				
+				// Open email client
+				window.location.href = mailtoLink;
+				
+				// Clear cart
+				cart = [];
+				localStorage.setItem('blowflowCart', JSON.stringify(cart));
+				updateCartCount();
+				
+				// Close checkout modal
+				document.getElementById('checkoutModal').style.display = 'none';
+				
+				// Show thank you message
+				alert('Thank you for your order! Your email client has been opened with your order details. Please send the email to complete your order.');
+			});
+			
+			// Function to update cart count
+			function updateCartCount() {
+				const count = cart.reduce((total, item) => total + item.quantity, 0);
+				document.getElementById('cart-count').textContent = count;
+			}
+			
+			// Function to open cart modal
+			function openCartModal() {
+				// Clear cart items
+				const cartItemsEl = document.getElementById('cartItems');
+				cartItemsEl.innerHTML = '';
+				
+				// Show/hide empty cart message
+				const cartEmptyEl = document.getElementById('cartEmpty');
+				const cartTotalEl = document.getElementById('cartTotal');
+				const checkoutBtn = document.getElementById('checkoutBtn');
+				
+				if (cart.length === 0) {
+					cartEmptyEl.style.display = 'block';
+					cartTotalEl.style.display = 'none';
+					checkoutBtn.disabled = true;
+					checkoutBtn.style.opacity = '0.5';
+				} else {
+					cartEmptyEl.style.display = 'none';
+					cartTotalEl.style.display = 'flex';
+					checkoutBtn.disabled = false;
+					checkoutBtn.style.opacity = '1';
+					
+					// Add cart items
+					let total = 0;
+					
+					cart.forEach((item, index) => {
+						const itemPrice = item.price || 0;
+						const itemTotal = item.quantity * itemPrice;
+						total += itemTotal;
+						
+						const cartItemEl = document.createElement('div');
+						cartItemEl.className = 'cart-item';
+						cartItemEl.innerHTML = `
+							<img src="${item.image}" alt="${item.name}" class="cart-item-img">
+							<div class="cart-item-info">
+								<h4>${item.name}</h4>
+								<div class="cart-item-type">${item.type || ''}</div>
+							</div>
+							<div class="quantity-selector">
+								<button class="quantity-btn decrease" data-index="${index}">-</button>
+								<span class="quantity-value">${item.quantity}</span>
+								<button class="quantity-btn increase" data-index="${index}">+</button>
+							</div>
+							<div class="cart-item-price">$${itemTotal.toFixed(2)}</div>
+							<button class="cart-item-remove" data-index="${index}">&times;</button>
+						`;
+						
+						cartItemsEl.appendChild(cartItemEl);
+					});
+					
+					// Update total
+					document.getElementById('totalAmount').textContent = `$${total.toFixed(2)}`;
+					
+					// Add event listeners to quantity buttons
+					document.querySelectorAll('.quantity-btn.decrease').forEach(button => {
+						button.addEventListener('click', function() {
+							const index = parseInt(this.getAttribute('data-index'));
+							if (cart[index].quantity > 1) {
+								cart[index].quantity -= 1;
+								localStorage.setItem('blowflowCart', JSON.stringify(cart));
+								updateCartCount();
+								openCartModal(); // Refresh cart modal
+							}
+						});
+					});
+					
+					document.querySelectorAll('.quantity-btn.increase').forEach(button => {
+						button.addEventListener('click', function() {
+							const index = parseInt(this.getAttribute('data-index'));
+							cart[index].quantity += 1;
+							localStorage.setItem('blowflowCart', JSON.stringify(cart));
+							updateCartCount();
+							openCartModal(); // Refresh cart modal
+						});
+					});
+					
+					// Add event listeners to remove buttons
+					document.querySelectorAll('.cart-item-remove').forEach(button => {
+						button.addEventListener('click', function() {
+							const index = parseInt(this.getAttribute('data-index'));
+							cart.splice(index, 1);
+							localStorage.setItem('blowflowCart', JSON.stringify(cart));
+							updateCartCount();
+							openCartModal(); // Refresh cart modal
+						});
+					});
+				}
+				
+				// Show cart modal
+				document.getElementById('cartModal').style.display = 'block';
+			}
+			
+			// Create floating cannabis leaves
+			const leavesContainer = document.getElementById('floatingLeaves');
+			
+			function createLeaf() {
+				const leaf = document.createElement('div');
+				leaf.className = 'leaf';
+				
+				// Random horizontal position
+				leaf.style.left = Math.random() * 100 + 'vw';
+				
+				// Set position to bottom of screen
+				leaf.style.top = 'auto';
+				leaf.style.bottom = '-50px';
+				
+				// Random leaf size
+				const leafSize = Math.random() * 30 + 20;
+				leaf.style.width = leafSize + 'px';
+				leaf.style.height = leafSize + 'px';
+				
+				// Keep the PNG image
+				leaf.style.backgroundImage = 'url("/img/cannabis-leaf.png")';
+				
+				// Add to container
+				leavesContainer.appendChild(leaf);
+				
+				// Float animation
+				const duration = Math.random() * 15 + 15;
+				
+				// Using the built-in animate method
+				leaf.animate([
+					{ transform: 'translateY(0) rotate(0deg)', opacity: 0 },
+					{ transform: 'translateY(-100px) rotate(60deg)', opacity: 0.7, offset: 0.1 },
+					{ transform: 'translateY(-300px) rotate(120deg)', opacity: 0.7, offset: 0.3 },
+					{ transform: 'translateY(-600px) rotate(240deg)', opacity: 0.7, offset: 0.6 },
+					{ transform: 'translateY(-1000px) rotate(360deg)', opacity: 0 }
+				], {
+					duration: duration * 1000,
+					easing: 'linear',
+					fill: 'forwards'
+				});
+				
+				// Remove leaf after animation
+				setTimeout(() => {
+					leaf.remove();
+				}, duration * 1000);
+			}
+			
+			// Create leaves every 2 seconds
+			setInterval(createLeaf, 2000);
+			
+			// Create initial leaves
+			for (let i = 0; i < 10; i++) {
+				createLeaf();
+			}
+		});
     </script>
 </body>
 </html>
