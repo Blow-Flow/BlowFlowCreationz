@@ -22,7 +22,7 @@
     <meta property="twitter:description" content="Premium cannabis genetics with unique strains. Quality seeds and accessories for cannabis enthusiasts and growers.">
     <meta property="twitter:image" content="http://blowflowcreationz.com/img/social-preview.jpg?v=8">
     
-    <title>Blow Flow Creationz - Home</title>
+    <title>Blow Flow Creationz - Premium Cannabis Genetics</title>
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -34,15 +34,709 @@
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/site.webmanifest">
     
-    <!-- Site-wide CSS -->
-    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        :root {
+            --purple: #6a1b9a;
+            --pink: #e91e63;
+            --cyan: #00bcd4;
+            --green: #4CAF50;
+            --yellow: #FFEB3B;
+            --orange: #FF5722;
+            --dark-purple: #2a0845;
+            --royal-purple: #240b36;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', 'Helvetica Neue', sans-serif;
+        }
+        
+        body {
+            background-color: #0d0017;
+            color: #fff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--royal-purple) 0%, #000 100%);
+            z-index: -3;
+        }
+        
+        .logo-background {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            max-width: 1000px;
+            height: auto;
+            opacity: 0.05;
+            z-index: -2;
+        }
+        
+        .light-rays {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('/img/rays-bg.jpg') no-repeat center center;
+            background-size: cover;
+            opacity: 0.2;
+            z-index: -1;
+        }
+        
+        /* Header Styles */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid var(--cyan);
+            z-index: 1000;
+            box-shadow: 0 0 20px rgba(0, 188, 212, 0.3);
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+        
+        .header-logo {
+            height: 60px;
+            filter: drop-shadow(0 0 5px rgba(255, 87, 34, 0.8));
+        }
+        
+        .site-title {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 1.8rem;
+            margin-left: 15px;
+            color: var(--yellow);
+            text-shadow: 2px 2px 0 var(--orange), 
+                        -2px -2px 0 var(--cyan);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+        
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s;
+            position: relative;
+            padding: 5px 15px;
+            border-radius: 20px;
+        }
+        
+        nav a:hover, nav a.active {
+            background: rgba(233, 30, 99, 0.3);
+            color: var(--yellow);
+            text-shadow: 0 0 10px var(--yellow);
+        }
+        
+        .main-content {
+            padding: 130px 0 40px;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            height: 85vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(42, 8, 69, 0.5) 0%, rgba(13, 0, 23, 0.9) 100%);
+            z-index: -1;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #fff;
+            text-shadow: 0 0 15px var(--purple), 0 0 30px var(--purple);
+            line-height: 1.1;
+        }
+
+        .hero-subtitle {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            color: #f0f0f0;
+            opacity: 0.9;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            font-weight: 300;
+        }
+
+        .hero-tagline {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.8rem;
+            color: var(--cyan);
+            margin-bottom: 40px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 600;
+        }
+
+        .genetics-badge {
+            background: rgba(0, 0, 0, 0.4);
+            display: inline-flex;
+            align-items: center;
+            padding: 5px 15px;
+            border-radius: 30px;
+            margin-bottom: 30px;
+            border: 1px solid var(--cyan);
+            box-shadow: 0 0 20px rgba(0, 188, 212, 0.3);
+        }
+
+        .genetics-badge span {
+            color: var(--cyan);
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .cta-button {
+            font-family: 'Montserrat', sans-serif;
+            display: inline-block;
+            background: linear-gradient(45deg, var(--purple), var(--pink));
+            color: white;
+            padding: 12px 25px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            box-shadow: 0 5px 15px rgba(233, 30, 99, 0.4);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(233, 30, 99, 0.6);
+        }
+
+        .cta-button.secondary {
+            background: transparent;
+            border: 2px solid var(--cyan);
+            color: var(--cyan);
+            box-shadow: 0 5px 15px rgba(0, 188, 212, 0.2);
+        }
+
+        .cta-button.secondary:hover {
+            background: rgba(0, 188, 212, 0.2);
+            box-shadow: 0 8px 25px rgba(0, 188, 212, 0.4);
+        }
+
+        /* Collectables Preview Section */
+        .collectables-preview {
+            padding: 100px 0;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.9)), url('/img/strain-bg.jpg') no-repeat center center;
+            background-size: cover;
+            background-attachment: fixed;
+            border-top: 5px solid var(--purple);
+            border-bottom: 5px solid var(--purple);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .section-title {
+            text-align: center;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 700;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: var(--cyan);
+        }
+
+        .section-subtitle {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 40px;
+            color: #ccc;
+            font-size: 1.1rem;
+            font-weight: 300;
+        }
+
+        .strains-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .strain-card {
+            background: rgba(0, 0, 0, 0.7);
+            border-radius:
+            15px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s;
+            position: relative;
+            border: 1px solid rgba(106, 27, 154, 0.3);
+        }
+
+        .strain-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+            border-color: var(--cyan);
+        }
+
+        .strain-img {
+            width: 100%;
+            aspect-ratio: 1/1;
+            object-fit: cover;
+            border-bottom: 3px solid var(--purple);
+            transition: all 0.3s;
+        }
+
+        .strain-card:hover .strain-img {
+            border-color: var(--cyan);
+        }
+
+        .strain-content {
+            padding: 20px;
+        }
+
+        .strain-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--cyan);
+        }
+
+        .strain-type {
+            display: inline-block;
+            background-color: var(--purple);
+            color: white;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .strain-description {
+            color: #ccc;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .view-all-link {
+            display: block;
+            text-align: center;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--cyan);
+            text-decoration: none;
+            padding: 10px 0;
+            position: relative;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+
+        .view-all-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 2px;
+            background: var(--cyan);
+            transition: all 0.3s;
+        }
+
+        .view-all-link:hover {
+            color: var(--pink);
+        }
+
+        .view-all-link:hover::after {
+            width: 100px;
+            background: var(--pink);
+        }
+
+        /* Navigation Cards Section */
+        .navigation-section {
+            padding: 80px 0;
+        }
+
+        .nav-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+        }
+
+        .nav-card {
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 30px;
+            color: white;
+            text-decoration: none;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s;
+            z-index: 1;
+        }
+
+        .nav-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.1) 100%);
+            z-index: -1;
+            transition: all 0.3s;
+        }
+
+        .nav-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .nav-card:hover::before {
+            background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.5) 50%, rgba(0,0,0,0.2) 100%);
+        }
+
+        .nav-card-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: white;
+            position: relative;
+            z-index: 2;
+        }
+
+        .nav-card-description {
+            font-size: 1rem;
+            margin-bottom: 20px;
+            color: #ccc;
+            position: relative;
+            z-index: 2;
+        }
+
+        .nav-card-button {
+            align-self: flex-start;
+            background: var(--cyan);
+            color: #000;
+            padding: 8px 15px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s;
+            position: relative;
+            z-index: 2;
+        }
+
+        .nav-card-button:hover {
+            background: var(--pink);
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        .shop-nav-card {
+            background: url('/img/shop-bg.jpg') no-repeat center center;
+            background-size: cover;
+        }
+
+        .apparel-nav-card {
+            background: url('/img/apparel-bg.jpg') no-repeat center center;
+            background-size: cover;
+        }
+
+        /* Cart Badge */
+        #cart-link {
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+
+        .cart-badge {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            background-color: var(--orange);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 0.8rem;
+            margin-left: 5px;
+        }
+
+        /* Cart Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            overflow: auto;
+            padding: 50px 0;
+        }
+
+        .modal-content {
+            background: #111;
+            margin: 0 auto;
+            width: 90%;
+            max-width: 800px;
+            border-radius: 15px;
+            position: relative;
+            padding: 30px;
+            border: 3px solid var(--cyan);
+            box-shadow: 0 0 30px rgba(0, 188, 212, 0.7);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 2rem;
+            color: var(--pink);
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        /* Footer Styles */
+        footer {
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 50px 0 20px;
+            border-top: 3px solid var(--pink);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .footer-section h3 {
+            color: var(--cyan);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .footer-section ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-section ul li a {
+            color: #ccc;
+            text-decoration: none;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .footer-section ul li a:hover {
+            color: var(--yellow);
+            text-shadow: 0 0 5px var(--yellow);
+        }
+
+        .copyright {
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 20px;
+            color: #777;
+            font-size: 0.9rem;
+        }
+
+        /* Social Links */
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            background-color: var(--purple);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: all 0.3s;
+            color: white;
+            text-decoration: none;
+        }
+
+        .social-icon:hover {
+            background-color: var(--pink);
+            transform: translateY(-5px) rotate(10deg);
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 992px) {
+            .nav-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .hero-title {
+                font-size: 3rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+            }
+            
+            .logo-container {
+                margin-bottom: 15px;
+            }
+            
+            nav ul {
+                gap: 10px;
+            }
+            
+            .main-content {
+                padding-top: 150px;
+            }
+            
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .section-title {
+                font-size: 2.2rem;
+            }
+            
+            .hero-tagline {
+                font-size: 1.4rem;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="background"></div>
     <img src="/img/logo-01.jpg" alt="Logo Background" class="logo-background">
     <div class="light-rays"></div>
-    
-    <div class="floating-leaves" id="floatingLeaves"></div>
     
     <header>
         <div class="container">
@@ -71,91 +765,95 @@
     </header>
     
     <div class="main-content">
-        <div class="container">
-            <section id="hero" class="hero-section">
-                <div class="hero-content">
-                    <h1 class="hero-title">Welcome to Blow Flow Creationz</h1>
-                    <p class="hero-subtitle">Premium cannabis genetics and unique handcrafted items</p>
-                    <div class="hero-cta-buttons">
-                        <a href="collectables.html" class="cta-button">Explore Collectables</a>
-                        <a href="shop.html" class="cta-button secondary">Browse Shop</a>
-                    </div>
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="hero-overlay"></div>
+            <div class="hero-content">
+                <div class="genetics-badge">
+                    <span>Premium Cannabis Genetics</span>
                 </div>
-                <div class="hero-image">
-                    <img src="/img/hero-image.jpg" alt="Premium cannabis genetics" class="featured-image">
+                <h1 class="hero-title">Exceptional Collectables</h1>
+                <p class="hero-subtitle">Carefully bred for unique characteristics, exceptional quality, and distinctive profiles.</p>
+                <p class="hero-tagline">Elevate Your Collection</p>
+                <div class="cta-buttons">
+                    <a href="collectables.html" class="cta-button">Explore Collectables</a>
+                    <a href="#collectables-preview" class="cta-button secondary">View Featured Strains</a>
                 </div>
-            </section>
-            
-            <section id="featured-products">
-                <h2 class="section-title">Featured Items</h2>
-                <div class="featured-grid">
-                    <!-- Featured Item 1 -->
-                    <div class="featured-card">
-                        <div class="featured-img-container">
-                            <img src="/img/strain1-square.jpg" alt="Tyson Punch" class="featured-img">
-                            <div class="featured-badge">Popular</div>
-                        </div>
-                        <div class="featured-content">
-                            <h3 class="featured-title">Tyson Punch Pie</h3>
-                            <p class="featured-description">A knockout with powerful relaxing effects and fruity aroma.</p>
-                            <a href="collectables.html#tyson-punch" class="featured-link">View Details</a>
+            </div>
+        </section>
+        
+        <!-- Collectables Preview Section -->
+        <section id="collectables-preview" class="collectables-preview">
+            <div class="container">
+                <h2 class="section-title">Featured Collectables</h2>
+                <p class="section-subtitle">Discover our most sought-after premium cannabis seed collectables, each with its own unique genetic profile and exceptional qualities.</p>
+                
+                <div class="strains-grid">
+                    <!-- Strain 1 -->
+                    <div class="strain-card">
+                        <img src="/img/strain1-square.jpg" alt="Tyson Punch Pie" class="strain-img">
+                        <div class="strain-content">
+                            <h3 class="strain-title">Tyson Punch Pie</h3>
+                            <span class="strain-type">Indica Dominant</span>
+                            <p class="strain-description">A knockout with powerful relaxing effects and a complex terpene profile featuring strong pineapple, sweet kushy gas, citrus, and light cherry notes.</p>
                         </div>
                     </div>
                     
-                    <!-- Featured Item 2 -->
-                    <div class="featured-card">
-                        <div class="featured-img-container">
-                            <img src="/img/product1-placeholder.jpg" alt="Premium Rolling Tray Bundle" class="featured-img">
-                            <div class="featured-badge">New</div>
-                        </div>
-                        <div class="featured-content">
-                            <h3 class="featured-title">Premium Rolling Tray Bundle</h3>
-                            <p class="featured-description">Complete set with custom tray, grinder, papers, and accessories.</p>
-                            <a href="shop.html#premium-rolling-tray" class="featured-link">View Details</a>
+                    <!-- Strain 2 -->
+                    <div class="strain-card">
+                        <img src="/img/strain2-square.jpg" alt="Dabzy Cut" class="strain-img">
+                        <div class="strain-content">
+                            <h3 class="strain-title">Dabzy Cut</h3>
+                            <span class="strain-type">Hybrid</span>
+                            <p class="strain-description">Premium hybrid cross with a complex flavor profile featuring red fruit, earthy undertones, minty notes, and a distinct OG Kush punch.</p>
                         </div>
                     </div>
                     
-                    <!-- Featured Item 3 -->
-                    <div class="featured-card">
-                        <div class="featured-img-container">
-                            <img src="/img/merch1-placeholder.jpg" alt="Custom Hoodie" class="featured-img">
-                        </div>
-                        <div class="featured-content">
-                            <h3 class="featured-title">Custom Apparel</h3>
-                            <p class="featured-description">Unique designs on premium quality clothing.</p>
-                            <a href="tshirt.html" class="featured-link">Design Your Own</a>
+                    <!-- Strain 3 -->
+                    <div class="strain-card">
+                        <img src="/img/strain3-square.jpg" alt="Blue Dream Haze" class="strain-img">
+                        <div class="strain-content">
+                            <h3 class="strain-title">Blue Dream Haze</h3>
+                            <span class="strain-type">Sativa Dominant</span>
+                            <p class="strain-description">Energizing cerebral effects with sweet berry and citrus notes. Perfect for creativity and daytime use.</p>
                         </div>
                     </div>
-                </div>
-            </section>
-            
-            <section id="about-us">
-                <h2 class="section-title">About Blow Flow Creationz</h2>
-                <div class="about-content">
-                    <div class="about-text">
-                        <p>At Blow Flow Creationz, we're passionate about bringing you the highest quality cannabis genetics and unique handcrafted items. Our team of experienced growers and artisans work tirelessly to develop and produce exceptional products that stand out in the market.</p>
-                        <p>From our premium seed strains to our custom lighting fixtures and apparel, every item is created with care and attention to detail. We believe in quality over quantity and strive to provide a unique experience for our customers.</p>
-                        <a href="#contact" class="cta-button">Get In Touch</a>
-                    </div>
-                    <div class="about-image">
-                        <img src="/img/about-image.jpg" alt="Blow Flow Creationz Team" class="about-img">
+                    
+                    <!-- Strain 4 -->
+                    <div class="strain-card">
+                        <img src="/img/strain4-square.jpg" alt="Northern Frost" class="strain-img">
+                        <div class="strain-content">
+                            <h3 class="strain-title">Northern Frost</h3>
+                            <span class="strain-type">Indica Dominant</span>
+                            <p class="strain-description">Fast-flowering with heavy-hitting effects. Features dense, resin-covered buds with a complex aroma of pine, earth, and subtle sweet notes.</p>
+                        </div>
                     </div>
                 </div>
-            </section>
-            
-            <section id="contact">
-                <h2 class="section-title">Get In Touch</h2>
-                <div style="text-align: center; max-width: 600px; margin: 0 auto;">
-                    <p style="margin-bottom: 20px;">Have questions about our products or want to place a special order? Drop us a line and we'll get back to you as soon as possible.</p>
-                    <a href="mailto:Blowflowllc@gmail.com" class="cta-button">Contact Us</a>
-                    <div class="social-links" style="margin-top: 30px;">
-                        <a href="https://discord.gg/6paMkDAFu8" target="_blank" class="social-icon"><i class="fab fa-discord"></i></a>
-                        <a href="https://youtube.com/@blow_flow?si=SZrw1T02XSLajWmp" target="_blank" class="social-icon"><i class="fab fa-youtube"></i></a>
-                        <a href="https://tiktok.com/@blow_flow24?_t=ZT-8uVGAl5z8jW&_r=1" target="_blank" class="social-icon"><i class="fab fa-tiktok"></i></a>
-                    </div>
+                
+                <a href="collectables.html" class="view-all-link">View All Collectables</a>
+            </div>
+        </section>
+        
+        <!-- Navigation Cards Section -->
+        <section class="navigation-section">
+            <div class="container">
+                <div class="nav-grid">
+                    <!-- Shop Nav Card -->
+                    <a href="shop.html" class="nav-card shop-nav-card">
+                        <h3 class="nav-card-title">Shop</h3>
+                        <p class="nav-card-description">Explore our unique handcrafted items and accessories, from custom lighting fixtures to premium rolling trays.</p>
+                        <span class="nav-card-button">Browse Shop</span>
+                    </a>
+                    
+                    <!-- Apparel Nav Card -->
+                    <a href="tshirt.html" class="nav-card apparel-nav-card">
+                        <h3 class="nav-card-title">Custom Apparel</h3>
+                        <p class="nav-card-description">Design your own custom clothing with our signature styles and artwork, or choose from our ready-made collections.</p>
+                        <span class="nav-card-button">Design Now</span>
+                    </a>
                 </div>
-            </section>
-        </div>
+            </div>
+        </section>
     </div>
     
     <!-- Cart Modal -->
@@ -260,8 +958,209 @@
     <!-- Font Awesome for icons -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
     
-    <!-- Site-wide JavaScript -->
-    <script src="js/cart.js"></script>
-    <script src="js/animations.js"></script>
+    <!-- Cart functionality -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize cart
+            let cart = JSON.parse(localStorage.getItem('blowflowCart')) || [];
+            
+            // Update cart count
+            function updateCartCount() {
+                const count = cart.reduce((total, item) => total + item.quantity, 0);
+                document.getElementById('cart-count').textContent = count;
+            }
+            
+            // Initial update
+            updateCartCount();
+            
+            // Cart link functionality
+            document.getElementById('cart-link').addEventListener('click', function(e) {
+                e.preventDefault();
+                document.getElementById('cartModal').style.display = 'block';
+                
+                // Populate cart items
+                const cartItemsEl = document.getElementById('cartItems');
+                const cartEmptyEl = document.getElementById('cartEmpty');
+                const cartTotalEl = document.getElementById('cartTotal');
+                
+                // Clear previous items
+                cartItemsEl.innerHTML = '';
+                
+                if (cart.length === 0) {
+                    cartEmptyEl.style.display = 'block';
+                    cartTotalEl.style.display = 'none';
+                } else {
+                    cartEmptyEl.style.display = 'none';
+                    cartTotalEl.style.display = 'flex';
+                    
+                    let total = 0;
+                    
+                    cart.forEach((item, index) => {
+                        const itemTotal = item.price * item.quantity;
+                        total += itemTotal;
+                        
+                        const cartItemEl = document.createElement('div');
+                        cartItemEl.className = 'cart-item';
+                        cartItemEl.innerHTML = `
+                            <img src="${item.image}" alt="${item.name}" class="cart-item-img">
+                            <div class="cart-item-info">
+                                <h4>${item.name}</h4>
+                            </div>
+                            <div style="display: flex; align-items: center;">
+                                <button class="quantity-btn decrease" data-index="${index}">-</button>
+                                <span style="margin: 0 10px;">${item.quantity}</span>
+                                <button class="quantity-btn increase" data-index="${index}">+</button>
+                            </div>
+                            <div style="color: var(--orange); font-weight: bold;">$${itemTotal.toFixed(2)}</div>
+                            <button style="background: none; border: none; color: var(--pink); font-size: 1.5rem; cursor: pointer;" data-index="${index}">&times;</button>
+                        `;
+                        
+                        cartItemsEl.appendChild(cartItemEl);
+                    });
+                    
+                    // Update total
+                    document.getElementById('totalAmount').textContent = `$${total.toFixed(2)}`;
+                    
+                    // Add event listeners
+                    document.querySelectorAll('.quantity-btn.decrease').forEach(btn => {
+                        btn.addEventListener('click', function() {
+                            const index = parseInt(this.getAttribute('data-index'));
+                            if (cart[index].quantity > 1) {
+                                cart[index].quantity--;
+                                localStorage.setItem('blowflowCart', JSON.stringify(cart));
+                                updateCartCount();
+                                // Refresh cart
+                                document.getElementById('cart-link').click();
+                            }
+                        });
+                    });
+                    
+                    document.querySelectorAll('.quantity-btn.increase').forEach(btn => {
+                        btn.addEventListener('click', function() {
+                            const index = parseInt(this.getAttribute('data-index'));
+                            cart[index].quantity++;
+                            localStorage.setItem('blowflowCart', JSON.stringify(cart));
+                            updateCartCount();
+                            // Refresh cart
+                            document.getElementById('cart-link').click();
+                        });
+                    });
+                    
+                    document.querySelectorAll('[style*="color: var(--pink)"]').forEach(btn => {
+                        btn.addEventListener('click', function() {
+                            const index = parseInt(this.getAttribute('data-index'));
+                            cart.splice(index, 1);
+                            localStorage.setItem('blowflowCart', JSON.stringify(cart));
+                            updateCartCount();
+                            // Refresh cart
+                            document.getElementById('cart-link').click();
+                        });
+                    });
+                }
+            });
+            
+            // Continue shopping button
+            document.getElementById('continueShoppingBtn').addEventListener('click', function() {
+                document.getElementById('cartModal').style.display = 'none';
+            });
+            
+            // Close cart modal
+            document.getElementById('closeCart').addEventListener('click', function() {
+                document.getElementById('cartModal').style.display = 'none';
+            });
+            
+            // Checkout button
+            document.getElementById('checkoutBtn').addEventListener('click', function() {
+                document.getElementById('cartModal').style.display = 'none';
+                document.getElementById('checkoutModal').style.display = 'block';
+            });
+            
+            // Close checkout modal
+            document.getElementById('closeCheckout').addEventListener('click', function() {
+                document.getElementById('checkoutModal').style.display = 'none';
+            });
+            
+            // Submit checkout form
+            document.getElementById('checkoutForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const name = document.getElementById('name').value;
+                const email = document.getElementById('email').value;
+                const phone = document.getElementById('phone').value;
+                const message = document.getElementById('message').value;
+                
+                // Prepare order details
+                let orderDetails = 'Order Items:\n\n';
+                let total = 0;
+                
+                cart.forEach(item => {
+                    const itemTotal = item.quantity * item.price;
+                    total += itemTotal;
+                    
+                    orderDetails += `- ${item.quantity}x ${item.name} ($${item.price.toFixed(2)} each): $${itemTotal.toFixed(2)}\n`;
+                });
+                
+                orderDetails += `\nTotal: $${total.toFixed(2)}`;
+                
+                // Prepare email body
+                const emailBody = `
+                Name: ${name}
+                Email: ${email}
+                Phone: ${phone}
+
+                ${orderDetails}
+
+                Additional Notes:
+                ${message}
+                `;
+                
+                // Create mailto link
+                const mailtoLink = `mailto:Blowflowllc@gmail.com?subject=New Order from ${name}&body=${encodeURIComponent(emailBody)}`;
+                
+                // Open email client
+                window.location.href = mailtoLink;
+                
+                // Clear cart
+                cart = [];
+                localStorage.setItem('blowflowCart', JSON.stringify(cart));
+                updateCartCount();
+                
+                // Close checkout modal
+                document.getElementById('checkoutModal').style.display = 'none';
+                
+                // Show thank you message
+                alert('Thank you for your order! Your email client has been opened with your order details. Please send the email to complete your order.');
+            });
+            
+            // Close modals when clicking outside
+            window.addEventListener('click', function(event) {
+                if (event.target.classList.contains('modal')) {
+                    event.target.style.display = 'none';
+                }
+            });
+            
+            // Smooth scroll for links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    // Skip if it's the cart link
+                    if (this.getAttribute('href') === '#cart') {
+                        return;
+                    }
+                    
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 100,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>
