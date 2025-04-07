@@ -105,6 +105,8 @@ nav ul {
     display: flex;
     list-style: none;
     gap: 30px;
+    white-space: nowrap;
+    flex-wrap: nowrap;
 }
 
 nav a {
@@ -794,11 +796,11 @@ footer {
 
 @media (max-width: 768px) {
     .header-container {
-        flex-direction: column;
+        flex-direction: row; /* Change from column to row */
     }
     
     .logo-container {
-        margin-bottom: 15px;
+        margin-bottom: 0; /* Remove bottom margin */
     }
     
     nav ul {
@@ -825,10 +827,17 @@ footer {
 
 @media (max-width: 576px) {
     nav ul {
-        flex-wrap: wrap;
-        justify-content: center;
+        flex-wrap: nowrap;
+        justify-content: flex-end;
+        gap: 5px;
     }
     
+    nav a {
+        font-size: 0.8rem;
+        padding: 5px 8px;
+    }
+    
+    /* Keep the rest as is */
     .hero-title {
         font-size: 2.5rem;
     }
