@@ -445,7 +445,7 @@
     
     <!-- Collectables-specific JavaScript -->
     <script>
-		// This should replace the existing script in collectables.html
+		// Replace everything between <script> tags at the bottom of collectables.html with this code
 		document.addEventListener('DOMContentLoaded', function() {
 			// Initialize cart
 			let cart = JSON.parse(localStorage.getItem('blowflowCart')) || [];
@@ -556,7 +556,7 @@
 						{ id: 'northern-frost-5', size: '5 Pack', regularPrice: 50, salePrice: 45 },
 						{ id: 'northern-frost-10', size: '10 Pack', regularPrice: 95, salePrice: 80 }
 					]
-				},
+				}
 			};
 			
 			// Combine all product data for easier access
