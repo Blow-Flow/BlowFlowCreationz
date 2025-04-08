@@ -655,7 +655,7 @@
 
 			// Then you would use this function to populate your strain grid
 			function populateStrainGrid() {
-				const strainGrid = document.querySelector('.strains-grid');
+				const strainGrid = document.querySelector('.strain-grid'); // Changed from .strains-grid to .strain-grid
 				strainGrid.innerHTML = ''; // Clear existing content
 				
 				Object.values(strainData).forEach(strain => {
