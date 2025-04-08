@@ -145,13 +145,23 @@ nav a:hover, nav a.active {
     letter-spacing: 2px;
 }
 
-/* Card Grids */
+/* Card Grids - General styling shared by all grids */
 .strain-grid, .products-grid, .merch-grid, .featured-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 30px;
     margin-bottom: 60px;
 }
+
+/* Default auto-fit grid for most grids */
+.products-grid, .merch-grid, .featured-grid {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+/* Fixed column grid specifically for strain grid */
+.strain-grid {
+    grid-template-columns: repeat(3, minmax(300px, 1fr));
+}
+
 
 /* Card Styles */
 .strain-card, .product-card, .merch-card, .featured-card {
@@ -841,9 +851,18 @@ footer {
     .hero-image, .about-image {
         order: 1;
     }
+
+    .strain-grid {
+        grid-template-columns: repeat(2, minmax(300px, 1fr));
+    }	
 }
 
 @media (max-width: 768px) {
+    .strain-grid {
+        grid-template-columns: repeat(2, minmax(250px, 1fr));
+        gap: 20px; /* Slightly reduce gap for better fit */
+    }
+	
     .header-container {
         flex-direction: row; /* Change from column to row */
     }
@@ -899,4 +918,8 @@ footer {
         flex-direction: column;
         gap: 10px;
     }
+	
+    .strain-grid {
+        grid-template-columns: repeat(1, 1fr);
+    }	
 }
