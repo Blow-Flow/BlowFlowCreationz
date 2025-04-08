@@ -506,23 +506,39 @@
             
             // Product data
             const productData = {
-                'premium-rolling-tray': {
-                    id: 'premium-rolling-tray',
-                    name: 'Premium Rolling Tray Bundle',
+				'premium-rolling-tray': {
+					id: 'premium-rolling-tray',
+					name: 'Premium Rolling Tray Bundle',
 					status: 'available',
-                    image: '/img/product1-placeholder.jpg',
-                    price: 40.00,
-                    category: 'product',
-                    description: 'Our Premium Rolling Tray Bundle includes everything you need for the perfect session. The bundle features a custom-designed metal rolling tray with our signature psychedelic art, a 4-piece metal grinder with pollen catcher, king size rolling papers, a rolling machine, herb storage container, and a custom lighter. All items come in a gift-ready package that makes this the ultimate accessory collection for enthusiasts.',
-                    hasOptions: true,
-                    optionType: 'Character',
-                    options: [
-                        { id: 'premium-tray-smoking', name: 'Shooting Character', price: 40.00, image: '/img/tray-shooting.jpg' },
-                        { id: 'premium-tray-drinking', name: 'Drinking Character', price: 42.00, image: '/img/tray-drinking.jpg' },
-                        { id: 'premium-tray-themed', name: 'Smoking Themed', price: 45.00, image: '/img/tray-themed.jpg' },
-                        { id: 'premium-tray-custom', name: 'Custom Design', price: 50.00, image: '/img/tray-custom.jpg' }
-                    ]
-                },
+					image: '/img/product1-placeholder.jpg',
+					price: 40.00,
+					category: 'product',
+					description: 'Our Premium Rolling Tray Bundle includes everything you need for the perfect session. The bundle features a custom-designed metal rolling tray with our signature psychedelic art, a 4-piece metal grinder with pollen catcher, king size rolling papers, a rolling machine, herb storage container, and a custom lighter. All items come in a gift-ready package that makes this the ultimate accessory collection for enthusiasts.',
+					hasOptions: true,
+					optionType: 'Character',
+					options: [
+						{ id: 'premium-tray-drinking', name: 'Drinking Character', price: 42.00, image: '/img/tray-drinking.jpg' },
+						{ id: 'premium-tray-themed', name: 'Smoking Themed', price: 45.00, image: '/img/tray-themed.jpg' },
+						{ id: 'premium-tray-custom', name: 'Custom Design', price: 50.00, image: '/img/tray-custom.jpg' }
+					],
+					optionGallery: {
+						'premium-tray-drinking': [
+							'/img/tray-drinking.jpg',
+							'/img/tray-drinking2.jpg',
+							'/img/tray-drinking3.jpg'
+						],
+						'premium-tray-themed': [
+							'/img/tray-themed.jpg',
+							'/img/tray-themed2.jpg',
+							'/img/tray-themed3.jpg'
+						],
+						'premium-tray-custom': [
+							'/img/tray-custom.jpg',
+							'/img/tray-custom2.jpg',
+							'/img/tray-custom3.jpg'
+						]
+					}
+				},
                 'custom-lighting': {
                     id: 'custom-lighting',
                     name: 'Custom Lighting & Decor',
@@ -733,106 +749,109 @@
             const productCards = document.querySelectorAll('.product-card');
             const productModal = document.getElementById('productModal');
             
-            productCards.forEach(card => {
-                card.addEventListener('click', function() {
-                    const productId = this.getAttribute('data-product');
-                    const product = productData[productId];
-                    
-                    document.getElementById('productModalTitle').textContent = product.name;
-                    document.getElementById('productModalImage').src = product.image;
-                    document.getElementById('productModalImage').alt = product.name;
-                    document.getElementById('productModalDescription').textContent = product.description;
-                    
-                    // Clear previous option content
-                    const optionGallery = document.getElementById('productOptionGallery');
-                    optionGallery.innerHTML = '';
-                    optionGallery.style.display = 'none';
-                    
-                    const optionsContainer = document.getElementById('productOptionsContainer');
-                    const optionButtons = document.getElementById('productOptionButtons');
-                    optionButtons.innerHTML = '';
-                    
-                    const customNoteContainer = document.getElementById('customNoteContainer');
-                    customNoteContainer.style.display = 'none';
-                    
-                    // Add options if available
-                    if (product.hasOptions && product.options && product.options.length > 0) {
-                        optionsContainer.style.display = 'block';
-                        document.querySelector('#productOptionsContainer h3').textContent = `Select ${product.optionType}:`;
-                        
-                        product.options.forEach((option, index) => {
-                            const optionButton = document.createElement('div');
-                            optionButton.className = 'pack-option-button';
-                            optionButton.setAttribute('data-option-id', option.id);
-                            optionButton.innerHTML = `
-                                <span class="pack-size">${option.name}</span>
-                                <div class="pack-price">
-                                    <span class="sale-price">$${option.price.toFixed(2)}</span>
-                                </div>
-                            `;
-                            
-                            optionButton.addEventListener('click', function() {
-                                document.querySelectorAll('#productOptionButtons .pack-option-button').forEach(btn => {
-                                    btn.classList.remove('selected');
-                                });
-                                this.classList.add('selected');
-                                
-                                // Update product image if option has image
-                                if (option.image) {
-                                    document.getElementById('productModalImage').src = option.image;
-                                }
-                                
-                                // Show option gallery if available
-                                if (product.optionGallery && product.optionGallery[option.id]) {
-                                    displayOptionGallery(product.optionGallery[option.id]);
-                                }
-                                
-                                // Show custom note container for custom options
-                                if (option.name.includes('Custom')) {
-                                    customNoteContainer.style.display = 'block';
-                                } else {
-                                    customNoteContainer.style.display = 'none';
-                                }
-                            });
-                            
-                            optionButtons.appendChild(optionButton);
-                        });
-                        
-                        // Select first option by default
-                        if (optionButtons.querySelector('.pack-option-button')) {
-                            const firstOption = optionButtons.querySelector('.pack-option-button');
-                            firstOption.classList.add('selected');
-                            
-                            // Check if first option has option gallery
-                            const firstOptionId = firstOption.getAttribute('data-option-id');
-                            const firstOptionData = product.options.find(opt => opt.id === firstOptionId);
-                            
-                            // Update product image to first option image if it exists
-                            if (firstOptionData && firstOptionData.image) {
-                                document.getElementById('productModalImage').src = firstOptionData.image;
-                            }
-                            
-                            // Display option gallery for first option if available
-                            if (product.optionGallery && product.optionGallery[firstOptionId]) {
-                                displayOptionGallery(product.optionGallery[firstOptionId]);
-                            }
-                            
-                            // Show custom note container if first option is custom
-                            if (firstOptionData && firstOptionData.name.includes('Custom')) {
-                                customNoteContainer.style.display = 'block';
-                            }
-                        }
-                    } else {
-                        optionsContainer.style.display = 'none';
-                    }
-                    
-                    // Set up Add to Cart button
-                    const addButton = document.getElementById('addProductToCartBtn');
-                    addButton.setAttribute('data-id', productId);
-                    
-                    productModal.style.display = 'block';
-                });
-            });
+			productCards.forEach(card => {
+				card.addEventListener('click', function() {
+					const productId = this.getAttribute('data-product');
+					const product = productData[productId];
+					
+					document.getElementById('productModalTitle').textContent = product.name;
+					document.getElementById('productModalImage').src = product.image;
+					document.getElementById('productModalImage').alt = product.name;
+					document.getElementById('productModalDescription').textContent = product.description;
+					
+					// Clear previous option content
+					const optionGallery = document.getElementById('productOptionGallery');
+					optionGallery.innerHTML = '';
+					optionGallery.style.display = 'none';
+					
+					const optionsContainer = document.getElementById('productOptionsContainer');
+					const optionButtons = document.getElementById('productOptionButtons');
+					optionButtons.innerHTML = '';
+					
+					const customNoteContainer = document.getElementById('customNoteContainer');
+					customNoteContainer.style.display = 'none';
+					
+					// Add options if available
+					if (product.hasOptions && product.options && product.options.length > 0) {
+						optionsContainer.style.display = 'block';
+						document.querySelector('#productOptionsContainer h3').textContent = `Select ${product.optionType}:`;
+						
+						product.options.forEach((option, index) => {
+							const optionButton = document.createElement('div');
+							optionButton.className = 'pack-option-button';
+							optionButton.setAttribute('data-option-id', option.id);
+							optionButton.innerHTML = `
+								<span class="pack-size">${option.name}</span>
+								<div class="pack-price">
+									<span class="sale-price">$${option.price.toFixed(2)}</span>
+								</div>
+							`;
+							
+							optionButton.addEventListener('click', function() {
+								document.querySelectorAll('#productOptionButtons .pack-option-button').forEach(btn => {
+									btn.classList.remove('selected');
+								});
+								this.classList.add('selected');
+								
+								// Update product image if option has image
+								if (option.image) {
+									document.getElementById('productModalImage').src = option.image;
+								}
+								
+								// Show option gallery if available - THIS IS THE KEY PART
+								if (product.optionGallery && product.optionGallery[option.id]) {
+									displayOptionGallery(product.optionGallery[option.id]);
+								} else {
+									// Hide gallery if no images for this option
+									document.getElementById('productOptionGallery').style.display = 'none';
+								}
+								
+								// Show custom note container for custom options
+								if (option.name.includes('Custom')) {
+									customNoteContainer.style.display = 'block';
+								} else {
+									customNoteContainer.style.display = 'none';
+								}
+							});
+							
+							optionButtons.appendChild(optionButton);
+						});
+						
+						// Select first option by default
+						if (optionButtons.querySelector('.pack-option-button')) {
+							const firstOption = optionButtons.querySelector('.pack-option-button');
+							firstOption.classList.add('selected');
+							
+							// Check if first option has option gallery
+							const firstOptionId = firstOption.getAttribute('data-option-id');
+							const firstOptionData = product.options.find(opt => opt.id === firstOptionId);
+							
+							// Update product image to first option image if it exists
+							if (firstOptionData && firstOptionData.image) {
+								document.getElementById('productModalImage').src = firstOptionData.image;
+							}
+							
+							// Display option gallery for first option if available
+							if (product.optionGallery && product.optionGallery[firstOptionId]) {
+								displayOptionGallery(product.optionGallery[firstOptionId]);
+							}
+							
+							// Show custom note container if first option is custom
+							if (firstOptionData && firstOptionData.name.includes('Custom')) {
+								customNoteContainer.style.display = 'block';
+							}
+						}
+					} else {
+						optionsContainer.style.display = 'none';
+					}
+					
+					// Set up Add to Cart button
+					const addButton = document.getElementById('addProductToCartBtn');
+					addButton.setAttribute('data-id', productId);
+					
+					productModal.style.display = 'block';
+				});
+			});
 
 			// Function to apply status badges to products
 			function applyProductStatuses() {
@@ -895,34 +914,80 @@
 				});
 			}
             
-            // Function to display option gallery
-            function displayOptionGallery(images) {
-                const optionGallery = document.getElementById('productOptionGallery');
-                optionGallery.innerHTML = '';
-                optionGallery.style.display = 'grid';
-                
-                images.forEach(imageSrc => {
-                    const img = document.createElement('img');
-                    img.src = imageSrc;
-                    img.className = 'option-image';
-                    img.alt = 'Product option view';
-                    
-                    img.addEventListener('click', function() {
-                        document.querySelectorAll('.option-image').forEach(image => {
-                            image.classList.remove('active');
-                        });
-                        this.classList.add('active');
-                        document.getElementById('productModalImage').src = this.src;
-                    });
-                    
-                    optionGallery.appendChild(img);
-                });
-                
-                // Set first image as active
-                if (optionGallery.querySelector('.option-image')) {
-                    optionGallery.querySelector('.option-image').classList.add('active');
-                }
-            }
+			// Function to display option gallery
+			function displayOptionGallery(images) {
+				const optionGallery = document.getElementById('productOptionGallery');
+				optionGallery.innerHTML = '';
+				optionGallery.style.display = 'grid';
+				
+				images.forEach(imageSrc => {
+					const img = document.createElement('img');
+					
+					// Create a test image to check if the image exists
+					const testImg = new Image();
+					testImg.onload = function() {
+						// If image loads successfully, use it
+						img.src = imageSrc;
+					};
+					testImg.onerror = function() {
+						// If image fails to load, create a placeholder
+						img.style.backgroundColor = '#444';
+						img.style.display = 'flex';
+						img.style.alignItems = 'center';
+						img.style.justifyContent = 'center';
+						img.alt = 'NO IMAGE';
+						
+						// Add "NO IMAGE" text
+						img.setAttribute('data-no-image', 'true');
+					};
+					testImg.src = imageSrc; // Start loading the image
+					
+					img.className = 'option-image';
+					img.alt = 'Product option view';
+					
+					img.addEventListener('click', function() {
+						document.querySelectorAll('.option-image').forEach(image => {
+							image.classList.remove('active');
+						});
+						this.classList.add('active');
+						
+						// Only update main image if this isn't a placeholder
+						if (!this.hasAttribute('data-no-image')) {
+							document.getElementById('productModalImage').src = this.src;
+						}
+					});
+					
+					optionGallery.appendChild(img);
+					
+					// For placeholder images, add the text after appending
+					if (testImg.complete && testImg.naturalHeight === 0) {
+						img.setAttribute('data-no-image', 'true');
+						img.style.backgroundColor = '#444';
+						
+						// Add text overlay
+						const textOverlay = document.createElement('span');
+						textOverlay.textContent = 'NO IMAGE';
+						textOverlay.style.color = 'white';
+						textOverlay.style.fontWeight = 'bold';
+						textOverlay.style.position = 'absolute';
+						textOverlay.style.top = '50%';
+						textOverlay.style.left = '50%';
+						textOverlay.style.transform = 'translate(-50%, -50%)';
+						img.parentNode.style.position = 'relative';
+						img.parentNode.appendChild(textOverlay);
+					}
+				});
+				
+				// Set first image as active if it exists and is not a placeholder
+				const firstImage = optionGallery.querySelector('.option-image:not([data-no-image])');
+				if (firstImage) {
+					firstImage.classList.add('active');
+					document.getElementById('productModalImage').src = firstImage.src;
+				} else if (optionGallery.querySelector('.option-image')) {
+					// If all are placeholders, just mark the first one active
+					optionGallery.querySelector('.option-image').classList.add('active');
+				}
+			}
             
             // Add Product to Cart
             document.getElementById('addProductToCartBtn').addEventListener('click', function() {
