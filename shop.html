@@ -938,67 +938,39 @@
 				optionGallery.style.display = 'grid';
 				
 				images.forEach(imageSrc => {
-					const container = document.createElement('div');
-					container.className = 'option-image-container';
-					
 					const img = document.createElement('img');
 					img.className = 'option-image';
-					img.alt = 'Product option view';
 					
-					// Test if image exists
+					// Check if image exists
 					const testImage = new Image();
 					testImage.onload = function() {
-						// Image exists, use it
 						img.src = imageSrc;
-						// Remove placeholder class if present
-						img.classList.remove('placeholder-image');
 					};
-					
 					testImage.onerror = function() {
-						// Image doesn't exist, use placeholder
-						img.classList.add('placeholder-image');
-						
-						// Add NO IMAGE text
-						const noImageText = document.createElement('span');
-						noImageText.className = 'no-image-text';
-						noImageText.textContent = 'NO IMAGE';
-						container.appendChild(noImageText);
+						img.classList.add('no-image');
+						img.textContent = 'NO IMAGE';
 					};
-					
-					// Start loading
 					testImage.src = imageSrc;
 					
-					// Add click event
-					container.addEventListener('click', function() {
-						// Remove active class from all containers
-						document.querySelectorAll('.option-image-container').forEach(cont => {
-							cont.classList.remove('active');
+					img.addEventListener('click', function() {
+						document.querySelectorAll('.option-image').forEach(image => {
+							image.classList.remove('active');
 						});
-						
-						// Add active class to this container
 						this.classList.add('active');
 						
 						// Only update main image if this isn't a placeholder
-						if (!img.classList.contains('placeholder-image')) {
-							document.getElementById('productModalImage').src = imageSrc;
+						if (this.src && !this.classList.contains('no-image')) {
+							document.getElementById('productModalImage').src = this.src;
 						}
 					});
 					
-					// Add to gallery
-					container.appendChild(img);
-					optionGallery.appendChild(container);
+					optionGallery.appendChild(img);
 				});
 				
-				// Set first container as active by default
-				const firstContainer = optionGallery.querySelector('.option-image-container');
-				if (firstContainer) {
-					firstContainer.classList.add('active');
-					
-					// Update main image if first isn't a placeholder
-					const firstImg = firstContainer.querySelector('.option-image');
-					if (firstImg && !firstImg.classList.contains('placeholder-image')) {
-						document.getElementById('productModalImage').src = firstImg.src;
-					}
+				// Set first image as active
+				const firstImage = optionGallery.querySelector('.option-image');
+				if (firstImage) {
+					firstImage.classList.add('active');
 				}
 			}
             
