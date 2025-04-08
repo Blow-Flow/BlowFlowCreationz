@@ -383,22 +383,7 @@
     
     <!-- Collectables-specific JavaScript -->
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-			const urlParams = new URLSearchParams(window.location.search);
-			const strainParam = urlParams.get('strain');
-
-			// If a strain parameter exists, open that strain's modal
-			if (strainParam) {
-				// Find the strain data for the requested strain
-				const requestedStrain = strainData[strainParam];
-				if (requestedStrain && requestedStrain.status === 'available') {
-					// Use setTimeout to ensure the DOM is fully loaded before trying to open the modal
-					setTimeout(() => {
-						openStrainModal(requestedStrain);
-					}, 500);
-				}
-			}		
-		
+		document.addEventListener('DOMContentLoaded', function() {		
             // Initialize cart
             let cart = JSON.parse(localStorage.getItem('blowflowCart')) || [];
             
@@ -536,7 +521,23 @@
                     });
                 }
             });
-            
+
+
+			const urlParams = new URLSearchParams(window.location.search);
+			const strainParam = urlParams.get('strain');
+
+			// If a strain parameter exists, open that strain's modal
+			if (strainParam) {
+				// Find the strain data for the requested strain
+				const requestedStrain = strainData[strainParam];
+				if (requestedStrain && requestedStrain.status === 'available') {
+					// Use setTimeout to ensure the DOM is fully loaded before trying to open the modal
+					setTimeout(() => {
+						openStrainModal(requestedStrain);
+					}, 500);
+				}
+			}		
+				
             // Render strain cards on page load
             function renderStrainCards() {
                 const strainGrid = document.getElementById('strain-grid');
