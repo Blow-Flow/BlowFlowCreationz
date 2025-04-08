@@ -636,10 +636,16 @@
 				// Create the card content
 				card.innerHTML += `
 					<img src="${strain.cardImage}" alt="${strain.name}" class="strain-img">
-					<div class="strain-content">
-						<h3 class="strain-title">${strain.name}</h3>
+					<div class="card-content">
+						<h3 class="card-title">${strain.name}</h3>
 						<span class="strain-type">${strain.type.split('(')[0].trim()}</span>
-						<p class="strain-description">${strain.description.substring(0, 150)}...</p>
+						<p class="card-description">${strain.description.substring(0, 150)}...</p>
+						<div class="strain-details">
+							<div class="detail-item">Collectable</div>
+							<div class="detail-item">Feminized</div>
+							<div class="detail-item">Indoor</div>
+							<div class="detail-item">${strain.flowering}</div>
+						</div>
 					</div>
 				`;
 				
