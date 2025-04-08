@@ -177,6 +177,51 @@ nav a:hover, nav a.active {
     animation: borderGlow 20s linear infinite;
 }
 
+/* Status Flag Styles */
+.strain-status {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-weight: 700;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    line-height: 1;
+    z-index: 2;
+    transform: rotate(15deg);
+}
+
+.sold-out {
+    background-color: rgba(255, 0, 0, 0.8);
+    color: white;
+    border: 2px solid white;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+
+.coming-soon {
+    background-color: rgba(255, 215, 0, 0.8);
+    color: black;
+    border: 2px solid black;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+
+/* Overlay for sold out items */
+.strain-card.unavailable .strain-img {
+    filter: grayscale(70%);
+    opacity: 0.7;
+}
+
+/* Make unavailable cards non-clickable */
+.strain-card.unavailable {
+    cursor: default;
+}
+
 @keyframes borderGlow {
     0% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
