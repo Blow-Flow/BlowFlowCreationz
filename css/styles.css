@@ -838,15 +838,39 @@ footer {
     transform: translateY(-5px) rotate(10deg);
 }
 
+.option-image-container {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1/1;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.option-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 5px;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: all 0.3s;
+    border: 2px solid transparent;
+}
+
+.option-image:hover, .option-image.active {
+    opacity: 1;
+    border-color: var(--cyan);
+}
+
 .option-image[data-no-image] {
     background-color: #444;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: white;
-    font-weight: bold;
-    font-size: 0.8rem;
-    position: relative;
+}
+
+.no-image-text {
+    pointer-events: none;
 }
 
 .option-image[data-no-image]::after {
