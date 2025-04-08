@@ -615,6 +615,9 @@
 			function createStrainCard(strain) {
 				const card = document.createElement('div');
 				card.className = 'strain-card';
+				card.setAttribute('data-strain', strain.id);
+				card.setAttribute('data-type', strain.type.toLowerCase().includes('indica') ? 'indica' : 
+											   strain.type.toLowerCase().includes('sativa') ? 'sativa' : 'hybrid');
 				
 				// If strain is not available, add the unavailable class and status badge
 				if (strain.status !== 'available') {
@@ -633,7 +636,7 @@
 					card.appendChild(statusBadge);
 				}
 				
-				// Create the card content
+				// Create the card content with the SAME class structure as static HTML
 				card.innerHTML += `
 					<img src="${strain.cardImage}" alt="${strain.name}" class="strain-img">
 					<div class="card-content">
@@ -648,13 +651,6 @@
 						</div>
 					</div>
 				`;
-				
-				// Add click handler only for available strains
-				if (strain.status === 'available') {
-					card.addEventListener('click', () => {
-						window.location.href = `strain-details.html?id=${strain.id}`;
-					});
-				}
 				
 				return card;
 			}
