@@ -842,7 +842,7 @@
 						
 						// Create status badge
 						const statusBadge = document.createElement('div');
-						statusBadge.className = `status-badge ${product.status}`;
+						statusBadge.className = `strain-status ${product.status}`; // Use same class as collectables
 						
 						if (product.status === 'sold-out') {
 							statusBadge.textContent = 'SOLD OUT';
@@ -854,18 +854,16 @@
 					}
 				});
 				
-				// Also apply to merch cards if needed
+				// Same for merch cards
 				document.querySelectorAll('.merch-card').forEach(card => {
 					const merchId = card.getAttribute('data-merch');
 					const merch = merchData[merchId];
 					
 					if (merch && merch.status !== 'available') {
-						// Add unavailable class
 						card.classList.add('unavailable');
 						
-						// Create status badge
 						const statusBadge = document.createElement('div');
-						statusBadge.className = `status-badge ${merch.status}`;
+						statusBadge.className = `strain-status ${merch.status}`;
 						
 						if (merch.status === 'sold-out') {
 							statusBadge.textContent = 'SOLD OUT';
