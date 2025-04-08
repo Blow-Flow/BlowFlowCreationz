@@ -35,7 +35,7 @@
     <link rel="manifest" href="/site.webmanifest">
     
     <!-- Site-wide CSS -->
-    <link rel="stylesheet" href="css/styles.css">
+	<!-- <link rel="stylesheet" href="css/styles.css"> -->
     
     <style>
         /* Page-specific styles */
@@ -440,8 +440,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
     
     <!-- Site-wide JS -->
-    <script src="js/cart.js"></script>
-    <script src="js/animations.js"></script>
+    <!--  <script src="js/cart.js"></script> -->
+    <!--  <script src="js/animations.js"></script> -->
     
     <!-- Collectables-specific JavaScript -->
     <script>
@@ -449,6 +449,7 @@
 		document.addEventListener('DOMContentLoaded', function() {
 			// Initialize cart
 			let cart = JSON.parse(localStorage.getItem('blowflowCart')) || [];
+			
 			updateCartCount();
 			
 			// Strain data
