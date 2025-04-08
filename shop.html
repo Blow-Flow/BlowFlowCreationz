@@ -1088,20 +1088,33 @@
                                 </div>
                             `;
                             
-                            optionButton.addEventListener('click', function() {
-                                document.querySelectorAll('#merchOptionButtons .pack-option-button').forEach(btn => {
-                                    btn.classList.remove('selected');
-                                });
-                                this.classList.add('selected');
-                                
-                                // Update price display
-                                document.getElementById('merchModalPrice').textContent = `$${option.price.toFixed(2)}`;
-                                
-                                // Update image if option has one
-                                if (option.image) {
-                                    document.getElementById('merchModalImage').src = option.image;
-                                }
-                            });
+							optionButton.addEventListener('click', function() {
+								document.querySelectorAll('#productOptionButtons .pack-option-button').forEach(btn => {
+									btn.classList.remove('selected');
+								});
+								this.classList.add('selected');
+								
+								// Update product image if option has image
+								if (option.image) {
+									document.getElementById('productModalImage').src = option.image;
+								}
+								
+								// Show option gallery if available
+								const optionId = this.getAttribute('data-option-id');
+								if (product.optionGallery && product.optionGallery[optionId]) {
+									displayOptionGallery(product.optionGallery[optionId]);
+								} else {
+									// Hide gallery if no images for this option
+									document.getElementById('productOptionGallery').style.display = 'none';
+								}
+								
+								// Show custom note container for custom options
+								if (option.name.includes('Custom')) {
+									customNoteContainer.style.display = 'block';
+								} else {
+									customNoteContainer.style.display = 'none';
+								}
+							});
                             
                             optionButtons.appendChild(optionButton);
                         });
