@@ -601,75 +601,79 @@
                 }
             };
             
-            // Merchandise data
-            const merchData = {
-                'hoodie1': {
-                    id: 'hoodie1',
-                    name: 'Custom Hoodie #1',
-                    image: '/img/merch1-placeholder.jpg',
-                    price: 24.99,
-                    category: 'merch',
-                    description: 'Our premium heavyweight hoodie features a comfortable cotton-polyester blend that is perfect for all seasons. The front showcases our signature logo design in vibrant colors. Complete with a kangaroo pocket, adjustable drawstring hood, and ribbed cuffs and waistband for the perfect fit.',
-                    hasOptions: true,
-                    optionType: 'Size',
-                    options: [
-                        { id: 'hoodie1-s', name: 'Small', price: 24.99 },
-                        { id: 'hoodie1-m', name: 'Medium', price: 24.99 },
-                        { id: 'hoodie1-l', name: 'Large', price: 24.99 },
-                        { id: 'hoodie1-xl', name: 'XL', price: 26.99 },
-                        { id: 'hoodie1-xxl', name: 'XXL', price: 28.99 }
-                    ]
-                },
-                'hoodie2': {
-                    id: 'hoodie2',
-                    name: 'Custom Hoodie #2',
-                    image: '/img/merch2-placeholder.jpg',
-                    price: 24.99,
-                    category: 'merch',
-                    description: 'Our premium heavyweight hoodie features a comfortable cotton-polyester blend that is perfect for all seasons. This design features a large back print with a small logo on the front. Complete with a kangaroo pocket, adjustable drawstring hood, and ribbed cuffs and waistband for the perfect fit.',
-                    hasOptions: true,
-                    optionType: 'Size',
-                    options: [
-                        { id: 'hoodie2-s', name: 'Small', price: 24.99 },
-                        { id: 'hoodie2-m', name: 'Medium', price: 24.99 },
-                        { id: 'hoodie2-l', name: 'Large', price: 24.99 },
-                        { id: 'hoodie2-xl', name: 'XL', price: 26.99 },
-                        { id: 'hoodie2-xxl', name: 'XXL', price: 28.99 }
-                    ]
-                },
-                'tshirt1': {
-                    id: 'tshirt1',
-                    name: 'Graphic T-Shirt #1',
-                    image: '/img/tshirt1-placeholder.jpg',
-                    price: 19.99,
-                    category: 'merch',
-                    description: 'Premium 100% cotton t-shirt featuring our original artwork on the front. Soft, comfortable fit with reinforced stitching at the shoulders, sleeves, and hem for added durability. Pre-shrunk to maintain size and shape after washing.',
-                    hasOptions: true,
-                    optionType: 'Size',
-                    options: [
-                        { id: 'tshirt1-s', name: 'Small', price: 19.99 },
-                        { id: 'tshirt1-m', name: 'Medium', price: 19.99 },
-                        { id: 'tshirt1-l', name: 'Large', price: 19.99 },
-                        { id: 'tshirt1-xl', name: 'XL', price: 21.99 },
-                        { id: 'tshirt1-xxl', name: 'XXL', price: 23.99 }
-                    ]
-                },
-                'hat1': {
-                    id: 'hat1',
-                    name: 'Embroidered Snapback',
-                    image: '/img/hat1-placeholder.jpg',
-                    price: 22.99,
-                    category: 'merch',
-                    description: 'High-quality snapback hat featuring our embroidered logo on the front. Made from durable materials with an adjustable snap closure for the perfect fit. Flat brim with structured front panels and mesh back for breathability.',
-                    hasOptions: true,
-                    optionType: 'Color',
-                    options: [
-                        { id: 'hat1-black', name: 'Black/White', price: 22.99, image: '/img/hat-black.jpg' },
-                        { id: 'hat1-navy', name: 'Navy/White', price: 22.99, image: '/img/hat-navy.jpg' },
-                        { id: 'hat1-camo', name: 'Camo/Black', price: 24.99, image: '/img/hat-camo.jpg' }
-                    ]
-                }
-            };
+			// Merchandise data
+			const merchData = {
+				'hoodie1': {
+					id: 'hoodie1',
+					name: 'Custom Hoodie #1',
+					image: '/img/merch1-placeholder.jpg',
+					price: 24.99,
+					category: 'merch',
+					status: 'available', // Add this line
+					description: 'Our premium heavyweight hoodie features a comfortable cotton-polyester blend that is perfect for all seasons. The front showcases our signature logo design in vibrant colors. Complete with a kangaroo pocket, adjustable drawstring hood, and ribbed cuffs and waistband for the perfect fit.',
+					hasOptions: true,
+					optionType: 'Size',
+					options: [
+						{ id: 'hoodie1-s', name: 'Small', price: 24.99 },
+						{ id: 'hoodie1-m', name: 'Medium', price: 24.99 },
+						{ id: 'hoodie1-l', name: 'Large', price: 24.99 },
+						{ id: 'hoodie1-xl', name: 'XL', price: 26.99 },
+						{ id: 'hoodie1-xxl', name: 'XXL', price: 28.99 }
+					]
+				},
+				'hoodie2': {
+					id: 'hoodie2',
+					name: 'Custom Hoodie #2',
+					image: '/img/merch2-placeholder.jpg',
+					price: 24.99,
+					category: 'merch',
+					status: 'available', // Add this line
+					description: 'Our premium heavyweight hoodie features a comfortable cotton-polyester blend that is perfect for all seasons. This design features a large back print with a small logo on the front. Complete with a kangaroo pocket, adjustable drawstring hood, and ribbed cuffs and waistband for the perfect fit.',
+					hasOptions: true,
+					optionType: 'Size',
+					options: [
+						{ id: 'hoodie2-s', name: 'Small', price: 24.99 },
+						{ id: 'hoodie2-m', name: 'Medium', price: 24.99 },
+						{ id: 'hoodie2-l', name: 'Large', price: 24.99 },
+						{ id: 'hoodie2-xl', name: 'XL', price: 26.99 },
+						{ id: 'hoodie2-xxl', name: 'XXL', price: 28.99 }
+					]
+				},
+				'tshirt1': {
+					id: 'tshirt1',
+					name: 'Graphic T-Shirt #1',
+					image: '/img/tshirt1-placeholder.jpg',
+					price: 19.99,
+					category: 'merch',
+					status: 'available', // Add this line
+					description: 'Premium 100% cotton t-shirt featuring our original artwork on the front. Soft, comfortable fit with reinforced stitching at the shoulders, sleeves, and hem for added durability. Pre-shrunk to maintain size and shape after washing.',
+					hasOptions: true,
+					optionType: 'Size',
+					options: [
+						{ id: 'tshirt1-s', name: 'Small', price: 19.99 },
+						{ id: 'tshirt1-m', name: 'Medium', price: 19.99 },
+						{ id: 'tshirt1-l', name: 'Large', price: 19.99 },
+						{ id: 'tshirt1-xl', name: 'XL', price: 21.99 },
+						{ id: 'tshirt1-xxl', name: 'XXL', price: 23.99 }
+					]
+				},
+				'hat1': {
+					id: 'hat1',
+					name: 'Embroidered Snapback',
+					image: '/img/hat1-placeholder.jpg',
+					price: 22.99,
+					category: 'merch',
+					status: 'available', // Add this line
+					description: 'High-quality snapback hat featuring our embroidered logo on the front. Made from durable materials with an adjustable snap closure for the perfect fit. Flat brim with structured front panels and mesh back for breathability.',
+					hasOptions: true,
+					optionType: 'Color',
+					options: [
+						{ id: 'hat1-black', name: 'Black/White', price: 22.99, image: '/img/hat-black.jpg' },
+						{ id: 'hat1-navy', name: 'Navy/White', price: 22.99, image: '/img/hat-navy.jpg' },
+						{ id: 'hat1-camo', name: 'Camo/Black', price: 24.99, image: '/img/hat-camo.jpg' }
+					]
+				}
+			};
             
             // Combine all product data for easier access
             const allProducts = {
