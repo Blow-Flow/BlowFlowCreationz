@@ -572,22 +572,39 @@
                         ]
                     }
                 },
-                'grinder1': {
-                    id: 'grinder1',
-                    name: 'Premium Metal Grinder',
+				'grinder1': {
+					id: 'grinder1',
+					name: 'Premium Grinder',  // Removed "Metal" as requested
 					status: 'available',
-                    image: '/img/grinder1-placeholder.jpg',
-                    price: 28.99,
-                    category: 'accessory',
-                    description: 'Our premium 4-piece metal grinder is crafted from high-quality aircraft-grade aluminum for durability and smooth grinding action. Features razor-sharp cutting teeth, multiple chambers including a pollen catcher with scraper tool, and a magnetic lid to prevent spills. Available in multiple designs with laser-etched artwork.',
-                    hasOptions: true,
-                    optionType: 'Design',
-                    options: [
-                        { id: 'grinder-logo', name: 'Logo Design', price: 28.99, image: '/img/grinder-logo.jpg' },
-                        { id: 'grinder-geometric', name: 'Geometric Pattern', price: 28.99, image: '/img/grinder-geometric.jpg' },
-                        { id: 'grinder-psychedelic', name: 'Psychedelic Art', price: 32.99, image: '/img/grinder-psychedelic.jpg' }
-                    ]
-                },
+					image: '/img/grinder1-placeholder.jpg',
+					price: 28.99,
+					category: 'accessory',
+					description: 'Our premium 4-piece grinder is crafted from high-quality aircraft-grade aluminum for durability and smooth grinding action. Features razor-sharp cutting teeth, multiple chambers including a pollen catcher with scraper tool, and a magnetic lid to prevent spills. Available in multiple designs with laser-etched artwork.',
+					hasOptions: true,
+					optionType: 'Design',
+					options: [
+						{ id: 'grinder-logo', name: 'Logo Design', price: 28.99, image: '/img/grinder-logo.jpg' },
+						{ id: 'grinder-geometric', name: 'Geometric Pattern', price: 28.99, image: '/img/grinder-geometric.jpg' },
+						{ id: 'grinder-psychedelic', name: 'Psychedelic Art', price: 32.99, image: '/img/grinder-psychedelic.jpg' }
+					],
+					optionGallery: {
+						'grinder-logo': [
+							'/img/grinder-logo.jpg',
+							'/img/grinder-logo2.jpg',
+							'/img/grinder-logo3.jpg'
+						],
+						'grinder-geometric': [
+							'/img/grinder-geometric.jpg',
+							'/img/grinder-geometric2.jpg',
+							'/img/grinder-geometric3.jpg'
+						],
+						'grinder-psychedelic': [
+							'/img/grinder-psychedelic.jpg',
+							'/img/grinder-psychedelic2.jpg',
+							'/img/grinder-psychedelic3.jpg'
+						]
+					}
+				},
                 'stash-jar': {
                     id: 'stash-jar',
                     name: 'UV-Protected Stash Jar',
@@ -921,30 +938,53 @@
 				optionGallery.style.display = 'grid';
 				
 				images.forEach(imageSrc => {
+					const imgContainer = document.createElement('div');
+					imgContainer.className = 'option-image-container';
+					imgContainer.style.position = 'relative';
+					
 					const img = document.createElement('img');
-					
-					// Create a test image to check if the image exists
-					const testImg = new Image();
-					testImg.onload = function() {
-						// If image loads successfully, use it
-						img.src = imageSrc;
-					};
-					testImg.onerror = function() {
-						// If image fails to load, create a placeholder
-						img.style.backgroundColor = '#444';
-						img.style.display = 'flex';
-						img.style.alignItems = 'center';
-						img.style.justifyContent = 'center';
-						img.alt = 'NO IMAGE';
-						
-						// Add "NO IMAGE" text
-						img.setAttribute('data-no-image', 'true');
-					};
-					testImg.src = imageSrc; // Start loading the image
-					
 					img.className = 'option-image';
 					img.alt = 'Product option view';
 					
+					// Initially set as a placeholder
+					img.setAttribute('data-src', imageSrc);
+					img.style.backgroundColor = '#444';
+					
+					// Create a placeholder text element
+					const placeholderText = document.createElement('span');
+					placeholderText.textContent = 'NO IMAGE';
+					placeholderText.className = 'no-image-text';
+					placeholderText.style.position = 'absolute';
+					placeholderText.style.top = '50%';
+					placeholderText.style.left = '50%';
+					placeholderText.style.transform = 'translate(-50%, -50%)';
+					placeholderText.style.color = 'white';
+					placeholderText.style.fontWeight = 'bold';
+					placeholderText.style.fontSize = '0.8rem';
+					placeholderText.style.zIndex = '1';
+					
+					// Try to load the actual image
+					const testImage = new Image();
+					testImage.onload = function() {
+						// Image exists, use it
+						img.src = imageSrc;
+						img.removeAttribute('data-no-image');
+						img.style.backgroundColor = '';
+						// Remove placeholder text
+						if (placeholderText.parentNode) {
+							placeholderText.parentNode.removeChild(placeholderText);
+						}
+					};
+					
+					testImage.onerror = function() {
+						// Image doesn't exist, keep as placeholder
+						img.setAttribute('data-no-image', 'true');
+					};
+					
+					// Start the image loading process
+					testImage.src = imageSrc;
+					
+					// Add click event to the image
 					img.addEventListener('click', function() {
 						document.querySelectorAll('.option-image').forEach(image => {
 							image.classList.remove('active');
@@ -957,35 +997,27 @@
 						}
 					});
 					
-					optionGallery.appendChild(img);
-					
-					// For placeholder images, add the text after appending
-					if (testImg.complete && testImg.naturalHeight === 0) {
-						img.setAttribute('data-no-image', 'true');
-						img.style.backgroundColor = '#444';
-						
-						// Add text overlay
-						const textOverlay = document.createElement('span');
-						textOverlay.textContent = 'NO IMAGE';
-						textOverlay.style.color = 'white';
-						textOverlay.style.fontWeight = 'bold';
-						textOverlay.style.position = 'absolute';
-						textOverlay.style.top = '50%';
-						textOverlay.style.left = '50%';
-						textOverlay.style.transform = 'translate(-50%, -50%)';
-						img.parentNode.style.position = 'relative';
-						img.parentNode.appendChild(textOverlay);
-					}
+					// Append elements
+					imgContainer.appendChild(img);
+					imgContainer.appendChild(placeholderText);
+					optionGallery.appendChild(imgContainer);
 				});
 				
-				// Set first image as active if it exists and is not a placeholder
-				const firstImage = optionGallery.querySelector('.option-image:not([data-no-image])');
-				if (firstImage) {
-					firstImage.classList.add('active');
-					document.getElementById('productModalImage').src = firstImage.src;
-				} else if (optionGallery.querySelector('.option-image')) {
+				// Set first valid image as active
+				const firstValidImage = optionGallery.querySelector('.option-image:not([data-no-image])');
+				if (firstValidImage) {
+					firstValidImage.classList.add('active');
+					
+					// Update the main product image
+					if (firstValidImage.src) {
+						document.getElementById('productModalImage').src = firstValidImage.src;
+					}
+				} else {
 					// If all are placeholders, just mark the first one active
-					optionGallery.querySelector('.option-image').classList.add('active');
+					const firstImage = optionGallery.querySelector('.option-image');
+					if (firstImage) {
+						firstImage.classList.add('active');
+					}
 				}
 			}
             
