@@ -222,6 +222,10 @@ nav a:hover, nav a.active {
     cursor: default;
 }
 
+.strain-content {
+    padding: 20px;
+}
+
 @keyframes borderGlow {
     0% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
