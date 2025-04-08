@@ -458,6 +458,7 @@
 					id: 'tyson-punch',
 					name: 'Tyson Punch Pie',
 					type: 'Indica Dominant (90% Indica / 10% Sativa)',
+					status: 'available',
 					image: '/img/strain1-placeholder.jpg',
 					cardImage: '/img/strain1-square.jpg',
 					thc: '22-24%',
@@ -484,6 +485,7 @@
 					id: 'dabzy-cut',
 					name: 'Dabzy Cut',
 					type: 'Hybrid (French Toast x White Truffle)',
+					status: 'available',
 					image: '/img/strain2-placeholder.jpg',
 					cardImage: '/img/strain2-square.jpg',
 					thc: '24-26%',
@@ -510,6 +512,7 @@
 					id: 'blue-dream-haze',
 					name: 'Blue Dream Haze',
 					type: 'Sativa Dominant (70% Sativa / 30% Indica)',
+					status: 'sold-out',
 					image: '/img/strain3-placeholder.jpg',
 					cardImage: '/img/strain3-square.jpg',
 					thc: '20-22%',
@@ -536,6 +539,7 @@
 					id: 'northern-frost',
 					name: 'Northern Frost',
 					type: 'Indica Dominant (85% Indica / 15% Sativa)',
+					status: 'coming-soon',
 					image: '/img/strain4-placeholder.jpg',
 					cardImage: '/img/strain4-square.jpg',
 					thc: '18-20%',
@@ -606,6 +610,61 @@
 					});
 				});
 			});
+
+			// Function to create strain cards based on their status
+			function createStrainCard(strain) {
+				const card = document.createElement('div');
+				card.className = 'strain-card';
+				
+				// If strain is not available, add the unavailable class and status badge
+				if (strain.status !== 'available') {
+					card.classList.add('unavailable');
+					
+					const statusBadge = document.createElement('div');
+					statusBadge.className = `strain-status ${strain.status}`;
+					
+					// Set the text based on status
+					if (strain.status === 'sold-out') {
+						statusBadge.textContent = 'SOLD OUT';
+					} else if (strain.status === 'coming-soon') {
+						statusBadge.textContent = 'COMING SOON';
+					}
+					
+					card.appendChild(statusBadge);
+				}
+				
+				// Create the card content
+				card.innerHTML += `
+					<img src="${strain.cardImage}" alt="${strain.name}" class="strain-img">
+					<div class="strain-content">
+						<h3 class="strain-title">${strain.name}</h3>
+						<span class="strain-type">${strain.type.split('(')[0].trim()}</span>
+						<p class="strain-description">${strain.description.substring(0, 150)}...</p>
+					</div>
+				`;
+				
+				// Add click handler only for available strains
+				if (strain.status === 'available') {
+					card.addEventListener('click', () => {
+						window.location.href = `strain-details.html?id=${strain.id}`;
+					});
+				}
+				
+				return card;
+			}
+
+			// Then you would use this function to populate your strain grid
+			function populateStrainGrid() {
+				const strainGrid = document.querySelector('.strains-grid');
+				strainGrid.innerHTML = ''; // Clear existing content
+				
+				Object.values(strainData).forEach(strain => {
+					const card = createStrainCard(strain);
+					strainGrid.appendChild(card);
+				});
+			}
+			
+			populateStrainGrid();
 			
 			// Open strain modal
 			const strainModal = document.getElementById('strainModal');
