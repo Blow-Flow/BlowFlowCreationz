@@ -842,7 +842,7 @@
 						
 						// Create status badge
 						const statusBadge = document.createElement('div');
-						statusBadge.className = `strain-status ${product.status}`; // Use same class as collectables
+						statusBadge.className = `strain-status ${product.status}`; 
 						
 						if (product.status === 'sold-out') {
 							statusBadge.textContent = 'SOLD OUT';
@@ -851,6 +851,14 @@
 						}
 						
 						card.appendChild(statusBadge);
+						
+						// THIS IS THE KEY: Remove existing click listeners
+						// First, we clone the node to remove all event listeners
+						const newCard = card.cloneNode(true);
+						card.parentNode.replaceChild(newCard, card);
+						
+						// Make sure the cursor doesn't show as a pointer
+						newCard.style.cursor = 'default';
 					}
 				});
 				
@@ -872,6 +880,13 @@
 						}
 						
 						card.appendChild(statusBadge);
+						
+						// Remove existing click listeners
+						const newCard = card.cloneNode(true);
+						card.parentNode.replaceChild(newCard, card);
+						
+						// Make sure the cursor doesn't show as a pointer
+						newCard.style.cursor = 'default';
 					}
 				});
 			}
