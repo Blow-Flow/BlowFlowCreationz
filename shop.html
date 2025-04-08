@@ -509,6 +509,7 @@
                 'premium-rolling-tray': {
                     id: 'premium-rolling-tray',
                     name: 'Premium Rolling Tray Bundle',
+					status: 'available',
                     image: '/img/product1-placeholder.jpg',
                     price: 40.00,
                     category: 'product',
@@ -525,6 +526,7 @@
                 'custom-lighting': {
                     id: 'custom-lighting',
                     name: 'Custom Lighting & Decor',
+					status: 'available',
                     image: '/img/product2-placeholder.jpg',
                     price: 60.00,
                     category: 'product',
@@ -554,24 +556,10 @@
                         ]
                     }
                 },
-                'handblown-glass': {
-                    id: 'handblown-glass',
-                    name: 'Handblown Glass Collection',
-                    image: '/img/product3-placeholder.jpg',
-                    price: 75.00,
-                    category: 'product',
-                    description: 'Our handblown glass collection features one-of-a-kind decorative pieces crafted by skilled artisans. Each piece showcases vibrant colors and unique designs that catch and play with light beautifully. These artistic creations add a stunning decorative element to any space and make perfect gifts for art enthusiasts. Due to the handcrafted nature of these items, each piece is truly unique with subtle variations that add to their charm.',
-                    hasOptions: true,
-                    optionType: 'Style',
-                    options: [
-                        { id: 'glass-bowl', name: 'Decorative Bowl', price: 75.00, image: '/img/glass-bowl.jpg' },
-                        { id: 'glass-vase', name: 'Art Vase', price: 85.00, image: '/img/glass-vase.jpg' },
-                        { id: 'glass-sculpture', name: 'Abstract Sculpture', price: 95.00, image: '/img/glass-sculpture.jpg' }
-                    ]
-                },
                 'grinder1': {
                     id: 'grinder1',
                     name: 'Premium Metal Grinder',
+					status: 'available',
                     image: '/img/grinder1-placeholder.jpg',
                     price: 28.99,
                     category: 'accessory',
@@ -587,6 +575,7 @@
                 'stash-jar': {
                     id: 'stash-jar',
                     name: 'UV-Protected Stash Jar',
+					status: 'sold-out',
                     image: '/img/jar-placeholder.jpg',
                     price: 15.99,
                     category: 'accessory',
@@ -602,6 +591,7 @@
                 'papers-bundle': {
                     id: 'papers-bundle',
                     name: 'Premium Papers Bundle',
+					status: 'coming-soon',
                     image: '/img/papers-placeholder.jpg',
                     price: 12.99,
                     category: 'accessory',
@@ -839,6 +829,54 @@
                     productModal.style.display = 'block';
                 });
             });
+
+			// Function to apply status badges to products
+			function applyProductStatuses() {
+				document.querySelectorAll('.product-card').forEach(card => {
+					const productId = card.getAttribute('data-product');
+					const product = productData[productId];
+					
+					if (product && product.status !== 'available') {
+						// Add unavailable class
+						card.classList.add('unavailable');
+						
+						// Create status badge
+						const statusBadge = document.createElement('div');
+						statusBadge.className = `status-badge ${product.status}`;
+						
+						if (product.status === 'sold-out') {
+							statusBadge.textContent = 'SOLD OUT';
+						} else if (product.status === 'coming-soon') {
+							statusBadge.textContent = 'COMING SOON';
+						}
+						
+						card.appendChild(statusBadge);
+					}
+				});
+				
+				// Also apply to merch cards if needed
+				document.querySelectorAll('.merch-card').forEach(card => {
+					const merchId = card.getAttribute('data-merch');
+					const merch = merchData[merchId];
+					
+					if (merch && merch.status !== 'available') {
+						// Add unavailable class
+						card.classList.add('unavailable');
+						
+						// Create status badge
+						const statusBadge = document.createElement('div');
+						statusBadge.className = `status-badge ${merch.status}`;
+						
+						if (merch.status === 'sold-out') {
+							statusBadge.textContent = 'SOLD OUT';
+						} else if (merch.status === 'coming-soon') {
+							statusBadge.textContent = 'COMING SOON';
+						}
+						
+						card.appendChild(statusBadge);
+					}
+				});
+			}
             
             // Function to display option gallery
             function displayOptionGallery(images) {
@@ -1320,6 +1358,8 @@
             for (let i = 0; i < 10; i++) {
                 createLeaf();
             }
+			
+			applyProductStatuses();
         });
     </script>
 </body>
