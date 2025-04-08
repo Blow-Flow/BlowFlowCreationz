@@ -593,58 +593,79 @@
 			}		
 				
             // Render strain cards on page load
-            function renderStrainCards() {
-                const strainGrid = document.getElementById('strain-grid');
-                strainGrid.innerHTML = '';
-                
-                Object.values(strainData).forEach(strain => {
-                    const card = document.createElement('div');
-                    card.className = 'strain-card';
-                    card.setAttribute('data-strain', strain.id);
-                    card.setAttribute('data-type', strain.type.toLowerCase().includes('indica') ? 'indica' : 
-                                               strain.type.toLowerCase().includes('sativa') ? 'sativa' : 'hybrid');
-                    
-                    // If strain is not available, add the unavailable class and status badge
-                    if (strain.status !== 'available') {
-                        card.classList.add('unavailable');
-                        
-                        const statusBadge = document.createElement('div');
-                        statusBadge.className = `strain-status ${strain.status}`;
-                        
-                        // Set the text based on status
-                        if (strain.status === 'sold-out') {
-                            statusBadge.textContent = 'SOLD OUT';
-                        } else if (strain.status === 'coming-soon') {
-                            statusBadge.textContent = 'COMING SOON';
-                        }
-                        
-                        card.appendChild(statusBadge);
-                    } else {
-                        // Only add click handler for available strains
-                        card.addEventListener('click', function() {
-                            openStrainModal(strain);
-                        });
-                    }
-                    
-                    // Create the card content
-                    card.innerHTML += `
-                        <img src="${strain.cardImage}" alt="${strain.name}" class="strain-img">
-                        <div class="card-content">
-                            <h3 class="card-title">${strain.name}</h3>
-                            <span class="strain-type">${strain.type.split('(')[0].trim()}</span>
-                            <p class="card-description">${strain.description.substring(0, 150)}...</p>
-                            <div class="strain-details">
-                                <div class="detail-item">Collectable</div>
-                                <div class="detail-item">Feminized</div>
-                                <div class="detail-item">Indoor</div>
-                                <div class="detail-item">${strain.flowering}</div>
-                            </div>
-                        </div>
-                    `;
-                    
-                    strainGrid.appendChild(card);
-                });
-            }
+			function renderStrainCards() {
+				const strainGrid = document.getElementById('strain-grid');
+				strainGrid.innerHTML = '';
+				
+				Object.values(strainData).forEach(strain => {
+					const card = document.createElement('div');
+					card.className = 'strain-card';
+					card.setAttribute('data-strain', strain.id);
+					
+					// New improved type categorization logic
+					const lowerType = strain.type.toLowerCase();
+					let strainDataType;
+					
+					// Check if it explicitly says "Hybrid" in the type
+					if (lowerType.startsWith('hybrid')) {
+						strainDataType = 'hybrid';
+					}
+					// Check if it's Indica Dominant in the beginning
+					else if (lowerType.startsWith('indica')) {
+						strainDataType = 'indica';
+					}
+					// Check if it's Sativa Dominant in the beginning
+					else if (lowerType.startsWith('sativa')) {
+						strainDataType = 'sativa';
+					}
+					// For anything else, use the hybrid default
+					else {
+						strainDataType = 'hybrid';
+					}
+					
+					card.setAttribute('data-type', strainDataType);
+					
+					// If strain is not available, add the unavailable class and status badge
+					if (strain.status !== 'available') {
+						card.classList.add('unavailable');
+						
+						const statusBadge = document.createElement('div');
+						statusBadge.className = `strain-status ${strain.status}`;
+						
+						// Set the text based on status
+						if (strain.status === 'sold-out') {
+							statusBadge.textContent = 'SOLD OUT';
+						} else if (strain.status === 'coming-soon') {
+							statusBadge.textContent = 'COMING SOON';
+						}
+						
+						card.appendChild(statusBadge);
+					} else {
+						// Only add click handler for available strains
+						card.addEventListener('click', function() {
+							openStrainModal(strain);
+						});
+					}
+					
+					// Create the card content
+					card.innerHTML += `
+						<img src="${strain.cardImage}" alt="${strain.name}" class="strain-img">
+						<div class="card-content">
+							<h3 class="card-title">${strain.name}</h3>
+							<span class="strain-type">${strain.type.split('(')[0].trim()}</span>
+							<p class="card-description">${strain.description.substring(0, 150)}...</p>
+							<div class="strain-details">
+								<div class="detail-item">Collectable</div>
+								<div class="detail-item">Feminized</div>
+								<div class="detail-item">Indoor</div>
+								<div class="detail-item">${strain.flowering}</div>
+							</div>
+						</div>
+					`;
+					
+					strainGrid.appendChild(card);
+				});
+			}
             
             // Open strain modal
             function openStrainModal(strain) {
